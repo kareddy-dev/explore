@@ -101,6 +101,22 @@ claude update
 - IDE integrations
 - GitHub Actions compatibility
 
+## Recent Updates (v1.0.82)
+
+Claude Code continues to evolve with significant improvements in the latest release:
+
+### SDK Enhancements
+- **Request Cancellation Support**: Better control over long-running operations
+- **Additional Directories Option**: Search custom paths beyond the default project structure
+- **Improved Slash Command Processing**: Enhanced command parsing and execution
+
+### Configuration & Stability
+- **Settings Validation**: Automatic validation prevents invalid fields in `.claude/settings.json` files
+- **MCP Tool Consistency**: Improved tool name consistency across MCP integrations
+- **Bash Reliability**: Fixed crashes when Claude attempts to read large files automatically
+
+These improvements enhance both developer experience and system stability, making Claude Code more reliable for complex development workflows.
+
 ## Getting Started
 
 ### Basic Usage

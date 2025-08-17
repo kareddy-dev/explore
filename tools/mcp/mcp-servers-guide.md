@@ -3,6 +3,9 @@
 ## Overview
 Model Context Protocol (MCP) servers extend AI capabilities by providing specialized tools and data sources. Here are documented MCP servers and their configurations.
 
+### Recent Updates (Claude Code v1.0.82)
+- **Improved Tool Name Consistency**: MCP tool names are now more consistent across integrations, reducing confusion and improving reliability when working with multiple MCP servers.
+
 ## Server Configurations
 
 ### 1. GGrep - Code Search

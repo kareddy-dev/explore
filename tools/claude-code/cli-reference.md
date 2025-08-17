@@ -587,6 +587,35 @@ claude
 # Look for "system" field in the JSON
 ```
 
+### SDK Enhancements (v1.0.82)
+
+Claude Code's programmatic interface has been enhanced with several new capabilities:
+
+#### Request Cancellation
+The SDK now supports canceling long-running operations:
+```bash
+# Operations can be cancelled mid-execution
+# Useful for complex searches or large file operations
+```
+
+#### Additional Directories Configuration
+Configure custom search paths beyond the default project structure:
+```bash
+# Add multiple directories for enhanced code discovery
+claude --add-dir ../shared-lib --add-dir ../config-files
+```
+
+This is particularly useful for:
+- Monorepo configurations with shared libraries
+- Projects with external dependencies
+- Custom tooling and configuration directories
+
+#### Settings Validation
+Enhanced validation prevents configuration errors:
+- Invalid fields in `.claude/settings.json` are automatically detected
+- Clear error messages help resolve configuration issues
+- Improved stability when loading project settings
+
 ## Advanced Usage
 
 ### Piping and Redirection
