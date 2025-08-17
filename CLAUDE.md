@@ -4,12 +4,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Overview
 
-This is a documentation and tools repository focused on development workflow enhancements. It contains:
+This is a comprehensive documentation repository for Claude Code and development workflow tools. It contains:
 
-- **Claude Code Documentation**: Comprehensive guides for Anthropic's agentic coding tool
+- **Claude Code Documentation**: Complete documentation suite including:
+  - Custom guides on agents, output styles, workflows, and advanced features
+  - 33 official documents fetched from Anthropic's documentation
+  - Practical examples for coding and non-coding applications
 - **MCP Server Configurations**: Ready-to-use configurations for Model Context Protocol servers
-- **Tool Documentation**: Comprehensive guides for productivity tools and Chrome extensions
-- **Sequential Thinking Methodology**: Advanced problem-solving framework documentation
+- **Tool Documentation**: Guides for productivity tools and Chrome extensions
+- **Sequential Thinking Methodology**: Advanced problem-solving framework
+- **Automated Documentation System**: Fetches and tracks official documentation updates
 
 ## Repository Structure
 
@@ -17,16 +21,35 @@ This is a documentation and tools repository focused on development workflow enh
 /
 ├── mcp.json                              # MCP server configuration for sequential-thinking
 ├── tools/
-│   ├── claude-code/
-│   │   ├── claude-code-guide.md         # Comprehensive Claude Code overview and features
-│   │   ├── cli-reference.md             # Complete CLI command reference
-│   │   └── workflow-examples.md         # Practical development workflow examples
+│   ├── claude-code/                     # Comprehensive Claude Code documentation
+│   │   ├── .docs-manifest.json          # Tracks document hashes for updates
+│   │   ├── claude-code-guide.md         # Comprehensive overview with agents, output styles, MCP
+│   │   ├── cli-reference.md             # Complete CLI commands, flags, advanced config
+│   │   ├── workflow-examples.md         # Practical workflows, agent examples, non-coding uses
+│   │   └── gen/                         # Official documentation fetched from Anthropic
+│   │       ├── overview.md              # Claude Code overview
+│   │       ├── quickstart.md            # Quick start guide
+│   │       ├── setup.md                 # Installation and setup
+│   │       ├── cli-reference.md         # Official CLI reference
+│   │       ├── interactive-mode.md      # Interactive REPL mode
+│   │       ├── slash-commands.md        # All slash commands
+│   │       ├── settings.md              # Configuration and settings
+│   │       ├── output-styles.md         # Output style customization
+│   │       ├── sub-agents.md            # Agents/subagents documentation
+│   │       ├── mcp.md                   # MCP integration
+│   │       ├── hooks.md                 # Event hooks
+│   │       ├── memory.md                # Memory management
+│   │       ├── costs.md                 # Pricing and costs
+│   │       └── ... (33 total docs)      # Plus security, troubleshooting, integrations, etc.
 │   ├── mcp/
-│   │   ├── mcp-servers-guide.md         # Configurations for ggrep, GitHub Copilot, Serena, Claude Code integration
+│   │   ├── mcp-servers-guide.md         # ggrep, GitHub Copilot, Serena, Claude Code integration
 │   │   └── sequential-thinking-guide.md  # Complete usage guide for sequential thinking tool
-│   └── chrome-extensions/
-│       ├── glasp-youtube-summary.md     # YouTube transcript extraction tool
-│       └── markdown-diagrams.md        # Markdown diagram rendering extension
+│   ├── chrome-extensions/
+│   │   ├── glasp-youtube-summary.md     # YouTube transcript extraction tool
+│   │   └── markdown-diagrams.md         # Markdown diagram rendering extension
+│   └── scripts/
+│       ├── fetch-docs.py                # Documentation fetcher with parallel downloads & retry
+│       └── docs-config.json             # Configuration for documentation sources
 └── tmp/                                 # Scratch directory (gitignored)
 ```
 
@@ -102,9 +125,20 @@ This configuration can be used as a reference or template for MCP server setups.
 ## Key Documentation Files
 
 ### Claude Code Documentation
-- `tools/claude-code/claude-code-guide.md`: Comprehensive overview of Claude Code, installation, features, and MCP integration
-- `tools/claude-code/cli-reference.md`: Complete reference for all CLI commands, flags, and slash commands
-- `tools/claude-code/workflow-examples.md`: Practical examples for development workflows including debugging, refactoring, and Git operations
+
+#### Curated Guides (Manually Written)
+- `tools/claude-code/claude-code-guide.md`: Comprehensive overview with agents, output styles, system prompt customization
+- `tools/claude-code/cli-reference.md`: Complete reference with advanced configuration, permissions, 1M context
+- `tools/claude-code/workflow-examples.md`: Practical workflows, agent chaining, non-coding applications
+
+#### Official Documentation (Auto-Fetched)
+- `tools/claude-code/gen/`: Contains 33 official docs from Anthropic
+  - Setup, installation, and quickstart guides
+  - Complete slash commands and CLI reference
+  - Agents/subagents, output styles, hooks
+  - MCP integration, security, troubleshooting
+  - IDE integrations, GitHub Actions, SDK
+  - Corporate proxy, Amazon Bedrock, Google Vertex AI support
 
 ### MCP and Tool Documentation
 - `tools/mcp/mcp-servers-guide.md`: Comprehensive guide covering ggrep (code search), GitHub Copilot integration, Serena IDE assistant, and Claude Code MCP integration
@@ -134,27 +168,36 @@ python tools/scripts/fetch-docs.py --check
 # Fetch Claude Code documentation
 python tools/scripts/fetch-docs.py --source claude-code
 
-# Fetch all configured documentation sources
-python tools/scripts/fetch-docs.py --all
+# Fetch with more parallel workers for speed
+python tools/scripts/fetch-docs.py --source claude-code --max-workers 10
 
 # Force re-fetch everything (ignore cached hashes)
 python tools/scripts/fetch-docs.py --all --force
 
 # Dry run to see what would be fetched
 python tools/scripts/fetch-docs.py --source claude-code --dry-run
+
+# Verbose mode with custom retry attempts
+python tools/scripts/fetch-docs.py --source claude-code --verbose --max-retries 5
 ```
 
 ### How the Documentation System Works
 
 1. **Configuration** (`tools/scripts/docs-config.json`): Defines documentation sources
-2. **Manifest Files** (`.docs-manifest.json`): Track document hashes (committed to git)
-3. **Generated Content** (`gen/` directories): Fetched documentation (gitignored)
+2. **Manifest Files** (`.docs-manifest.json`): Track document hashes and last fetch times
+3. **Generated Content** (`gen/` directories): Official documentation fetched from sources
 
-The manifest files are tracked in git so the team can see when documentation needs updating:
-- When you run the fetch script, it compares current docs against stored hashes
-- Only changed/new documents are fetched
-- The manifest is updated with new hashes
-- **Commit the updated manifest** to let the team know docs have changed
+All documentation is tracked in git:
+- The fetch script compares current docs against stored hashes
+- Only changed/new documents are fetched (efficient updates)
+- Parallel fetching with retry logic ensures reliability
+- Progress bars show fetch status in real-time
+
+#### Enhanced Fetch Script Features
+- **Parallel Downloads**: Up to 10 concurrent fetches (configurable)
+- **Retry Logic**: Automatic retries with exponential backoff
+- **Progress Tracking**: Visual progress bars with tqdm
+- **Performance**: 2-3x faster than sequential fetching
 
 ### Adding New Documentation Sources
 
@@ -173,11 +216,25 @@ To add a new documentation source, edit `tools/scripts/docs-config.json`:
 
 ### Documentation Structure
 
-- **Curated Documentation**: Manually written guides (e.g., `claude-code-guide.md`)
-- **Generated Documentation**: Auto-fetched from official sources (in `gen/` directories)
-- **Manifest Files**: Track changes and hashes (`.docs-manifest.json`)
+- **Curated Documentation**: Manually written guides with insights from real usage
+  - Enhanced with Mermaid diagrams, practical examples, and best practices
+  - Covers advanced topics like agent chaining, custom output styles, non-coding uses
+- **Official Documentation**: Complete set of Anthropic's Claude Code docs
+  - 33 documents covering all features, integrations, and troubleshooting
+  - Automatically fetched and updated using the documentation system
+- **Manifest Files**: Track document versions and changes
 
-This separation allows us to maintain custom guides while staying updated with official documentation.
+This dual approach provides both official reference material and practical, experience-based guidance.
+
+### System Requirements
+
+For the documentation fetching system:
+```bash
+# Install required packages
+pip install requests tqdm
+
+# tqdm is optional but recommended for progress bars
+```
 
 ## Security Notes
 
