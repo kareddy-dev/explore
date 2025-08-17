@@ -6,6 +6,10 @@
         "-y",
         "@modelcontextprotocol/server-sequential-thinking"
       ]
+    },
+    "ggrep": {
+      "type": "http",
+      "url": "https://mcp.grep.app"
     }
   }
 }

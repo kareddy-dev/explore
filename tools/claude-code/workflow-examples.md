@@ -4,6 +4,8 @@ Practical examples and patterns for using Claude Code in real-world development 
 
 ## Table of Contents
 
+- [Expert Setup & Configuration](#expert-setup--configuration)
+- [Context Management Strategies](#context-management-strategies)
 - [Feature Development](#feature-development)
 - [Structured Development with BMAD](#structured-development-with-bmad)
 - [Debugging & Troubleshooting](#debugging--troubleshooting)
@@ -17,6 +19,208 @@ Practical examples and patterns for using Claude Code in real-world development 
 - [Performance Optimization](#performance-optimization)
 - [Security Auditing](#security-auditing)
 - [DevOps Tasks](#devops-tasks)
+
+## Expert Setup & Configuration
+
+### Ray Fernando's Quick Start Setup
+
+```bash
+# 1. Create alias for instant access
+echo 'alias c="claude --dangerously-skip-permissions"' >> ~/.zshrc
+source ~/.zshrc
+
+# 2. Set up keyboard text replacements (macOS)
+# System Preferences > Keyboard > Text Replacements
+# u → ultra think
+# w → what happened ultra think and make a plan before coding
+
+# 3. Install Claude Code Docs locally
+git clone https://github.com/anthropics/claude-code-docs ~/.claude-code-docs
+
+# 4. Navigate to any project and start
+cd my-project
+c  # Instant Claude Code with permissions bypassed
+```
+
+### Eric Buess's Project Index System
+
+```bash
+# Create project indexer hook
+claude "Create a hook that generates PROJECT_INDEX.json with:
+1. Minified representation of all files
+2. Import statements and exports
+3. Method signatures and types
+4. Dependencies between files
+5. Auto-updates on file changes"
+
+# Example PROJECT_INDEX.json structure:
+{
+  "src/auth/login.ts": {
+    "imports": ["react", "@/lib/api", "@/hooks/useAuth"],
+    "exports": ["LoginForm", "useAuth", "validateCredentials"],
+    "methods": [
+      "handleLogin(email: string, password: string): Promise<User>",
+      "validateCredentials(creds: Credentials): boolean"
+    ],
+    "dependencies": ["src/lib/api.ts", "src/hooks/useAuth.ts"],
+    "types": ["LoginFormProps", "Credentials", "AuthState"]
+  }
+}
+
+# Install the hook
+claude "Install pre-edit hook to maintain PROJECT_INDEX.json"
+
+# Use in workflows
+/fresh  # Reads entire project index
+claude "Using PROJECT_INDEX.json, find all authentication touchpoints"
+```
+
+## Context Management Strategies
+
+### The 50% Context Rule (from Chroma DB study)
+
+```mermaid
+graph TD
+    A[Context Usage] --> B{Percentage Used}
+    B -->|0-50%| C[✅ Optimal Performance]
+    B -->|50-75%| D[⚠️ Quality Degradation]
+    B -->|75-100%| E[❌ Poor Results]
+    
+    C --> F[Continue Working]
+    D --> G[Plan to Clear Soon]
+    E --> H[Clear Immediately]
+```
+
+### Ray's Context Visualization Pattern
+
+```bash
+# Monitor context usage in real-time
+claude "Show me current context usage percentage"
+
+# When approaching 50%
+claude "Update CLAUDE.md with:
+1. Current implementation state
+2. Completed tasks
+3. Next steps to implement
+4. Any discovered issues"
+
+# Clear and resume
+/clear
+claude ultra think "Read CLAUDE.md and continue implementation"
+```
+
+### Eric's Context Preservation Workflow
+
+```bash
+# Before clearing - document everything
+claude "Run cleanup slash command:
+1. Update all documentation files
+2. Document current state in CLAUDE.md
+3. List next phase tasks
+4. Save any important context"
+
+# Clear the session
+/clear
+
+# Fresh start with preserved context
+/fresh  # Custom command that reads docs + project index
+claude "Continue from documented state"
+```
+
+### Thinking Modes Strategy Matrix
+
+| Scenario | Initial | Implementation | Review |
+|----------|---------|----------------|--------|
+| New Feature | `ultra think` | `think` | `think hard` |
+| Bug Fix | `think harder` | `think` | `think` |
+| Refactoring | `think hard` | `think` | `ultra think` |
+| Research | `ultra think` | N/A | `think` |
+| Simple Task | `think` | Execute | N/A |
+
+```bash
+# Ray's Pattern: Heavy planning, light implementation
+claude ultra think "Plan authentication system with JWT, OAuth, and MFA"
+# ... review plan, then clear ...
+/clear
+claude think "Implement the authentication plan from CLAUDE.md"
+
+# Eric's Pattern: Fresh ultra think for each major component
+claude ultra think "Design and implement user service"
+/clear
+claude ultra think "Design and implement billing service"
+/clear
+claude ultra think "Design and implement notification service"
+```
+
+### Subagent Context Isolation Pattern
+
+```mermaid
+flowchart TD
+    A[Main Context<br/>200K tokens] --> B[Orchestration Layer]
+    B --> C[Subagent 1<br/>Fresh 200K]
+    B --> D[Subagent 2<br/>Fresh 200K]
+    B --> E[Subagent 3<br/>Fresh 200K]
+    
+    C --> F[Returns Summary]
+    D --> G[Returns Summary]
+    E --> H[Returns Summary]
+    
+    F --> I[Main Context<br/>Preserves Space]
+    G --> I
+    H --> I
+```
+
+```bash
+# Eric's parallel research pattern
+claude "Spawn 3 parallel subagents to research:
+1. Current codebase patterns for authentication
+2. Best practices for JWT implementation
+3. Security vulnerabilities to avoid
+
+Each should return a 500-word summary"
+
+# Ray's code review pattern
+claude "For each file I modified today, spawn a subagent to:
+1. Review the code quality
+2. Check for repeated patterns
+3. Suggest improvements
+4. Return findings in a structured format"
+```
+
+### Blind Validation Pattern (Eric's Trust-But-Verify)
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Builder as Builder Agent
+    participant Validator as Blind Validator
+    participant Tests
+    
+    User->>Builder: Implement feature
+    Builder->>Builder: Write code
+    Builder->>User: "Done"
+    User->>Validator: Validate independently
+    Validator->>Tests: Run all tests
+    Tests->>Validator: Results
+    Validator->>User: Pass/Fail with evidence
+```
+
+```bash
+# Never trust self-reported completion
+claude "Implement shopping cart with localStorage persistence"
+
+# Always validate with separate agent
+claude "Spawn a blind validator agent to:
+1. Test the shopping cart implementation
+2. Verify localStorage persistence
+3. Check edge cases
+4. Report pass/fail with evidence"
+
+# Eric's screenshot validation pattern
+claude "Build the UI component"
+claude "Take screenshots of the component"
+claude "Spawn validator to verify screenshots match requirements"
+```
 
 ## Feature Development
 

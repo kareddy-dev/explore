@@ -13,6 +13,8 @@ Claude Code is Anthropic's agentic coding tool that lives in your terminal, help
 - [MCP Integration](#mcp-integration)
 - [Security & Privacy](#security--privacy)
 - [Best Practices](#best-practices)
+- [Context Management](#context-management)
+- [Advanced Techniques](#advanced-techniques)
 - [Troubleshooting](#troubleshooting)
 
 ## Overview
@@ -443,6 +445,85 @@ claude "Run the test suite and fix any failures"
 # Before committing
 claude "Run linter and fix any issues"
 ```
+
+## Context Management
+
+Effective context management is crucial for optimal Claude Code performance. Based on insights from power users Ray Fernando and Eric Buess, here are key strategies:
+
+### The 50% Rule
+
+Research shows that Claude Code's effectiveness degrades after using 50% of the context window:
+- **0-50%**: Optimal performance
+- **50-75%**: Noticeable quality degradation  
+- **75-100%**: Poor results, missed requirements
+
+```bash
+# Monitor context usage
+claude "What percentage of context have we used?"
+
+# When approaching 50%, document and clear
+claude "Update CLAUDE.md with current state and next steps"
+/clear
+claude "Read CLAUDE.md and continue"
+```
+
+### Strategic Thinking Modes
+
+| Mode | Tokens | Best For |
+|------|--------|----------|
+| `think` | ~4K | Simple tasks |
+| `think hard` | ~8K | Moderate complexity |
+| `think harder` | ~16K | Complex problems |
+| `ultra think` | ~32K | Initial planning |
+
+**Ray's Pattern**: Heavy planning, light implementation
+```bash
+claude ultra think "Plan the architecture"
+/clear
+claude think "Implement the plan"
+```
+
+For comprehensive context management strategies, see the [Context Management Guide](./context-management.md).
+
+## Advanced Techniques
+
+Expert patterns and workflows from experienced Claude Code users:
+
+### Quick Setup (Ray Fernando)
+
+```bash
+# Create instant access alias
+alias c="claude --dangerously-skip-permissions"
+
+# Keyboard shortcuts (macOS)
+# u → ultra think
+# w → what happened ultra think and make a plan before coding
+```
+
+### Project Indexing (Eric Buess)
+
+Maintain a minified representation of your codebase:
+
+```bash
+claude "Create PROJECT_INDEX.json with minified file signatures"
+claude "Install hook to auto-update index on file changes"
+```
+
+This reduces context usage by ~90% for large codebases.
+
+### Blind Validation Pattern
+
+Never trust self-reported completion:
+
+```bash
+# Builder implements
+claude "Build the feature"
+
+# Separate validator verifies
+claude "Spawn blind validator to test the implementation"
+```
+
+For more expert techniques including hooks vs slash commands, subagent orchestration, and validation patterns, see the [Advanced Techniques Guide](./advanced-techniques.md).
 
 ## Troubleshooting
 
@@ -1075,6 +1156,8 @@ CMD ["claude"]
 ## Next Steps
 
 1. Explore [CLI Reference](./cli-reference.md) for all commands
-2. Review [Workflow Examples](./workflow-examples.md) for practical scenarios
-3. Configure [MCP Servers](../mcp/mcp-servers-guide.md) for external integrations
-4. Set up [Sequential Thinking](../mcp/sequential-thinking-guide.md) for complex problem solving
+2. Review [Workflow Examples](./workflow-examples.md) for practical scenarios  
+3. Master [Context Management](./context-management.md) for optimal performance
+4. Learn [Advanced Techniques](./advanced-techniques.md) from power users
+5. Configure [MCP Servers](../mcp/mcp-servers-guide.md) for external integrations
+6. Set up [Sequential Thinking](../mcp/sequential-thinking-guide.md) for complex problem solving
