@@ -18,6 +18,7 @@ This is a comprehensive documentation repository for Claude Code and development
 - **MCP Server Configurations**: Ready-to-use configurations for Model Context Protocol servers
 - **Tool Documentation**: Guides for productivity tools and Chrome extensions
 - **Development Frameworks**: BMAD-METHOD documentation for AI agent workflows
+- **SaaS Stack Guides**: Rapid development stacks (Clerk + Convex + Stripe, etc.)
 - **Sequential Thinking Methodology**: Advanced problem-solving framework
 - **Automated Documentation System**: Fetches and tracks official documentation updates
 
@@ -63,6 +64,9 @@ This is a comprehensive documentation repository for Claude Code and development
     ├── mcp/
     │   ├── mcp-servers-guide.md         # ggrep, GitHub Copilot, Serena, Claude Code integration
     │   └── sequential-thinking-guide.md # Complete usage guide for sequential thinking tool
+    ├── saas-stacks/                     # Rapid SaaS development stack guides
+    │   ├── README.md                    # Overview of available SaaS stacks
+    │   └── clerk-convex-stripe-speedrun.md # 10-minute SaaS with auth, payments, real-time DB
     ├── chrome-extensions/
     │   ├── glasp-youtube-summary.md     # YouTube transcript extraction tool
     │   └── markdown-diagrams.md         # Markdown diagram rendering extension
@@ -179,6 +183,15 @@ This configuration can be used as a reference or template for MCP server setups.
 - `tools/mcp/mcp-servers-guide.md`: Comprehensive guide covering ggrep (code search), GitHub Copilot integration, Serena IDE assistant, and Claude Code MCP integration
 - `tools/mcp/sequential-thinking-guide.md`: Complete methodology guide for using the sequential thinking tool with examples, patterns, and best practices
 - Chrome extension docs provide setup instructions and use cases for productivity tools
+
+### SaaS Stack Documentation
+- `tools/saas-stacks/README.md`: Overview and comparison of rapid SaaS development stacks
+- `tools/saas-stacks/clerk-convex-stripe-speedrun.md`: Complete 10-minute SaaS setup guide
+  - Authentication with Clerk (Google, Apple, Email)
+  - Real-time database with Convex
+  - Stripe payments via Clerk integration
+  - Production-ready webhooks and security
+  - From zero to accepting payments in 10 minutes
 
 ## Development Workflow
 
