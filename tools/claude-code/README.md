@@ -32,6 +32,9 @@ mindmap
       Hooks Recipes
       Custom Commands
       Subagent Templates
+    Frameworks
+      BMAD-METHOD
+      Development Methodologies
 ```
 
 ## 🎯 Quick Navigation
@@ -45,6 +48,7 @@ mindmap
 | **Build Features** | [Workflow Examples](workflow-examples.md) → [Common Workflows](gen/common-workflows.md) |
 | **Use Subagents** | [Subagents Guide](gen/sub-agents.md) → [Subagent Templates](subagent-templates.md) |
 | **Connect Tools** | [MCP Integration](gen/mcp.md) → [MCP Servers Guide](../mcp/mcp-servers-guide.md) |
+| **Use AI Frameworks** | [BMAD-METHOD](frameworks/bmad-method.md) → [Structured Development Workflow](frameworks/bmad-method.md#workflow-phases) |
 | **Customize Behavior** | [Output Styles](gen/output-styles.md) → [Hooks Guide](gen/hooks-guide.md) |
 | **Debug Issues** | [Troubleshooting](gen/troubleshooting.md) → [Performance Guide](performance-optimization.md) |
 | **Enterprise Setup** | [Security](gen/security.md) → [Amazon Bedrock](gen/amazon-bedrock.md) → [Google Vertex](gen/google-vertex-ai.md) |
@@ -66,8 +70,9 @@ mindmap
 #### 🌳 Advanced Users
 1. [Hooks Cookbook](hooks-cookbook.md) - Automation patterns
 2. [Custom Commands](custom-commands.md) - Build your command library
-3. [SDK Guide](gen/sdk.md) - Build custom agents
-4. [Performance Optimization](performance-optimization.md) - Handle large codebases
+3. [BMAD-METHOD Framework](frameworks/bmad-method.md) - Structured AI agent workflows
+4. [SDK Guide](gen/sdk.md) - Build custom agents
+5. [Performance Optimization](performance-optimization.md) - Handle large codebases
 
 ## 📂 Complete File Index
 
@@ -83,6 +88,9 @@ mindmap
 - [`custom-commands.md`](custom-commands.md) - Library of useful custom slash commands
 - [`subagent-templates.md`](subagent-templates.md) - Pre-built subagent configurations
 - [`performance-optimization.md`](performance-optimization.md) - Best practices for large codebases
+
+#### Development Frameworks
+- [`frameworks/bmad-method.md`](frameworks/bmad-method.md) - BMAD-METHOD integration for structured AI development workflows
 
 ### Official Documentation (gen/)
 
@@ -185,6 +193,7 @@ flowchart LR
 
 - [MCP Servers Guide](../mcp/mcp-servers-guide.md) - Connect external tools
 - [Sequential Thinking Guide](../mcp/sequential-thinking-guide.md) - Advanced problem-solving
+- [BMAD-METHOD Framework](frameworks/bmad-method.md) - Structured AI agent development workflows
 - [Chrome Extensions](../chrome-extensions/) - Browser productivity tools
 
 ## 📊 Documentation Coverage

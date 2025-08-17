@@ -643,6 +643,29 @@ flowchart TD
 - **Data Analyst**: Focus on SQL queries, data visualization, and statistical analysis without coding overhead
 - **Project Manager**: Task tracking, documentation, and team coordination focus
 
+## Development Frameworks
+
+### BMAD-METHOD Integration
+
+[BMAD-METHOD](frameworks/bmad-method.md) is a comprehensive framework that enhances Claude Code with structured AI agent workflows for complex software development projects. It provides:
+
+- **Specialized AI Agents**: Analyst, PM, Architect, Developer, QA - each with specific roles
+- **Document-Based Collaboration**: Agents communicate through structured documents (PRD, Architecture, Story files)
+- **Two-Phase Approach**: Planning phase (Web UI) followed by Development phase (IDE)
+- **Context-Efficient**: Story files contain all implementation context, reducing token usage
+
+**Quick Start with BMAD:**
+```bash
+# Install BMAD in your project
+npx bmad-method install
+
+# Use BMAD agents in Claude Code
+claude "As BMAD analyst, help me create a project brief"
+claude "As BMAD dev, implement story 1.1"
+```
+
+BMAD transforms AI-assisted development by providing structure, consistency, and efficient context management across complex projects. See the [complete BMAD guide](frameworks/bmad-method.md) for detailed workflows and examples.
+
 ## Agents (Subagents)
 
 Agents are specialized AI assistants that Claude Code can delegate tasks to. Unlike output styles which modify Claude's behavior globally, agents operate independently with their own context, tools, and system prompts.

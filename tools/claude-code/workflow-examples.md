@@ -5,6 +5,7 @@ Practical examples and patterns for using Claude Code in real-world development 
 ## Table of Contents
 
 - [Feature Development](#feature-development)
+- [Structured Development with BMAD](#structured-development-with-bmad)
 - [Debugging & Troubleshooting](#debugging--troubleshooting)
 - [Code Refactoring](#code-refactoring)
 - [Testing Workflows](#testing-workflows)
@@ -95,6 +96,261 @@ claude "Integrate Stripe payment processing:
 4. Add subscription management
 5. Implement refund functionality"
 ```
+
+## Structured Development with BMAD
+
+### Overview
+
+[BMAD-METHOD](frameworks/bmad-method.md) provides a structured framework for AI-assisted development using specialized agents that collaborate through document handoffs. This workflow example shows how to use BMAD with Claude Code for complex projects.
+
+### Complete Project Workflow with BMAD
+
+**Scenario**: Building a SaaS application with user management, billing, and team collaboration
+
+```mermaid
+flowchart TD
+    A[Project Concept] --> B[BMAD Planning Phase]
+    B --> C[Analyst: Project Brief]
+    C --> D[PM: PRD Creation]
+    D --> E[UX: Frontend Spec]
+    E --> F[Architect: Technical Design]
+    F --> G[PO: Document Validation]
+    G --> H[Development Phase]
+    H --> I[SM: Story Creation]
+    I --> J[Dev: Implementation]
+    J --> K[QA: Testing]
+    K --> L[Deployment]
+    
+    style B fill:#e8f5e9
+    style H fill:#e3f2fd
+    style L fill:#34a853,color:#fff
+```
+
+### Step 1: Install BMAD Framework
+
+```bash
+# Navigate to your project
+cd my-saas-app
+
+# Install BMAD-METHOD
+npx bmad-method install
+
+# Verify installation
+ls -la .bmad-core/
+```
+
+### Step 2: Planning Phase
+
+```bash
+# Start Claude Code
+claude
+
+# Create project brief with Analyst
+claude "As BMAD analyst, help create a project brief for a SaaS platform with:
+- Multi-tenant architecture
+- User authentication and authorization
+- Subscription billing with Stripe
+- Team collaboration features
+- Real-time notifications"
+
+# Generate Product Requirements Document
+claude "As BMAD PM, create a comprehensive PRD from the project brief, including:
+- User stories organized into epics
+- Acceptance criteria for each feature
+- Non-functional requirements
+- Success metrics"
+
+# Design frontend specification
+claude "As BMAD UX expert, create a frontend specification covering:
+- Component hierarchy
+- User flows for key features
+- Responsive design requirements
+- Accessibility standards"
+
+# Create technical architecture
+claude "As BMAD architect, design the technical architecture including:
+- Microservices structure
+- Database schema
+- API specifications
+- Security architecture
+- Deployment strategy"
+```
+
+### Step 3: Document Validation and Sharding
+
+```bash
+# Validate all documents with Product Owner
+claude "As BMAD PO, review and validate alignment between:
+- Project brief
+- PRD
+- Frontend spec
+- Architecture document
+Run the master checklist and identify any gaps"
+
+# Shard documents for development
+claude "As BMAD PO, shard the PRD and architecture documents into:
+- Individual epic files
+- Story-ready components
+- Technical context chunks"
+```
+
+### Step 4: Development Phase - Story Implementation
+
+```bash
+# Create first story with full context
+claude "As BMAD Scrum Master, create the first story (1.1) from the sharded epics.
+Include all technical context, acceptance criteria, and implementation guidance"
+
+# Review story before implementation
+cat docs/stories/1.1.user-authentication.md
+
+# Implement the story
+claude "As BMAD developer, implement story 1.1 following the tasks and dev notes.
+Ensure all acceptance criteria are met and update the story status"
+
+# Quality assurance review
+claude "As BMAD QA, review story 1.1 implementation:
+- Verify acceptance criteria
+- Run test suite
+- Check code quality
+- Update story with test results"
+
+# Continue with next story
+claude "As BMAD SM, create story 1.2 from the epic, including insights from story 1.1"
+```
+
+### Story File Example
+
+```markdown
+# Story 1.1: User Authentication
+
+## Status
+InProgress
+
+## Story
+**As a** user,
+**I want** to authenticate with email/password or OAuth,
+**so that** I can securely access my account
+
+## Acceptance Criteria
+1. Users can register with email/password
+2. OAuth login supports Google and GitHub
+3. Password reset via email works
+4. Session management with JWT tokens
+5. Rate limiting on auth endpoints
+
+## Tasks/Subtasks
+- [ ] Set up authentication service (AC: #1, #2)
+  - [ ] Install Passport.js and configure strategies
+  - [ ] Create user model with bcrypt hashing
+  - [ ] Implement JWT token generation
+- [ ] Create OAuth integration (AC: #2)
+  - [ ] Configure Google OAuth2 strategy
+  - [ ] Configure GitHub OAuth strategy
+  - [ ] Handle OAuth callbacks
+- [ ] Implement password reset (AC: #3)
+  - [ ] Create reset token generation
+  - [ ] Send reset emails via SendGrid
+  - [ ] Validate and process reset requests
+- [ ] Add rate limiting (AC: #5)
+  - [ ] Configure express-rate-limit
+  - [ ] Set limits: 5 attempts per 15 minutes
+
+## Dev Notes
+Tech Stack: Node.js, Express, PostgreSQL, Redis
+Auth Library: Passport.js with JWT strategy
+Database Schema: users table with id, email, password_hash, oauth_provider, oauth_id
+API Endpoints:
+- POST /api/auth/register
+- POST /api/auth/login
+- POST /api/auth/logout
+- POST /api/auth/reset-password
+- GET /api/auth/oauth/google
+- GET /api/auth/oauth/github
+Environment vars needed: JWT_SECRET, GOOGLE_CLIENT_ID, GITHUB_CLIENT_ID
+```
+
+### Step 5: Continuous Development Cycle
+
+```bash
+# Daily development workflow
+claude "Show current story status in docs/stories/"
+
+# Pick up where you left off
+claude "As BMAD dev, continue implementing the current InProgress story"
+
+# Handle QA feedback
+claude "As BMAD dev, address the QA issues identified in story 1.1:
+- Fix the rate limiting bug
+- Add missing error handling
+- Update tests"
+
+# Story completion
+claude "Update story 1.1 to Done status with completion notes for future reference"
+
+# Sprint planning
+claude "As BMAD SM, review completed stories and prepare next sprint's stories based on velocity"
+```
+
+### BMAD Agent Collaboration Pattern
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant SM as Scrum Master
+    participant Dev as Developer
+    participant QA as QA Engineer
+    participant Story as Story File
+    
+    User->>SM: Request next story
+    SM->>Story: Create with full context
+    SM->>User: Story 1.1 ready
+    User->>Dev: Implement story
+    Dev->>Story: Update with progress
+    Dev->>Story: Mark ready for review
+    User->>QA: Review implementation
+    QA->>Story: Add test results
+    QA->>User: Feedback provided
+    User->>Dev: Address feedback
+    Dev->>Story: Update to Done
+    User->>SM: Ready for next story
+    SM->>Story: Create 1.2 with 1.1 insights
+```
+
+### Best Practices with BMAD
+
+1. **Context Management**
+   ```bash
+   # Start new chat for each story to minimize context
+   claude --new "As BMAD dev, implement story 2.1"
+   
+   # Use bmad-master for overview tasks
+   claude "As BMAD master, summarize project progress across all stories"
+   ```
+
+2. **Document Organization**
+   ```bash
+   # Keep documents organized
+   docs/
+   ├── prd.md              # Original PRD
+   ├── architecture.md     # Original architecture 
+   ├── prd/               # Sharded epics
+   │   ├── epic-1-auth.md
+   │   └── epic-2-billing.md
+   └── stories/           # Active stories
+       ├── 1.1.user-auth.md
+       └── 1.2.oauth-integration.md
+   ```
+
+3. **Parallel Development**
+   ```bash
+   # Multiple developers can work on different epics
+   # Developer A
+   claude "As BMAD dev, implement story 1.1 (authentication)"
+   
+   # Developer B (different terminal)
+   claude "As BMAD dev, implement story 2.1 (billing setup)"
+   ```
 
 ## Debugging & Troubleshooting
 
