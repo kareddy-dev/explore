@@ -11,6 +11,7 @@
 - [Validation and Testing Patterns](#validation-and-testing-patterns)
 - [Subagent Orchestration](#subagent-orchestration)
 - [Workflow Optimization Tips](#workflow-optimization-tips)
+- [BMAD-METHOD Advanced Features](#bmad-method-advanced-features)
 
 ## Initial Setup Optimizations
 
@@ -370,6 +371,35 @@ claude ultra think "Redesign feature avoiding these issues: [problems]"
 - Blind validation requirement
 - Composability as core strength
 
+## BMAD-METHOD Advanced Features
+
+For structured agent-driven development with advanced creative techniques, see the [BMAD-METHOD documentation](frameworks/bmad-method.md) which includes:
+
+### Brainstorming System (Mary the Analyst)
+- **20+ brainstorming techniques** including Six Thinking Hats, Five W's, Role-Playing
+- **Creative modes**: Random Creative Chaos, Progressive Creative Journey
+- Can be used for ANY problem-solving, not just coding
+- Generates comprehensive brainstorming documents
+
+### Advanced Elicitation Methods
+- **20+ techniques** for pushing LLM quality including:
+  - Hindsight is 20/20 (future retrospective)
+  - Tree of Thought (multiple reasoning paths)
+  - REwOO (Reasoning without Observation)
+  - Red Team vs Blue Team (adversarial testing)
+- Applied at each section of document creation
+
+### Special Features
+- **Course Correction** (`/bmad-sm correct course`) - Handle mid-project pivots
+- **PO Checklist** (`/bmad-po run checklist`) - Pre-development validation
+- **Document Sharding** - Efficient context management with md-tree
+- **Agent Personas** - Mary (Analyst), James (Developer), Quinn (QA)
+
+### Core Philosophy
+"The BMAD method is all about elevating yourself, learning, and also elevating the LLM. As a whole, you are both better collectively than each one on its own." - Brian (Creator)
+
+See the complete [BMAD workflow example](frameworks/bmad-method.md#example-2-complete-workflow-from-video-tutorial) for a step-by-step walkthrough.
+
 ## Conclusion
 
 Advanced Claude Code usage is about:
@@ -378,5 +408,6 @@ Advanced Claude Code usage is about:
 3. **Systematic validation** - Never trust, always verify
 4. **Smart orchestration** - Use subagents for isolation and parallelism
 5. **Continuous optimization** - Every failure is a learning opportunity
+6. **Structured workflows** - Consider BMAD-METHOD for complex projects
 
 Remember: "The capability is literally almost infinite... in many directions." - Ray Fernando

@@ -10,7 +10,11 @@ This is a comprehensive documentation repository for Claude Code and development
   - Custom guides on agents, output styles, workflows, and advanced features
   - 33 official documents fetched from Anthropic's documentation
   - Practical examples for coding and non-coding applications
-  - BMAD-METHOD framework integration for structured AI development workflows
+  - **BMAD-METHOD framework** with comprehensive features from Brian's masterclass:
+    - 20+ brainstorming techniques for creative problem-solving
+    - 20+ advanced elicitation methods for LLM quality
+    - Complete workflow example with agent personas
+    - Course correction for mid-project pivots
 - **MCP Server Configurations**: Ready-to-use configurations for Model Context Protocol servers
 - **Tool Documentation**: Guides for productivity tools and Chrome extensions
 - **Development Frameworks**: BMAD-METHOD documentation for AI agent workflows
@@ -21,43 +25,53 @@ This is a comprehensive documentation repository for Claude Code and development
 
 ```
 /
-├── mcp.json                              # MCP server configuration for sequential-thinking
-├── tools/
-│   ├── claude-code/                     # Comprehensive Claude Code documentation
-│   │   ├── .docs-manifest.json          # Tracks document hashes for updates
-│   │   ├── CLAUDE-CODE-UPDATE-INFO.md   # Update tracking (v1.0.82, commit 4e63568ab)
-│   │   ├── claude-code-guide.md         # Comprehensive overview with agents, output styles, MCP
-│   │   ├── cli-reference.md             # Complete CLI commands, flags, advanced config
-│   │   ├── workflow-examples.md         # Practical workflows, BMAD integration, non-coding uses
-│   │   ├── frameworks/                  # Development framework documentation
-│   │   │   ├── bmad-method.md          # BMAD-METHOD complete integration guide
-│   │   │   └── BMAD-UPDATE-INFO.md     # BMAD update tracking (v4.39.1, commit f3cc410fb)
-│   │   └── gen/                         # Official documentation fetched from Anthropic
-│   │       ├── overview.md              # Claude Code overview
-│   │       ├── quickstart.md            # Quick start guide
-│   │       ├── setup.md                 # Installation and setup
-│   │       ├── cli-reference.md         # Official CLI reference
-│   │       ├── interactive-mode.md      # Interactive REPL mode
-│   │       ├── slash-commands.md        # All slash commands
-│   │       ├── settings.md              # Configuration and settings
-│   │       ├── output-styles.md         # Output style customization
-│   │       ├── sub-agents.md            # Agents/subagents documentation
-│   │       ├── mcp.md                   # MCP integration
-│   │       ├── hooks.md                 # Event hooks
-│   │       ├── memory.md                # Memory management
-│   │       ├── costs.md                 # Pricing and costs
-│   │       └── ... (33 total docs)      # Plus security, troubleshooting, integrations, etc.
-│   ├── mcp/
-│   │   ├── mcp-servers-guide.md         # ggrep, GitHub Copilot, Serena, Claude Code integration
-│   │   └── sequential-thinking-guide.md  # Complete usage guide for sequential thinking tool
-│   ├── chrome-extensions/
-│   │   ├── glasp-youtube-summary.md     # YouTube transcript extraction tool
-│   │   └── markdown-diagrams.md         # Markdown diagram rendering extension
-│   └── scripts/
-│       ├── fetch-docs.py                # Documentation fetcher with parallel downloads & retry
-│       └── docs-config.json             # Configuration for documentation sources
-└── tmp/                                 # Scratch directory (gitignored)
+├── BMAD-ENHANCEMENTS-SUMMARY.md         # Summary of BMAD documentation enhancements  
+├── CLAUDE.md                            # This file - project instructions for Claude Code
+├── mcp.json                             # MCP server configuration for sequential-thinking
+└── tools/
+    ├── claude-code/                     # Comprehensive Claude Code documentation
+    │   ├── .docs-manifest.json          # Tracks document hashes for updates
+    │   ├── README.md                    # Claude Code documentation overview
+    │   ├── CLAUDE-CODE-UPDATE-INFO.md   # Update tracking (v1.0.82, commit 4e63568ab)
+    │   ├── advanced-techniques.md       # Expert patterns from Ray Fernando and Eric Buess
+    │   ├── claude-code-guide.md         # Comprehensive overview with agents, output styles, MCP
+    │   ├── cli-reference.md             # Complete CLI commands, flags, advanced config
+    │   ├── context-management.md        # Context window optimization strategies
+    │   ├── custom-commands.md           # Creating custom slash commands
+    │   ├── hooks-cookbook.md            # Comprehensive hooks patterns and examples
+    │   ├── performance-optimization.md  # Performance tuning and best practices
+    │   ├── subagent-templates.md        # Subagent creation templates
+    │   ├── workflow-examples.md         # Practical workflows, BMAD integration, non-coding uses
+    │   ├── frameworks/                  # Development framework documentation
+    │   │   ├── bmad-method.md          # BMAD-METHOD complete guide (ENHANCED with Brian's masterclass)
+    │   │   └── BMAD-UPDATE-INFO.md     # BMAD update tracking (v4.39.1 + video insights)
+    │   └── gen/                         # Official documentation fetched from Anthropic (33 docs)
+    │       ├── overview.md              # Claude Code overview
+    │       ├── quickstart.md            # Quick start guide
+    │       ├── setup.md                 # Installation and setup
+    │       ├── cli-reference.md         # Official CLI reference
+    │       ├── interactive-mode.md      # Interactive REPL mode
+    │       ├── slash-commands.md        # All slash commands
+    │       ├── settings.md              # Configuration and settings
+    │       ├── output-styles.md         # Output style customization
+    │       ├── sub-agents.md            # Agents/subagents documentation
+    │       ├── mcp.md                   # MCP integration
+    │       ├── hooks.md                 # Event hooks
+    │       ├── memory.md                # Memory management
+    │       ├── costs.md                 # Pricing and costs
+    │       └── ... (33 total docs)      # Plus security, troubleshooting, integrations, etc.
+    ├── mcp/
+    │   ├── mcp-servers-guide.md         # ggrep, GitHub Copilot, Serena, Claude Code integration
+    │   └── sequential-thinking-guide.md # Complete usage guide for sequential thinking tool
+    ├── chrome-extensions/
+    │   ├── glasp-youtube-summary.md     # YouTube transcript extraction tool
+    │   └── markdown-diagrams.md         # Markdown diagram rendering extension
+    └── scripts/
+        ├── fetch-docs.py                # Documentation fetcher with parallel downloads & retry
+        └── docs-config.json             # Configuration for documentation sources
 ```
+
+**Note**: The `tmp/` directory exists at the root level but is gitignored and used for scratch/working files.
 
 ## Working with Documentation
 
@@ -138,11 +152,15 @@ This configuration can be used as a reference or template for MCP server setups.
 - `tools/claude-code/workflow-examples.md`: Practical workflows, BMAD integration examples, non-coding applications
 
 #### Framework Documentation
-- `tools/claude-code/frameworks/bmad-method.md`: Complete BMAD-METHOD integration guide for structured AI development workflows
+- `tools/claude-code/frameworks/bmad-method.md`: Complete BMAD-METHOD integration guide for structured AI development workflows (ENHANCED with Brian's masterclass insights)
   - Two-phase approach (Planning → Development)
-  - Agent roles and collaboration mechanisms
+  - Agent roles with personas (Mary/Analyst, James/Developer, Quinn/QA)
   - Story-driven development with embedded context
-  - Installation, configuration, and uninstallation
+  - **20+ Brainstorming techniques** for creative problem-solving
+  - **20+ Advanced elicitation methods** for pushing LLM quality
+  - **Course correction feature** for mid-project pivots
+  - **Complete workflow example** from video tutorial
+  - Installation (5-second process!), configuration, and uninstallation
 
 #### Official Documentation (Auto-Fetched)
 - `tools/claude-code/gen/`: Contains 33 official docs from Anthropic
@@ -155,7 +173,7 @@ This configuration can be used as a reference or template for MCP server setups.
 
 #### Update Tracking
 - `tools/claude-code/CLAUDE-CODE-UPDATE-INFO.md`: Tracks Claude Code v1.0.82 (commit 4e63568ab)
-- `tools/claude-code/frameworks/BMAD-UPDATE-INFO.md`: Tracks BMAD v4.39.1 (commit f3cc410fb)
+- `tools/claude-code/frameworks/BMAD-UPDATE-INFO.md`: Tracks BMAD v4.39.1 (commit f3cc410fb) - ENHANCED with Brian's masterclass documentation
 
 ### MCP and Tool Documentation
 - `tools/mcp/mcp-servers-guide.md`: Comprehensive guide covering ggrep (code search), GitHub Copilot integration, Serena IDE assistant, and Claude Code MCP integration
@@ -178,7 +196,7 @@ Since this is a documentation repository:
 
 This repository tracks external documentation sources:
 - **Claude Code**: v1.0.82 (repository commit: 4e63568ab)
-- **BMAD-METHOD**: v4.39.1 (repository commit: f3cc410fb)
+- **BMAD-METHOD**: v4.39.1 (repository commit: f3cc410fb) + Brian's masterclass enhancements
 
 ### Fetching Latest Documentation
 
@@ -296,6 +314,14 @@ When documenting tools that require authentication:
 
 ### Latest Updates (2025-08-17)
 - Added comprehensive BMAD-METHOD framework documentation
+- **ENHANCED BMAD documentation with Brian's masterclass insights**:
+  - 20+ brainstorming techniques with detailed descriptions
+  - 20+ advanced elicitation methods for quality improvement
+  - Agent personas (Mary, James, Quinn) and their roles
+  - Course correction feature for mid-project pivots
+  - Complete workflow example from video tutorial
+  - Core philosophy of "collaborative elevation"
+  - Best practices and workflow tips from the creator
 - Created update tracking files for version synchronization
 - Enhanced workflow examples with BMAD integration
 - Updated Claude Code guide with development frameworks section
