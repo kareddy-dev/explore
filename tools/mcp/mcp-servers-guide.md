@@ -148,6 +148,192 @@ Model Context Protocol (MCP) servers extend AI capabilities by providing special
 
 ---
 
+## Claude Code Integration
+
+### Using MCP Servers with Claude Code
+
+Claude Code has built-in support for Model Context Protocol servers, allowing seamless integration with external tools and services. This extends Claude Code's capabilities beyond local file system and shell commands.
+
+#### Configuration Methods
+
+**1. Command Line Configuration**
+```bash
+# Load MCP configuration at startup
+claude --mcp-config mcp.json
+
+# Load multiple configurations
+claude --mcp-config config1.json config2.json
+```
+
+**2. Project Configuration**
+Place `mcp.json` in your project's `.claude/` directory:
+```bash
+.claude/
+└── mcp.json
+```
+
+**3. User Configuration**
+Global MCP settings in `~/.claude/mcp.json`
+
+#### Interactive MCP Management
+
+Within a Claude Code session:
+```bash
+# List connected MCP servers
+/mcp
+
+# Connect to a server
+/mcp connect github
+
+# Disconnect from a server
+/mcp disconnect github
+
+# List available MCP tools
+/mcp tools
+```
+
+#### Example: Using GGrep with Claude Code
+
+```json
+{
+  "mcpServers": {
+    "ggrep": {
+      "type": "http",
+      "url": "https://mcp.grep.app"
+    }
+  }
+}
+```
+
+Once configured:
+```bash
+claude --mcp-config mcp.json
+
+# In the session
+"Search for implementations of binary search algorithms across GitHub"
+# Claude Code will use ggrep MCP server to search repositories
+```
+
+#### Example: GitHub Integration
+
+```json
+{
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_TOKEN": "YOUR_GITHUB_TOKEN"
+      }
+    }
+  }
+}
+```
+
+Usage in Claude Code:
+```bash
+claude --mcp-config github-mcp.json
+
+# In the session
+"Create an issue for the bug we just found"
+"Check the status of PR #123"
+"List open issues labeled as 'high-priority'"
+```
+
+#### Example: Serena for Large Projects
+
+When working with complex codebases:
+```bash
+# Configure Serena for your project
+claude --mcp-config serena.json
+
+# Claude Code now has semantic understanding of your codebase
+"Find all usages of the deprecated authenticate() method"
+"Refactor the PaymentProcessor class to use the new API"
+```
+
+#### OAuth Authentication
+
+Some MCP servers require OAuth authentication:
+```bash
+# Claude Code will prompt for authentication
+claude mcp add --transport http sentry https://mcp.sentry.dev/mcp
+
+# Follow the OAuth flow in your browser
+# Press Esc to cancel if needed
+```
+
+#### MCP Server Scopes
+
+Claude Code supports different configuration scopes:
+
+- **Local**: Project-specific servers (`.claude/mcp.json`)
+- **User**: Personal servers across projects (`~/.claude/mcp.json`)
+- **Project**: Team-shared configurations (checked into version control)
+
+#### Auto-Connect Configuration
+
+Configure servers to connect automatically:
+```json
+{
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "autoConnect": true
+    }
+  }
+}
+```
+
+#### Troubleshooting MCP in Claude Code
+
+```bash
+# Enable verbose logging
+claude --verbose --mcp-config mcp.json
+
+# Check MCP connection status
+/mcp
+
+# View available tools from connected servers
+/mcp tools
+
+# Debug configuration issues
+cat ~/.claude/mcp.json | claude -p "Check this MCP configuration for errors"
+```
+
+#### Best Practices for Claude Code + MCP
+
+1. **Security**: Store tokens in environment variables
+   ```bash
+   export GITHUB_TOKEN="your-token"
+   claude --mcp-config mcp.json
+   ```
+
+2. **Performance**: Connect only needed servers
+   ```bash
+   # Development session
+   claude --mcp-config dev-servers.json
+   
+   # Documentation session
+   claude --mcp-config doc-servers.json
+   ```
+
+3. **Organization**: Group related servers
+   ```json
+   {
+     "mcpServers": {
+       "development": { ... },
+       "monitoring": { ... },
+       "documentation": { ... }
+     }
+   }
+   ```
+
+See the [Claude Code Guide](../claude-code/claude-code-guide.md) for more details on MCP integration and advanced usage patterns.
+
+---
+
 ## Security Considerations
 
 ### API Tokens

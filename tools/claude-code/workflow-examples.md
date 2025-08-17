@@ -1,0 +1,1485 @@
+# Claude Code Workflow Examples
+
+Practical examples and patterns for using Claude Code in real-world development scenarios. Each example includes the context, approach, and actual commands you can use.
+
+## Table of Contents
+
+- [Feature Development](#feature-development)
+- [Debugging & Troubleshooting](#debugging--troubleshooting)
+- [Code Refactoring](#code-refactoring)
+- [Testing Workflows](#testing-workflows)
+- [Git Workflows](#git-workflows)
+- [Code Review](#code-review)
+- [Documentation](#documentation)
+- [Database Operations](#database-operations)
+- [API Development](#api-development)
+- [Performance Optimization](#performance-optimization)
+- [Security Auditing](#security-auditing)
+- [DevOps Tasks](#devops-tasks)
+
+## Feature Development
+
+### Building a New Feature from Scratch
+
+**Scenario**: Add user profile management to an existing application
+
+```bash
+claude "I need to add user profile management with the following requirements:
+1. Users can update their profile (name, bio, avatar)
+2. Profile data should be validated
+3. Include avatar upload with size limits
+4. Add privacy settings (public/private profile)
+5. Create both API endpoints and UI components"
+```
+
+**Claude Code will**:
+1. Analyze existing user model and authentication
+2. Create database migrations
+3. Implement API endpoints with validation
+4. Build UI components following existing patterns
+5. Add tests for new functionality
+6. Update documentation
+
+### Adding Authentication
+
+```bash
+claude "Implement JWT-based authentication with:
+- Login/logout endpoints
+- Token refresh mechanism  
+- Protected route middleware
+- Password reset flow
+- Rate limiting on auth endpoints"
+```
+
+### Integrating Third-Party Services
+
+```bash
+claude "Integrate Stripe payment processing:
+1. Set up Stripe SDK
+2. Create checkout flow
+3. Handle webhooks for payment events
+4. Add subscription management
+5. Implement refund functionality"
+```
+
+## Debugging & Troubleshooting
+
+### Investigating Production Issues
+
+```bash
+# Analyze error logs
+tail -f production.log | claude -p "Monitor for errors and explain their causes"
+
+# Debug specific error
+claude "I'm getting 'TypeError: Cannot read property 'id' of undefined' in UserService.js line 145. Find and fix the issue"
+
+# Memory leak investigation
+claude "The app memory usage keeps growing. Analyze the code for potential memory leaks"
+```
+
+### Performance Issues
+
+```mermaid
+flowchart TD
+    A[Performance Issue] --> B[Claude Analysis]
+    B --> C{Issue Type}
+    C -->|Database| D[Query Optimization]
+    C -->|Frontend| E[Bundle Analysis]
+    C -->|API| F[Endpoint Profiling]
+    C -->|Memory| G[Leak Detection]
+    D --> H[Solution Implementation]
+    E --> H
+    F --> H
+    G --> H
+    H --> I[Performance Testing]
+    I --> J[Verification]
+```
+
+```bash
+claude "The /api/users endpoint is slow. Profile it and optimize:
+1. Analyze database queries
+2. Check for N+1 problems
+3. Add appropriate caching
+4. Optimize data serialization"
+```
+
+### Race Condition Debugging
+
+```bash
+claude "Users report intermittent failures when updating their profiles. 
+This might be a race condition. Investigate and fix:
+1. Review concurrent access patterns
+2. Add proper locking/synchronization
+3. Implement retry logic where appropriate"
+```
+
+## Code Refactoring
+
+### Legacy Code Modernization
+
+```bash
+claude "Refactor the legacy OrderProcessor class:
+1. Convert callbacks to async/await
+2. Extract business logic into separate services
+3. Add proper error handling
+4. Improve logging
+5. Add TypeScript types
+6. Write unit tests for refactored code"
+```
+
+### Design Pattern Implementation
+
+```bash
+claude "Refactor the notification system to use Observer pattern:
+1. Create observable base class
+2. Implement notification observers
+3. Refactor existing notification code
+4. Ensure backward compatibility
+5. Add tests for the new pattern"
+```
+
+### Code Cleanup
+
+```bash
+# Remove dead code
+claude "Identify and remove unused code, functions, and imports across the codebase"
+
+# Consolidate duplicated code
+claude "Find duplicated code blocks and refactor them into reusable functions"
+
+# Improve naming
+claude "Review and improve variable/function names in the auth module for clarity"
+```
+
+## Testing Workflows
+
+### Writing Comprehensive Tests
+
+```bash
+claude "Write comprehensive tests for the PaymentService:
+1. Unit tests for all methods
+2. Integration tests with payment gateway
+3. Edge cases and error scenarios
+4. Mock external dependencies
+5. Achieve 90%+ coverage"
+```
+
+### Test-Driven Development (TDD)
+
+```bash
+# Start with tests
+claude "I want to add email validation. First write the tests, then implement the feature"
+
+# Fix failing tests iteratively
+claude "Run the test suite and fix each failing test one by one"
+```
+
+### E2E Testing Setup
+
+```bash
+claude "Set up Playwright E2E tests for the checkout flow:
+1. Install and configure Playwright
+2. Write tests for complete checkout process
+3. Add tests to CI pipeline
+4. Create test data fixtures"
+```
+
+## Git Workflows
+
+### Smart Commits
+
+```bash
+# Analyze changes and create meaningful commit
+claude "Review my staged changes and create a commit with a descriptive message following conventional commits format"
+
+# Split large changes
+claude "I've made many changes. Help me split them into logical commits"
+```
+
+### Pull Request Creation
+
+```mermaid
+sequenceDiagram
+    participant Dev as Developer
+    participant CC as Claude Code
+    participant Git as Git/GitHub
+    
+    Dev->>CC: Create PR for feature
+    CC->>Git: Analyze branch changes
+    CC->>Git: Generate PR description
+    CC->>Git: Create pull request
+    Git-->>CC: PR URL
+    CC-->>Dev: PR created with link
+```
+
+```bash
+claude "Create a pull request for the current branch with:
+1. Comprehensive description of changes
+2. Testing checklist
+3. Breaking changes noted
+4. Related issue links"
+```
+
+### Merge Conflict Resolution
+
+```bash
+claude "Help me resolve merge conflicts in src/api/users.js:
+1. Understand both versions
+2. Merge changes intelligently
+3. Ensure no functionality is lost
+4. Run tests after resolution"
+```
+
+### Git History Cleanup
+
+```bash
+claude "Clean up the last 5 commits:
+1. Squash fix commits
+2. Reword commit messages for clarity
+3. Ensure each commit is atomic
+4. Maintain chronological order"
+```
+
+## Code Review
+
+### Automated Code Review
+
+```bash
+# Review specific changes
+git diff main | claude -p "Review these changes for:
+- Security issues
+- Performance problems
+- Best practice violations
+- Potential bugs"
+
+# Pre-commit review
+claude "Review all staged changes before I commit"
+```
+
+### PR Review Assistance
+
+```bash
+# Fetch and review PR
+gh pr checkout 123
+claude "Review the changes in this PR and provide feedback on:
+1. Code quality
+2. Test coverage
+3. Documentation
+4. Potential issues"
+```
+
+## Documentation
+
+### API Documentation Generation
+
+```bash
+claude "Generate comprehensive API documentation:
+1. Document all endpoints with examples
+2. Include request/response schemas
+3. Add authentication requirements
+4. Generate OpenAPI/Swagger spec
+5. Create Postman collection"
+```
+
+### Code Documentation
+
+```bash
+# Add inline documentation
+claude "Add JSDoc comments to all public methods in src/services/"
+
+# Generate README
+claude "Create a comprehensive README.md with:
+- Project overview
+- Installation instructions
+- Usage examples
+- API reference
+- Contributing guidelines"
+```
+
+### Architecture Documentation
+
+```mermaid
+flowchart TB
+    A[Claude Code] --> B[Analyze Codebase]
+    B --> C[Identify Components]
+    C --> D[Map Relationships]
+    D --> E[Generate Diagrams]
+    E --> F[Create Documentation]
+    F --> G[Architecture Doc]
+    
+    style A fill:#90EE90
+    style G fill:#87CEEB
+```
+
+```bash
+claude "Document the application architecture:
+1. Create architecture overview with diagrams
+2. Document key design decisions
+3. Explain data flow
+4. Detail service interactions
+5. Include deployment architecture"
+```
+
+## Database Operations
+
+### Migration Creation
+
+```bash
+claude "Create a database migration to:
+1. Add 'preferences' table for user settings
+2. Add foreign key to users table
+3. Include indexes for common queries
+4. Add down migration for rollback"
+```
+
+### Query Optimization
+
+```bash
+claude "This query is slow:
+SELECT * FROM orders o 
+JOIN users u ON o.user_id = u.id 
+WHERE o.created_at > '2024-01-01'
+Optimize it and add appropriate indexes"
+```
+
+### Data Seeding
+
+```bash
+claude "Create database seeders for development:
+1. Generate 100 test users
+2. Create orders with various statuses
+3. Add sample products
+4. Include edge cases for testing"
+```
+
+## API Development
+
+### RESTful API Creation
+
+```bash
+claude "Create a complete REST API for blog posts:
+- GET /posts (with pagination, filtering, sorting)
+- GET /posts/:id
+- POST /posts (with validation)
+- PUT /posts/:id
+- DELETE /posts/:id
+- Include middleware for auth and rate limiting"
+```
+
+### GraphQL Implementation
+
+```bash
+claude "Convert the REST API to GraphQL:
+1. Define schema for all entities
+2. Implement resolvers
+3. Add mutations for CRUD operations
+4. Include subscriptions for real-time updates
+5. Add DataLoader for N+1 prevention"
+```
+
+### API Versioning
+
+```bash
+claude "Implement API versioning:
+1. Add v2 endpoints alongside v1
+2. Deprecate old fields properly
+3. Add version negotiation
+4. Document migration path"
+```
+
+## Performance Optimization
+
+### Frontend Optimization
+
+```bash
+claude "Optimize the React application:
+1. Implement code splitting
+2. Add lazy loading for routes
+3. Optimize bundle size
+4. Memoize expensive computations
+5. Add virtual scrolling for long lists"
+```
+
+### Backend Optimization
+
+```bash
+claude "Optimize the Node.js server:
+1. Implement caching strategy
+2. Add connection pooling
+3. Optimize database queries
+4. Implement request batching
+5. Add compression middleware"
+```
+
+### Load Testing
+
+```bash
+claude "Set up load testing:
+1. Install and configure k6
+2. Write test scenarios for key endpoints
+3. Simulate 1000 concurrent users
+4. Identify bottlenecks
+5. Generate performance report"
+```
+
+## Security Auditing
+
+### Vulnerability Scanning
+
+```bash
+claude "Perform security audit:
+1. Check for SQL injection vulnerabilities
+2. Review authentication implementation
+3. Scan for XSS vulnerabilities
+4. Check for insecure dependencies
+5. Review API rate limiting"
+```
+
+### Security Hardening
+
+```bash
+claude "Implement security best practices:
+1. Add input sanitization
+2. Implement CSRF protection
+3. Set up proper CORS policies
+4. Add security headers
+5. Implement secrets management"
+```
+
+## DevOps Tasks
+
+### Docker Configuration
+
+```bash
+claude "Create Docker setup for the application:
+1. Write multi-stage Dockerfile
+2. Create docker-compose for local development
+3. Include all services (app, db, redis)
+4. Add health checks
+5. Optimize image size"
+```
+
+### CI/CD Pipeline
+
+```bash
+claude "Set up GitHub Actions CI/CD:
+1. Run tests on every push
+2. Check code quality with linters
+3. Build and push Docker images
+4. Deploy to staging on main branch
+5. Add manual approval for production"
+```
+
+### Kubernetes Deployment
+
+```mermaid
+flowchart LR
+    A[Local Code] --> B[Claude Code]
+    B --> C[Generate Manifests]
+    C --> D[Deployment]
+    C --> E[Service]
+    C --> F[ConfigMap]
+    C --> G[Ingress]
+    D --> H[K8s Cluster]
+    E --> H
+    F --> H
+    G --> H
+```
+
+```bash
+claude "Create Kubernetes manifests:
+1. Deployment with replicas and health checks
+2. Service for load balancing
+3. ConfigMap for configuration
+4. Secrets for sensitive data
+5. Ingress for external access
+6. HorizontalPodAutoscaler for scaling"
+```
+
+### Infrastructure as Code
+
+```bash
+claude "Create Terraform configuration for AWS:
+1. VPC with public/private subnets
+2. ECS cluster for containers
+3. RDS for database
+4. ElastiCache for Redis
+5. CloudFront for CDN
+6. Include all security groups and IAM roles"
+```
+
+## Advanced Patterns
+
+### Event-Driven Architecture
+
+```bash
+claude "Implement event-driven architecture:
+1. Set up message queue (RabbitMQ/Kafka)
+2. Create event publishers
+3. Implement event consumers
+4. Add event replay capability
+5. Include dead letter queue handling"
+```
+
+### Microservices Migration
+
+```bash
+claude "Extract user service from monolith:
+1. Identify boundaries
+2. Create new service structure
+3. Implement API gateway
+4. Set up service discovery
+5. Handle distributed transactions"
+```
+
+### Real-time Features
+
+```bash
+claude "Add real-time notifications:
+1. Set up WebSocket server
+2. Implement event broadcasting
+3. Add client-side listeners
+4. Handle reconnection logic
+5. Scale with Redis pub/sub"
+```
+
+## Interactive Development
+
+### Pair Programming with Claude
+
+```bash
+# Start interactive session
+claude
+
+# Work together on a feature
+"Let's build a comment system together. Start with the data model"
+
+# Iterate on the implementation
+"Good, now add the API endpoints"
+
+# Get suggestions
+"What edge cases should we handle?"
+
+# Review as you go
+"Review what we've built so far"
+```
+
+### Learning Mode
+
+```bash
+# Use explanatory output style for detailed insights
+/output-style explanatory
+
+# Learn while coding with explanations
+claude "Implement binary search and explain each step"
+
+# Use learning mode for collaborative coding
+/output-style learning
+
+# Claude will add TODO(human) markers for you to complete
+claude "Help me build a REST API - guide me through it step by step"
+
+# Understand existing code with educational insights
+claude "Walk me through how the authentication middleware works"
+```
+
+### Custom Output Styles
+
+#### Creating a Security Auditor Style
+
+```bash
+# Create with Claude's help
+/output-style:new
+
+# When prompted, describe your needs:
+"I want a style focused on security auditing that:
+- Prioritizes finding vulnerabilities
+- Checks for OWASP top 10 issues
+- Suggests security best practices
+- Reviews authentication and authorization
+- Identifies potential data leaks"
+```
+
+#### Creating a Documentation Writer Style
+
+Save as `~/.claude/output-styles/documentation-writer.md`:
+
+```markdown
+# Documentation Writer
+
+A technical writer that focuses on creating clear, comprehensive documentation.
+
+## Instructions
+
+You are a technical documentation specialist. Your primary goals:
+
+1. Write clear, concise documentation
+2. Include code examples for every concept
+3. Add diagrams using Mermaid when helpful
+4. Structure content with proper headings
+5. Include prerequisites and requirements
+6. Add troubleshooting sections
+7. Provide both quick start and detailed guides
+
+When writing documentation:
+- Use active voice
+- Keep sentences short and clear
+- Define technical terms on first use
+- Include practical examples
+- Add cross-references to related topics
+```
+
+Usage:
+```bash
+claude --output-style documentation-writer
+
+# Or in session
+/output-style documentation-writer
+
+claude "Document the authentication system"
+```
+
+#### Creating a Code Reviewer Style
+
+```markdown
+# Code Reviewer
+
+A meticulous code reviewer focused on quality and best practices.
+
+## Instructions
+
+You are a senior code reviewer. For every code review:
+
+1. **Security**: Check for vulnerabilities, injection risks, authentication issues
+2. **Performance**: Identify bottlenecks, N+1 queries, memory leaks
+3. **Maintainability**: Assess readability, modularity, documentation
+4. **Testing**: Verify test coverage, edge cases, error handling
+5. **Best Practices**: Ensure SOLID principles, design patterns, conventions
+
+Format your reviews as:
+- 🔴 Critical: Must fix before merge
+- 🟡 Important: Should address soon
+- 🟢 Suggestion: Nice to have improvements
+- 💡 Insight: Educational notes
+
+Always provide:
+- Specific line references
+- Example fixes for issues found
+- Explanation of why each issue matters
+```
+
+#### Creating a Performance Optimizer Style
+
+```bash
+# Interactive creation
+/output-style:new
+
+"Create a performance optimization specialist that:
+- Profiles code for bottlenecks
+- Suggests caching strategies
+- Optimizes database queries
+- Reduces bundle sizes
+- Improves algorithm complexity
+- Measures before and after metrics"
+```
+
+### System Prompt Customization Patterns
+
+#### Project-Specific Instructions via CLAUDE.md
+
+```markdown
+# CLAUDE.md
+
+## Project: E-commerce Platform
+
+### Tech Stack
+- Frontend: Next.js 14, TypeScript, Tailwind CSS
+- Backend: Node.js, Express, PostgreSQL
+- Testing: Jest, Playwright
+- Deploy: Docker, Kubernetes, AWS
+
+### Coding Standards
+- Use feature-based folder structure
+- All API responses must follow JSON:API spec
+- Components must be under 200 lines
+- Minimum 80% test coverage
+- Use conventional commits
+
+### Commands
+- Dev: `npm run dev`
+- Test: `npm test`
+- Build: `npm run build`
+- Lint: `npm run lint:fix`
+- Type Check: `npm run type-check`
+
+### Performance Requirements
+- Page load under 3 seconds
+- API responses under 200ms
+- Lighthouse score > 90
+
+### Security Requirements
+- All inputs must be sanitized
+- Use parameterized queries only
+- Implement rate limiting
+- JWT tokens expire in 15 minutes
+```
+
+#### Session-Specific Focus
+
+```bash
+# Focus on performance for this session
+claude --append-system-prompt "Prioritize performance optimization. Always consider caching, query optimization, and bundle size."
+
+# Focus on accessibility
+claude --append-system-prompt "Ensure all UI changes follow WCAG 2.1 AA standards. Include ARIA labels and keyboard navigation."
+
+# Focus on testing
+claude --append-system-prompt "Write tests for every function. Include unit tests, integration tests, and edge cases."
+```
+
+#### Combining Styles with Project Context
+
+```bash
+# Use learning style with project context
+claude --output-style learning
+
+# CLAUDE.md provides project context
+# Output style provides behavioral changes
+# They work together seamlessly
+```
+
+### Output Style Use Cases
+
+#### For Code Education
+
+```bash
+/output-style explanatory
+
+claude "Implement a rate limiter with Redis"
+
+# Claude will provide:
+# - Step-by-step implementation
+# - Insights boxes explaining decisions
+# - Alternative approaches
+# - Performance considerations
+# - Security implications
+```
+
+#### For Collaborative Development
+
+```bash
+/output-style learning
+
+claude "Let's build a real-time chat feature together"
+
+# Claude will:
+# - Set up the basic structure
+# - Add TODO(human) markers for you to complete
+# - Guide you through each step
+# - Provide hints without doing everything
+# - Encourage learning by doing
+```
+
+#### For Specialized Tasks
+
+```bash
+# Database optimization session
+/output-style:new
+"Database optimizer that focuses on query performance, indexing, and schema design"
+
+# Security audit session
+/output-style:new  
+"Security auditor that checks for vulnerabilities and suggests fixes"
+
+# API design session
+/output-style:new
+"API architect that follows REST principles and OpenAPI specifications"
+```
+
+## Working with Agents
+
+Agents are specialized AI assistants that handle specific types of tasks with their own context and tool permissions. Here are practical examples of creating and using agents.
+
+### Creating Custom Agents
+
+#### Code Reviewer Agent
+
+Create `.claude/agents/code-reviewer.md`:
+
+```markdown
+---
+name: code-reviewer
+description: Expert code review specialist. Use PROACTIVELY after any code changes to ensure quality and security.
+tools: Read, Grep, Glob, Bash
+---
+
+You are a senior code reviewer with 15+ years of experience ensuring high code quality standards.
+
+When invoked:
+1. IMMEDIATELY run `git diff --staged` and `git diff` to see all changes
+2. Focus ONLY on modified files
+3. Begin comprehensive review without asking questions
+
+Review checklist:
+- Code simplicity and readability
+- Variable and function naming
+- No code duplication (DRY principle)
+- Proper error handling and edge cases
+- Security vulnerabilities (XSS, SQL injection, exposed secrets)
+- Input validation and sanitization
+- Performance implications
+- Test coverage for new code
+
+Provide structured feedback:
+## 🔴 Critical Issues (Must Fix)
+[Issues that block merge]
+
+## 🟡 Important Issues (Should Fix)
+[Issues to address soon]
+
+## 🟢 Suggestions (Nice to Have)
+[Optional improvements]
+
+## ✅ Good Practices Observed
+[Positive feedback]
+
+Always include specific line numbers and example fixes.
+```
+
+Usage:
+```bash
+# After making changes
+claude "Review my recent changes"
+
+# Explicit invocation
+claude "Use the code-reviewer agent to check my PR"
+```
+
+#### Debugger Agent
+
+Create `.claude/agents/debugger.md`:
+
+```markdown
+---
+name: debugger
+description: Debugging specialist for errors, test failures, and unexpected behavior. Use PROACTIVELY when any error or test failure occurs.
+tools: Read, Edit, MultiEdit, Bash, Grep, Glob
+---
+
+You are an expert debugger specializing in root cause analysis and systematic problem-solving.
+
+IMMEDIATE ACTIONS when invoked:
+1. Capture the full error message and stack trace
+2. Identify the exact file and line where error occurs
+3. Read the failing code and surrounding context
+4. Form hypothesis about root cause
+
+Debugging methodology:
+1. REPRODUCE: Confirm you can reproduce the issue
+2. ISOLATE: Narrow down to minimal failing case
+3. DIAGNOSE: Identify root cause with evidence
+4. FIX: Implement minimal, targeted fix
+5. VERIFY: Confirm fix works and doesn't break other things
+6. PREVENT: Add tests or checks to prevent recurrence
+
+For each issue provide:
+- Root cause explanation with evidence
+- Step-by-step fix implementation
+- Verification commands to run
+- Prevention recommendations
+
+Common patterns to check:
+- Null/undefined references
+- Race conditions and timing issues
+- Off-by-one errors
+- Type mismatches
+- Missing error handling
+- Incorrect assumptions about data
+```
+
+#### Test Runner Agent
+
+Create `.claude/agents/test-runner.md`:
+
+```markdown
+---
+name: test-runner
+description: Test automation expert. Use PROACTIVELY to run tests after code changes and fix any failures.
+tools: Bash, Read, Edit, MultiEdit, Grep
+---
+
+You are a test automation expert ensuring comprehensive test coverage and fixing test failures.
+
+When invoked:
+1. Identify the test command from package.json, Makefile, or common patterns
+2. Run the full test suite
+3. If tests fail, analyze and fix them
+4. If no tests exist, create them
+
+Test fixing approach:
+- Read failing test output carefully
+- Understand what the test expects
+- Determine if code or test needs fixing
+- Preserve test intent when fixing
+- Run tests again to confirm fix
+
+Test creation guidelines:
+- Write tests for all new functions
+- Include edge cases and error scenarios
+- Use descriptive test names
+- Follow existing test patterns
+- Aim for high coverage
+
+Always run tests after any fix to ensure they pass.
+```
+
+#### Data Scientist Agent
+
+Create `.claude/agents/data-scientist.md`:
+
+```markdown
+---
+name: data-scientist
+description: Data analysis expert for SQL queries, data processing, and insights. Use for any data analysis tasks.
+tools: Bash, Read, Write, Edit
+---
+
+You are a data scientist specializing in SQL, data analysis, and insights generation.
+
+Core responsibilities:
+1. Write efficient, optimized SQL queries
+2. Analyze data patterns and anomalies
+3. Generate meaningful visualizations
+4. Provide actionable insights
+
+When working with SQL:
+- Use CTEs for complex queries
+- Add comments explaining logic
+- Optimize for performance (indexes, filters)
+- Handle NULL values appropriately
+- Use appropriate aggregations
+
+For data analysis:
+- Start with exploratory analysis
+- Check data quality and completeness
+- Identify patterns and outliers
+- Generate summary statistics
+- Create clear visualizations
+
+Output format:
+1. Query explanation
+2. SQL code (formatted)
+3. Results summary
+4. Key insights
+5. Recommendations
+
+Tools expertise:
+- SQL (PostgreSQL, MySQL, BigQuery)
+- Python data libraries (pandas, numpy)
+- Data visualization
+- Statistical analysis
+```
+
+#### Documentation Writer Agent
+
+Create `.claude/agents/doc-writer.md`:
+
+```markdown
+---
+name: doc-writer
+description: Technical documentation specialist. Use to create or update documentation, READMEs, and API docs.
+tools: Read, Write, Edit, Grep, Glob
+---
+
+You are a technical writer creating clear, comprehensive documentation.
+
+Documentation principles:
+1. Clear and concise writing
+2. Logical structure and flow
+3. Practical examples for everything
+4. Complete but not overwhelming
+5. Appropriate for target audience
+
+When creating documentation:
+1. Analyze existing code/project structure
+2. Identify what needs documenting
+3. Create outline before writing
+4. Include all necessary sections
+5. Add examples and diagrams
+
+Standard sections:
+- Overview/Introduction
+- Installation/Setup
+- Quick Start Guide
+- Detailed Usage
+- API Reference
+- Examples
+- Troubleshooting
+- Contributing Guidelines
+
+Use formatting effectively:
+- Headers for organization
+- Code blocks with syntax highlighting
+- Tables for structured data
+- Lists for steps or options
+- Bold/italic for emphasis
+- Mermaid diagrams for workflows
+
+Always verify technical accuracy against actual code.
+```
+
+### Using Agents Effectively
+
+#### Automatic Agent Selection
+
+```bash
+# Claude automatically selects appropriate agent
+claude "Fix the failing tests"  # Triggers test-runner
+claude "Review my PR changes"   # Triggers code-reviewer
+claude "Debug this error: ..."  # Triggers debugger
+```
+
+#### Explicit Agent Invocation
+
+```bash
+# Force specific agent usage
+claude "Use the code-reviewer agent to check security in auth.js"
+claude "Have the doc-writer agent create API documentation"
+claude "Ask the data-scientist agent to optimize this query"
+```
+
+#### Chaining Multiple Agents
+
+##### Sequential Execution (Default for Chained Tasks)
+
+```bash
+# Explicitly request sequential execution
+claude "Analyze performance, then optimize, then write release notes - run them one by one"
+
+# Complex sequential workflow
+claude "First use the debugger agent to fix the error, then use test-runner to verify, and finally code-reviewer to check the fix"
+
+# Context is passed between agents
+claude "Use the code-reviewer to identify issues, then the debugger to fix them"
+```
+
+**Important**: When chaining agents, the output from one agent is automatically passed as context to the next agent in the chain.
+
+##### Parallel Execution
+
+```bash
+# Agents may run in parallel when tasks are independent
+claude "Run performance analysis, security audit, and documentation review using agents"
+
+# Parallel post-processing workflow
+claude "After implementing the feature, simultaneously:
+1. Update the README with readme-syncer agent
+2. Generate release notes with release-writer agent  
+3. Update translations with i18n-translator agent"
+```
+
+##### Controlling Execution Order
+
+```bash
+# Force sequential when order matters
+claude "Run these agents ONE BY ONE:
+1. spec-writer to create specifications
+2. example-finder to get code samples
+3. coder to implement
+4. test-runner to verify"
+
+# Allow parallel for independent tasks
+claude "Run these agents in PARALLEL:
+- doc-fetcher to get documentation
+- example-finder to search GitHub
+- spec-reviewer to check requirements"
+```
+
+### Agent Configuration Examples
+
+#### Security Auditor Agent
+
+```markdown
+---
+name: security-auditor
+description: Security specialist for vulnerability detection. Use MUST BE USED for any security-related code or authentication/authorization changes.
+tools: Read, Grep, Glob
+---
+
+You are a security expert focused on identifying and preventing vulnerabilities.
+
+Security checklist:
+OWASP Top 10:
+1. Injection (SQL, NoSQL, Command, LDAP)
+2. Broken Authentication
+3. Sensitive Data Exposure
+4. XML External Entities (XXE)
+5. Broken Access Control
+6. Security Misconfiguration
+7. Cross-Site Scripting (XSS)
+8. Insecure Deserialization
+9. Using Components with Known Vulnerabilities
+10. Insufficient Logging & Monitoring
+
+For each file reviewed:
+- Check input validation
+- Review authentication logic
+- Verify authorization checks
+- Look for hardcoded secrets
+- Check encryption usage
+- Review error handling
+- Verify secure communication
+
+Report format:
+## 🚨 Critical Security Issues
+## ⚠️ Security Warnings
+## 📝 Security Recommendations
+```
+
+#### Performance Optimizer Agent
+
+```markdown
+---
+name: performance-optimizer
+description: Performance optimization specialist. Use for slow code, optimization tasks, or performance issues.
+tools: Read, Edit, Bash, Grep
+---
+
+You are a performance optimization expert.
+
+Optimization process:
+1. Measure current performance
+2. Identify bottlenecks
+3. Implement optimizations
+4. Measure improvements
+5. Document changes
+
+Areas to analyze:
+- Algorithm complexity (Big O)
+- Database queries (N+1, missing indexes)
+- Memory usage and leaks
+- Network requests (bundling, caching)
+- Rendering performance
+- Bundle size
+
+Always:
+- Measure before and after
+- Focus on biggest bottlenecks first
+- Consider trade-offs
+- Document performance gains
+```
+
+### Managing Agent Workflows
+
+#### Setting Up Project Agents
+
+```bash
+# Initialize project agents
+mkdir -p .claude/agents
+
+# Create standard agent set
+/agents create  # Interactive creation
+
+# Or copy from templates
+cp ~/.claude/agents/code-reviewer.md .claude/agents/
+cp ~/.claude/agents/test-runner.md .claude/agents/
+
+# Customize for project
+echo "Project-specific instructions" >> .claude/agents/code-reviewer.md
+```
+
+#### Agent Best Practices
+
+```mermaid
+flowchart TD
+    A[Agent Design] --> B[Single Responsibility]
+    A --> C[Clear Triggers]
+    A --> D[Detailed Instructions]
+    A --> E[Tool Limitations]
+    
+    B --> F[Focused expertise]
+    C --> G[PROACTIVELY keyword]
+    D --> H[Step-by-step process]
+    E --> I[Only necessary tools]
+    
+    F --> J[Better Performance]
+    G --> J
+    H --> J
+    I --> J
+```
+
+1. **Single Responsibility**: Each agent should excel at one thing
+2. **Clear Descriptions**: Use "PROACTIVELY" and "MUST BE USED" for automatic triggering
+3. **Detailed Prompts**: Include specific steps, checklists, and examples
+4. **Limited Tools**: Only grant necessary tools for security and focus
+5. **Version Control**: Commit project agents for team sharing
+6. **Testing**: Verify agent behavior before relying on it
+7. **Iteration**: Refine agents based on actual usage
+
+#### Debugging Agent Issues
+
+```bash
+# Test agent directly
+claude "Use the code-reviewer agent to test its functionality"
+
+# Check agent configuration
+cat .claude/agents/code-reviewer.md
+
+# Verify agent is loaded
+/agents list
+
+# Edit agent configuration
+/agents edit code-reviewer
+
+# Remove problematic agent
+/agents delete code-reviewer
+```
+
+### Advanced Agent Patterns
+
+#### Meta-Agent Coordinator
+
+```markdown
+---
+name: coordinator
+description: Project coordinator that delegates to other agents. Use for complex multi-step tasks.
+tools: Task
+---
+
+You are a project coordinator that breaks down complex tasks and delegates to specialized agents.
+
+When given a task:
+1. Analyze requirements
+2. Break into subtasks
+3. Identify appropriate agents
+4. Delegate in logical order
+5. Coordinate results
+
+Available agents and their specialties:
+- code-reviewer: Code quality and security
+- debugger: Error fixing
+- test-runner: Test execution and fixing
+- doc-writer: Documentation
+- data-scientist: Data analysis
+
+Create a plan and execute it step by step.
+```
+
+#### Environment-Specific Agents
+
+```bash
+# Development agent
+.claude/agents/dev-helper.md
+
+# Production agent
+.claude/agents/prod-helper.md
+
+# Staging agent
+.claude/agents/staging-helper.md
+```
+
+Each configured with environment-specific tools and permissions.
+
+### Complex Multi-Agent Workflows
+
+#### Software Development Pipeline
+
+```mermaid
+flowchart LR
+    A[Spec Writer] --> D[Coder Agent]
+    B[Example Finder] --> D
+    C[Doc Fetcher] --> D
+    D --> E[Test Runner]
+    D --> F[README Syncer]
+    D --> G[Release Notes]
+    D --> H[i18n Translator]
+    
+    style A fill:#90EE90
+    style B fill:#87CEEB
+    style C fill:#FFE4B5
+```
+
+```bash
+# Complete feature development workflow
+claude "Implement the user authentication feature:
+1. Use spec-writer agent to create detailed specifications
+2. In parallel, use example-finder to search GitHub for auth implementations
+3. In parallel, use doc-fetcher to get OAuth2 documentation
+4. Use coder agent to implement based on spec and examples
+5. Use test-runner to verify implementation
+6. In parallel: update README, generate release notes, update translations"
+```
+
+#### Content Creation Pipeline
+
+```markdown
+---
+name: social-media-writer
+description: Creates social media posts for releases and updates
+tools: Read, WebFetch
+---
+
+You create engaging social media content for technical updates.
+
+Guidelines:
+- Create 5-10 draft variations
+- Include relevant hashtags
+- Keep within platform limits (280 chars for Twitter)
+- Technical but accessible tone
+- Include key benefits/features
+```
+
+```bash
+# After release workflow
+claude "The release is complete. Use agents to:
+1. Generate release notes
+2. Create 10 Twitter post variations
+3. Draft a blog post announcement
+4. Update the changelog"
+```
+
+### Non-Coding Agent Applications
+
+#### Knowledge Management
+
+```markdown
+---
+name: obsidian-manager
+description: Manages and organizes Obsidian notes and knowledge base
+tools: Read, Write, Edit, Glob
+---
+
+You manage an Obsidian knowledge base, organizing notes, creating links, and maintaining consistency.
+
+Tasks:
+- Organize notes by topic
+- Create bidirectional links
+- Generate index pages
+- Update tags and metadata
+- Ensure consistent formatting
+```
+
+#### Research Assistant
+
+```markdown
+---
+name: research-agent
+description: Conducts research and synthesizes information from multiple sources
+tools: WebFetch, Read, Write
+---
+
+You are a research assistant that gathers, analyzes, and synthesizes information.
+
+Process:
+1. Search for relevant sources
+2. Extract key information
+3. Cross-reference findings
+4. Create summary documents
+5. Generate citations
+```
+
+#### Data Analysis Pipeline
+
+```bash
+# Complex data analysis workflow
+claude "Analyze the sales data:
+1. Use data-scientist agent to explore the dataset
+2. Use performance-optimizer to optimize slow queries
+3. Use doc-writer to create analysis report
+4. Use social-media-writer to create insights posts"
+```
+
+### Agent TODO Management
+
+Each agent maintains its own TODO list, providing clear task tracking:
+
+```bash
+# Main thread TODOs
+- [ ] Coordinate agents
+- [x] Initial setup
+
+# Performance Analyzer Agent TODOs
+- [x] Scan codebase
+- [x] Identify bottlenecks
+- [x] Generate report
+
+# Code Optimizer Agent TODOs  
+- [x] Review performance report
+- [x] Implement optimizations
+- [x] Verify improvements
+
+# Release Notes Agent TODOs
+- [x] Gather changes
+- [x] Format release notes
+- [x] Create markdown file
+```
+
+This separation helps track what each specialized agent accomplishes independently.
+
+## Productivity Tips
+
+### Morning Routine
+
+```bash
+#!/bin/bash
+# morning-standup.sh
+
+# Check for issues
+claude -p "Check for any critical errors in the logs from last night"
+
+# Review PRs
+claude -p "Summarize open pull requests that need my review"
+
+# Plan the day
+claude "Based on the current sprint board, what should I focus on today?"
+```
+
+### End of Day Wrap-up
+
+```bash
+# Create summary
+claude "Summarize what I accomplished today based on my commits"
+
+# Clean up
+claude "Clean up any debug code or console.logs I added today"
+
+# Prepare for tomorrow
+claude "Create a todo list for tomorrow based on incomplete work"
+```
+
+## Troubleshooting Common Issues
+
+### When Claude Code Gets Stuck
+
+```bash
+# Reset context if needed
+/reset
+
+# Clear and restart
+/clear
+claude -c
+
+# Use verbose mode for debugging
+claude --verbose
+```
+
+### Handling Large Codebases
+
+```bash
+# Use .claudeignore
+echo "node_modules/" >> .claudeignore
+echo "dist/" >> .claudeignore
+
+# Focus on specific directories
+claude --add-dir src/components "Work only with React components"
+
+# Break down large tasks
+claude "First, just analyze the structure without making changes"
+```
+
+## See Also
+
+- [Claude Code Guide](./claude-code-guide.md) - Complete overview
+- [CLI Reference](./cli-reference.md) - All commands and options
+- [MCP Integration](../mcp/mcp-servers-guide.md) - External service connections
+- [Sequential Thinking](../mcp/sequential-thinking-guide.md) - Complex problem solving
