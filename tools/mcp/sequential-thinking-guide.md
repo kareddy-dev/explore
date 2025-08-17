@@ -4,6 +4,24 @@
 
 The `mcp__sequential-thinking__sequentialthinking` tool enables dynamic, step-by-step problem-solving where thoughts can evolve, branch, and revise as understanding deepens. Unlike linear thinking, it allows backtracking, course correction, and exploring multiple paths.
 
+## MCP Server Configuration
+
+Add this to your MCP configuration file:
+
+```json
+{
+  "mcpServers": {
+    "sequential-thinking": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ]
+    }
+  }
+}
+```
+
 ## Core Concepts
 
 ### Thought Patterns
