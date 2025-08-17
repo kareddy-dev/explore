@@ -126,11 +126,11 @@ Interactive commands available within Claude Code sessions:
 
 ```mermaid
 flowchart LR
-    A[Slash Commands] --> B[/help]
-    A --> C[/quit or /exit]
-    A --> D[/clear]
-    A --> E[/history]
-    A --> F[/resume]
+    A[Slash Commands] --> B["/help"]
+    A --> C["/quit or /exit"]
+    A --> D["/clear"]
+    A --> E["/history"]
+    A --> F["/resume"]
     B --> G[Show available commands]
     C --> H[Exit Claude Code]
     D --> I[Clear screen]
@@ -203,12 +203,39 @@ Claude Code can remember your file edit preferences:
 
 ### MCP Integration
 
+```mermaid
+flowchart TD
+    A[Claude Code] --> B[MCP Config]
+    B --> C{MCP Servers}
+    C --> D[GitHub Server]
+    C --> E[Figma Server]
+    C --> F[Custom Server]
+    D --> G[GitHub Tools]
+    E --> H[Design Tools]
+    F --> I[Custom Tools]
+```
+
 | Command | Description | Example |
 |---------|-------------|---------|
 | `/mcp` | List MCP connections | `/mcp` |
 | `/mcp connect <server>` | Connect to MCP server | `/mcp connect github` |
 | `/mcp disconnect <server>` | Disconnect from server | `/mcp disconnect github` |
 | `/mcp tools` | List available MCP tools | `/mcp tools` |
+
+**MCP Workflow Example:**
+```bash
+# Check MCP status
+/mcp
+
+# Connect to GitHub MCP server
+/mcp connect github
+
+# List available tools
+/mcp tools
+
+# Use MCP tools naturally in conversation
+claude "Search GitHub issues for authentication bugs"
+```
 
 ### UI Customization & Output Styles
 
@@ -260,6 +287,23 @@ Claude Code can remember your file edit preferences:
 
 ### Agent Management
 
+```mermaid
+mindmap
+  root((Agent System))
+    Built-in Agents
+      general-purpose
+      statusline-setup
+      output-style-setup
+      meta-agent
+    User Agents
+      ~/.claude/agents/
+      Available everywhere
+    Project Agents
+      .claude/agents/
+      Project-specific
+      Highest priority
+```
+
 | Command | Description | Example |
 |---------|-------------|---------|
 | `/agents` | Open agent management interface | `/agents` |
@@ -269,6 +313,18 @@ Claude Code can remember your file edit preferences:
 | `/agents list` | List all available agents | `/agents list` |
 
 #### Agent Details
+
+**Agent Hierarchy:**
+```mermaid
+flowchart TD
+    A[Agent Request] --> B{Priority Check}
+    B -->|Highest| C[Project Agents<br/>.claude/agents/]
+    B -->|Medium| D[User Agents<br/>~/.claude/agents/]
+    B -->|Lowest| E[Built-in Agents]
+    C --> F[Execute Agent]
+    D --> F
+    E --> F
+```
 
 **Agent Types:**
 - **Built-in agents**: Pre-configured by Claude Code (general-purpose)
@@ -293,6 +349,22 @@ Claude Code can remember your file edit preferences:
 - **Parallel**: For independent tasks, speeds up workflows
 - **Clean slate**: Each agent starts fresh without memory of previous runs
 - **Separate TODOs**: Each agent maintains its own TODO list
+
+**Agent Workflow:**
+```mermaid
+sequenceDiagram
+    participant User
+    participant Main as Main Claude
+    participant Agent as Subagent
+    participant Tools
+    
+    User->>Main: Request task
+    Main->>Agent: Delegate to specialist
+    Agent->>Tools: Use specific tools
+    Tools->>Agent: Return results
+    Agent->>Main: Complete with results
+    Main->>User: Deliver solution
+```
 
 **Invoking Agents:**
 ```bash
@@ -629,7 +701,7 @@ flowchart TD
     E --> K[Load Context]
     K --> C
     
-    F --> L[/model, /permissions, etc.]
+    F --> L[Command Examples]
     G --> M[Code Tasks]
     H --> N[Long-running Processes]
 ```
