@@ -10,8 +10,10 @@ This is a comprehensive documentation repository for Claude Code and development
   - Custom guides on agents, output styles, workflows, and advanced features
   - 33 official documents fetched from Anthropic's documentation
   - Practical examples for coding and non-coding applications
+  - BMAD-METHOD framework integration for structured AI development workflows
 - **MCP Server Configurations**: Ready-to-use configurations for Model Context Protocol servers
 - **Tool Documentation**: Guides for productivity tools and Chrome extensions
+- **Development Frameworks**: BMAD-METHOD documentation for AI agent workflows
 - **Sequential Thinking Methodology**: Advanced problem-solving framework
 - **Automated Documentation System**: Fetches and tracks official documentation updates
 
@@ -23,9 +25,13 @@ This is a comprehensive documentation repository for Claude Code and development
 ├── tools/
 │   ├── claude-code/                     # Comprehensive Claude Code documentation
 │   │   ├── .docs-manifest.json          # Tracks document hashes for updates
+│   │   ├── CLAUDE-CODE-UPDATE-INFO.md   # Update tracking (v1.0.82, commit 4e63568ab)
 │   │   ├── claude-code-guide.md         # Comprehensive overview with agents, output styles, MCP
 │   │   ├── cli-reference.md             # Complete CLI commands, flags, advanced config
-│   │   ├── workflow-examples.md         # Practical workflows, agent examples, non-coding uses
+│   │   ├── workflow-examples.md         # Practical workflows, BMAD integration, non-coding uses
+│   │   ├── frameworks/                  # Development framework documentation
+│   │   │   ├── bmad-method.md          # BMAD-METHOD complete integration guide
+│   │   │   └── BMAD-UPDATE-INFO.md     # BMAD update tracking (v4.39.1, commit f3cc410fb)
 │   │   └── gen/                         # Official documentation fetched from Anthropic
 │   │       ├── overview.md              # Claude Code overview
 │   │       ├── quickstart.md            # Quick start guide
@@ -129,7 +135,14 @@ This configuration can be used as a reference or template for MCP server setups.
 #### Curated Guides (Manually Written)
 - `tools/claude-code/claude-code-guide.md`: Comprehensive overview with agents, output styles, system prompt customization
 - `tools/claude-code/cli-reference.md`: Complete reference with advanced configuration, permissions, 1M context
-- `tools/claude-code/workflow-examples.md`: Practical workflows, agent chaining, non-coding applications
+- `tools/claude-code/workflow-examples.md`: Practical workflows, BMAD integration examples, non-coding applications
+
+#### Framework Documentation
+- `tools/claude-code/frameworks/bmad-method.md`: Complete BMAD-METHOD integration guide for structured AI development workflows
+  - Two-phase approach (Planning → Development)
+  - Agent roles and collaboration mechanisms
+  - Story-driven development with embedded context
+  - Installation, configuration, and uninstallation
 
 #### Official Documentation (Auto-Fetched)
 - `tools/claude-code/gen/`: Contains 33 official docs from Anthropic
@@ -139,6 +152,10 @@ This configuration can be used as a reference or template for MCP server setups.
   - MCP integration, security, troubleshooting
   - IDE integrations, GitHub Actions, SDK
   - Corporate proxy, Amazon Bedrock, Google Vertex AI support
+
+#### Update Tracking
+- `tools/claude-code/CLAUDE-CODE-UPDATE-INFO.md`: Tracks Claude Code v1.0.82 (commit 4e63568ab)
+- `tools/claude-code/frameworks/BMAD-UPDATE-INFO.md`: Tracks BMAD v4.39.1 (commit f3cc410fb)
 
 ### MCP and Tool Documentation
 - `tools/mcp/mcp-servers-guide.md`: Comprehensive guide covering ggrep (code search), GitHub Copilot integration, Serena IDE assistant, and Claude Code MCP integration
@@ -156,6 +173,12 @@ Since this is a documentation repository:
 5. **Content validation**: Ensure all URLs, configurations, examples, and diagrams are current and functional
 
 ## Keeping Documentation Updated
+
+### Version Tracking
+
+This repository tracks external documentation sources:
+- **Claude Code**: v1.0.82 (repository commit: 4e63568ab)
+- **BMAD-METHOD**: v4.39.1 (repository commit: f3cc410fb)
 
 ### Fetching Latest Documentation
 
@@ -179,6 +202,31 @@ python tools/scripts/fetch-docs.py --source claude-code --dry-run
 
 # Verbose mode with custom retry attempts
 python tools/scripts/fetch-docs.py --source claude-code --verbose --max-retries 5
+```
+
+### Updating from External Repositories
+
+#### Update Claude Code Documentation
+```bash
+# Pull latest changes from Claude Code repository
+cd /tmp/claude-code
+git pull origin main
+git log --oneline 4e63568ab..HEAD
+
+# Check for documentation updates
+python tools/scripts/fetch-docs.py --check
+python tools/scripts/fetch-docs.py --source claude-code
+```
+
+#### Update BMAD-METHOD Documentation
+```bash
+# Pull latest changes from BMAD repository
+cd /tmp/BMAD-METHOD
+git pull origin main
+git log --oneline f3cc410fb..HEAD
+
+# Review changes and update documentation accordingly
+git diff f3cc410fb..HEAD README.md docs/user-guide.md
 ```
 
 ### How the Documentation System Works
@@ -243,3 +291,20 @@ When documenting tools that require authentication:
 - Use placeholder values like `YOUR_GITHUB_TOKEN`
 - Include security best practices and token management guidance
 - Document required permissions and access levels
+
+## Documentation Status
+
+### Latest Updates (2025-08-17)
+- Added comprehensive BMAD-METHOD framework documentation
+- Created update tracking files for version synchronization
+- Enhanced workflow examples with BMAD integration
+- Updated Claude Code guide with development frameworks section
+
+### Repository Sources
+- **Claude Code**: [github.com/anthropics/claude-code](https://github.com/anthropics/claude-code)
+- **BMAD-METHOD**: [github.com/bmad-code-org/BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD)
+# important-instruction-reminders
+Do what has been asked; nothing more, nothing less.
+NEVER create files unless they're absolutely necessary for achieving your goal.
+ALWAYS prefer editing an existing file to creating a new one.
+NEVER proactively create documentation files (*.md) or README files. Only create documentation files if explicitly requested by the User.
