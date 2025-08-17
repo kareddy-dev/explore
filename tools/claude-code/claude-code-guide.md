@@ -315,6 +315,38 @@ Control what Claude Code can do:
 
 ## Best Practices
 
+### Development Lifecycle with Claude Code
+
+```mermaid
+graph TD
+    A[Project Start] --> B[Setup CLAUDE.md]
+    B --> C[Feature Planning]
+    C --> D[Implementation]
+    D --> E[Testing]
+    E --> F[Code Review]
+    F --> G[Deployment]
+    G --> H[Monitoring]
+    H --> I{Issues?}
+    I -->|Yes| J[Debug & Fix]
+    I -->|No| K[Next Feature]
+    J --> E
+    K --> C
+    
+    subgraph "Claude Code Integration Points"
+    B1[Memory Setup]
+    D1[Code Generation]
+    E1[Test Creation]
+    F1[Quality Checks]
+    J1[Bug Analysis]
+    end
+    
+    B --> B1
+    D --> D1
+    E --> E1
+    F --> F1
+    J --> J1
+```
+
 ### 1. Project Setup
 
 Create a `CLAUDE.md` file in your project root:
@@ -337,14 +369,38 @@ Create a `CLAUDE.md` file in your project root:
 
 ### 2. Effective Prompting
 
-**Good Prompts:**
+```mermaid
+flowchart TD
+    A[Task Request] --> B{Prompt Quality}
+    B -->|Specific| C[Quick Success]
+    B -->|Vague| D[Clarification Loop]
+    D --> E[Refined Prompt]
+    E --> C
+    
+    subgraph "Good Prompts"
+    F["Fix type error in src/auth/login.ts"]
+    G["Add validation to user registration"]
+    H["Refactor DB connection pooling"]
+    end
+    
+    subgraph "Poor Prompts"
+    I["Fix the bug"]
+    J["Make it better"]
+    K["Optimize everything"]
+    end
+```
+
+**Prompt Quality Examples:**
+
+**✅ Good Prompts:**
 - "Fix the type error in src/auth/login.ts"
 - "Add input validation to the user registration form"
 - "Refactor the database connection to use connection pooling"
 
-**Less Effective:**
+**❌ Less Effective:**
 - "Fix the bug" (too vague)
 - "Make it better" (unclear objective)
+- "Optimize everything" (too broad)
 
 ### 3. Incremental Development
 

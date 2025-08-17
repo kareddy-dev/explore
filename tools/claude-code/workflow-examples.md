@@ -23,6 +23,29 @@ Practical examples and patterns for using Claude Code in real-world development 
 
 **Scenario**: Add user profile management to an existing application
 
+```mermaid
+flowchart TD
+    A[Feature Request] --> B[Requirements Analysis]
+    B --> C[Architecture Planning]
+    C --> D[Database Design]
+    D --> E[API Development]
+    E --> F[Frontend Components]
+    F --> G[Testing Strategy]
+    G --> H[Documentation]
+    H --> I[Deployment]
+    
+    subgraph "Implementation Steps"
+    D --> D1[User Model Updates]
+    D --> D2[Migrations]
+    E --> E1[Validation Logic]
+    E --> E2[Error Handling]
+    F --> F1[Profile Forms]
+    F --> F2[Avatar Upload]
+    G --> G1[Unit Tests]
+    G --> G2[Integration Tests]
+    end
+```
+
 ```bash
 claude "I need to add user profile management with the following requirements:
 1. Users can update their profile (name, bio, avatar)
@@ -32,13 +55,24 @@ claude "I need to add user profile management with the following requirements:
 5. Create both API endpoints and UI components"
 ```
 
-**Claude Code will**:
-1. Analyze existing user model and authentication
-2. Create database migrations
-3. Implement API endpoints with validation
-4. Build UI components following existing patterns
-5. Add tests for new functionality
-6. Update documentation
+**Claude Code Implementation Flow**:
+```mermaid
+sequenceDiagram
+    participant Claude
+    participant DB as Database
+    participant API as Backend API
+    participant UI as Frontend
+    participant Tests
+    
+    Claude->>DB: Analyze existing user schema
+    Claude->>DB: Create profile extensions
+    Claude->>API: Implement validation endpoints
+    Claude->>API: Add file upload handling
+    Claude->>UI: Build profile components
+    Claude->>UI: Create upload interface
+    Claude->>Tests: Generate test suites
+    Claude->>Tests: Validate all scenarios
+```
 
 ### Adding Authentication
 
@@ -81,7 +115,7 @@ claude "The app memory usage keeps growing. Analyze the code for potential memor
 
 ```mermaid
 flowchart TD
-    A[Performance Issue] --> B[Claude Analysis]
+    A[Performance Issue Reported] --> B[Claude Analysis]
     B --> C{Issue Type}
     C -->|Database| D[Query Optimization]
     C -->|Frontend| E[Bundle Analysis]
@@ -92,7 +126,26 @@ flowchart TD
     F --> H
     G --> H
     H --> I[Performance Testing]
-    I --> J[Verification]
+    I --> J{Improvement?}
+    J -->|Yes| K[Deploy Solution]
+    J -->|No| L[Iterate]
+    L --> B
+```
+
+### Systematic Debugging Process
+
+```mermaid
+graph LR
+    A[Bug Report] --> B[Reproduce Issue]
+    B --> C[Analyze Logs]
+    C --> D[Identify Root Cause]
+    D --> E[Design Fix]
+    E --> F[Implement Solution]
+    F --> G[Test Fix]
+    G --> H{Bug Fixed?}
+    H -->|No| I[Investigate Further]
+    H -->|Yes| J[Deploy & Monitor]
+    I --> C
 ```
 
 ```bash
@@ -152,6 +205,47 @@ claude "Review and improve variable/function names in the auth module for clarit
 ```
 
 ## Testing Workflows
+
+### Comprehensive Testing Strategy
+
+```mermaid
+mindmap
+  root((Testing Strategy))
+    Unit Tests
+      Function Level
+      Component Level
+      Mock Dependencies
+      Fast Execution
+    Integration Tests
+      API Endpoints
+      Database Operations
+      External Services
+      Real Dependencies
+    E2E Tests
+      User Workflows
+      Cross-Browser
+      Mobile Testing
+      Performance
+    Quality Gates
+      Coverage >80%
+      Performance Benchmarks
+      Security Scans
+      Code Quality
+```
+
+### Testing Pyramid Implementation
+
+```mermaid
+graph TD
+    A[E2E Tests<br/>Few, Slow, Expensive] --> B[Integration Tests<br/>Some, Medium Cost]
+    B --> C[Unit Tests<br/>Many, Fast, Cheap]
+    
+    subgraph "Test Distribution"
+    D[70% Unit Tests]
+    E[20% Integration Tests] 
+    F[10% E2E Tests]
+    end
+```
 
 ### Writing Comprehensive Tests
 
