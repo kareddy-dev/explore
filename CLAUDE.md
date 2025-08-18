@@ -70,6 +70,7 @@ This is a comprehensive documentation repository for Claude Code and development
     ├── chrome-extensions/
     │   ├── glasp-youtube-summary.md     # YouTube transcript extraction tool
     │   └── markdown-diagrams.md         # Markdown diagram rendering extension
+    ├── mermaid-guide.md                 # Comprehensive Mermaid diagrams guide with CLI validation
     └── scripts/
         ├── fetch-docs.py                # Documentation fetcher with parallel downloads & retry
         └── docs-config.json             # Configuration for documentation sources
@@ -89,39 +90,21 @@ This is a comprehensive documentation repository for Claude Code and development
 
 ### Visual Documentation with Mermaid
 
-Use Mermaid diagrams to enhance documentation clarity:
+Use Mermaid diagrams to enhance documentation clarity. **Always use Mermaid syntax within markdown code blocks** - avoid generating separate image files.
 
-**Flowcharts** for processes and decision trees:
+**See `tools/mermaid-guide.md` for:**
+- Complete diagram syntax for all types (flowchart, sequence, state, class, ER, Gantt, etc.)
+- Dark mode considerations and best practices
+- Syntax validation with Mermaid CLI
+- Examples and troubleshooting
+
+Quick example:
 ```mermaid
 flowchart TD
-    A[Start Process] --> B{Decision Point}
-    B -->|Yes| C[Action A]
-    B -->|No| D[Action B]
-    C --> E[End]
-    D --> E
+    A[Start] --> B{Decision}
+    B -->|Yes| C[Action]
+    B -->|No| D[Alternative]
 ```
-
-**Sequence diagrams** for tool interactions:
-```mermaid
-sequenceDiagram
-    User->>MCP Server: Configure
-    MCP Server->>Claude: Enable Tools
-    Claude->>User: Enhanced Capabilities
-```
-
-**Mind maps** for concept organization:
-```mermaid
-mindmap
-  root((Tool Category))
-    MCP Servers
-      Code Search
-      IDE Integration
-    Chrome Extensions
-      Transcript Extraction
-      Diagram Rendering
-```
-
-The repository includes the Markdown Diagrams Chrome extension guide to help render these diagrams in browsers.
 
 ### File Organization
 - **Claude Code documentation** goes in `tools/claude-code/`
