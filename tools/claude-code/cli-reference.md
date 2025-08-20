@@ -131,11 +131,13 @@ flowchart LR
     A --> D["/clear"]
     A --> E["/history"]
     A --> F["/resume"]
-    B --> G[Show available commands]
-    C --> H[Exit Claude Code]
-    D --> I[Clear screen]
-    E --> J[Show conversation history]
-    F --> K[List resumable sessions]
+    A --> G["/cost"]
+    B --> H[Show available commands]
+    C --> I[Exit Claude Code]
+    D --> J[Clear screen]
+    E --> K[Show conversation history]
+    F --> L[List resumable sessions]
+    G --> M[Token usage & statistics]
 ```
 
 | Command | Description |
@@ -146,6 +148,7 @@ flowchart LR
 | `/history` | Show conversation history |
 | `/resume` | List resumable conversations |
 | `/reset` | Reset current conversation |
+| `/cost` | Show detailed token usage and session statistics (v1.0.84+) |
 
 ### Model Control
 

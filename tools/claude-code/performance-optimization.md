@@ -194,6 +194,19 @@ flowchart LR
 | Search multiple patterns | Multiple `Grep` calls | Parallel execution |
 | Complex investigation | Subagent | Isolated context |
 
+#### Built-in Search Performance (v1.0.84+)
+
+Claude Code now uses built-in ripgrep by default for significantly improved search performance:
+
+- **Faster search operations**: Built-in ripgrep eliminates external dependency overhead
+- **Better reliability**: No need to install or configure ripgrep separately
+- **Consistent performance**: Same fast search across all environments
+
+```bash
+# To opt out of built-in ripgrep (if needed)
+export USE_BUILTIN_RIPGREP=0
+```
+
 ### 3. Batch Operations
 
 ```bash

@@ -103,21 +103,30 @@ claude update
 - IDE integrations
 - GitHub Actions compatibility
 
-## Recent Updates (v1.0.82)
+## Recent Updates (v1.0.84)
 
 Claude Code continues to evolve with significant improvements in the latest release:
 
-### SDK Enhancements
-- **Request Cancellation Support**: Better control over long-running operations
-- **Additional Directories Option**: Search custom paths beyond the default project structure
-- **Improved Slash Command Processing**: Enhanced command parsing and execution
+### Major Performance Improvements
+- **Built-in Ripgrep by Default**: Significantly faster search operations with built-in `ripgrep` eliminating external dependency overhead and improving reliability across all environments
+- **Enhanced Search Performance**: No need to install or configure `ripgrep` separately - consistent fast search everywhere
+- **Search Troubleshooting**: New troubleshooting guide for search/discovery issues (see `/cost` command updates)
 
-### Configuration & Stability
-- **Settings Validation**: Automatic validation prevents invalid fields in `.claude/settings.json` files
-- **MCP Tool Consistency**: Improved tool name consistency across MCP integrations
-- **Bash Reliability**: Fixed crashes when Claude attempts to read large files automatically
+### Expanded MCP Integration
+- **13 New Official MCP Servers**: Major expansion including Box, Canva, Daloopa, Fireflies, HubSpot, Hugging Face, Jam, Monday, Netlify, Stytch, and Vercel
+- **OAuth Authentication**: Official servers use OAuth with hosted endpoints for enterprise-grade reliability
+- **Enhanced Figma Integration**: Updated Dev Mode MCP Server with new endpoint
 
-These improvements enhance both developer experience and system stability, making Claude Code more reliable for complex development workflows.
+### Enhanced Cost Tracking  
+- **Detailed `/cost` Command**: Now shows session duration, token usage, and code change statistics
+- **Better Usage Insights**: Track API time vs wall time, lines added/removed, and total cost breakdown
+
+### Developer Experience
+- **@-mention Enhancements**: Improved file referencing with ~/.claude/ files support
+- **Real-time Steering**: Better mid-conversation guidance and corrections
+- **Tool ID Consistency**: Fixed mismatch issues for more reliable tool execution
+
+These improvements significantly enhance performance, expand integration capabilities, and provide better insights into Claude Code usage patterns.
 
 ## Getting Started
 
@@ -535,6 +544,8 @@ For more expert techniques including hooks vs slash commands, subagent orchestra
 | Permission denied | Check file permissions and tool access |
 | Context too large | Use `.claudeignore` to exclude files |
 | MCP connection failed | Verify server configuration and tokens |
+| Search/discovery not working | Install system `ripgrep` and set `USE_BUILTIN_RIPGREP=0` |
+| @file mentions failing | Install `ripgrep` (see search troubleshooting below) |
 
 ### Debug Mode
 
@@ -543,6 +554,34 @@ Enable verbose logging:
 ```bash
 claude --verbose
 ```
+
+### Search and Discovery Issues
+
+If Search tool, `@file` mentions, custom agents, and custom slash commands aren't working, install system `ripgrep`:
+
+```bash
+# macOS (Homebrew)  
+brew install ripgrep
+
+# Windows (winget)
+winget install BurntSushi.ripgrep.MSVC
+
+# Ubuntu/Debian
+sudo apt install ripgrep
+
+# Alpine Linux
+apk add ripgrep
+
+# Arch Linux
+pacman -S ripgrep
+```
+
+Then set the environment variable to use system ripgrep:
+```bash
+export USE_BUILTIN_RIPGREP=0
+```
+
+**Note**: Claude Code v1.0.84+ uses built-in ripgrep by default, which should work in most environments. This troubleshooting is only needed if search functionality fails.
 
 ### Getting Help
 

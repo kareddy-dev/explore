@@ -1,15 +1,15 @@
 # Claude Code Documentation Update Information
 
 ## Last Documentation Update
-- **Date**: 2025-08-17
-- **Documentation Last Fetched**: 2025-08-17T16:59:23.768661Z
+- **Date**: 2025-08-20
+- **Documentation Last Fetched**: 2025-08-20T09:21:53.197122Z (1 document updated)
 
 ## Repository Information
 - **Repository**: https://github.com/anthropics/claude-code
-- **Commit ID**: `4e63568abdeef22db93b83ade036e060d596eb9d`
-- **Commit Message**: "Merge pull request #5919 from anthropics/chrislloyd/8a49b1"
-- **Commit Date**: 2025-08-16
-- **Latest Version**: 1.0.82 (from CHANGELOG.md)
+- **Commit ID**: `da6d2f715e5081bf304e23aff6f282a73f0f9dc7`
+- **Commit Message**: "chore: Update CHANGELOG.md"
+- **Commit Date**: 2025-08-18
+- **Latest Version**: 1.0.84 (from CHANGELOG.md)
 - **NPM Package**: [@anthropic-ai/claude-code](https://www.npmjs.com/package/@anthropic-ai/claude-code)
 
 ## Source Locations
@@ -47,13 +47,13 @@ cd /Users/kareddy/Desktop/explore/tmp/claude-code
 git pull origin main
 
 # 2. Check changes since last update
-git log --oneline 4e63568abdeef22db93b83ade036e060d596eb9d..HEAD
+git log --oneline da6d2f715e5081bf304e23aff6f282a73f0f9dc7..HEAD
 
 # 3. Review CHANGELOG for new features
-git diff 4e63568abdeef22db93b83ade036e060d596eb9d..HEAD CHANGELOG.md
+git diff da6d2f715e5081bf304e23aff6f282a73f0f9dc7..HEAD CHANGELOG.md
 
 # 4. Check for new examples or features
-git diff 4e63568abdeef22db93b83ade036e060d596eb9d..HEAD README.md examples/
+git diff da6d2f715e5081bf304e23aff6f282a73f0f9dc7..HEAD README.md examples/
 ```
 
 ### Fetching Latest Official Documentation
@@ -99,6 +99,8 @@ git diff tools/claude-code/gen/
 - `tools/scripts/docs-config.json` - Sources configuration
 
 ## Version History
+- **1.0.84** - Built-in ripgrep by default (major performance improvement), 13 new MCP servers (Box, Canva, Daloopa, Fireflies, HubSpot, Hugging Face, Jam, Monday, Netlify, Stytch, Vercel, plus Figma updates), enhanced `/cost` command with detailed session statistics, search troubleshooting guide, tool ID mismatch fixes, real-time steering improvements, @-mention enhancements (~/.claude/ files)
+- **1.0.83** - @-mention files with spaces support, new shimmering spinner
 - **1.0.82** - SDK request cancellation, settings validation, MCP improvements
 - **1.0.81** - Output styles release (Explanatory, Learning)
 - **1.0.80** - UI improvements, custom subagent colors

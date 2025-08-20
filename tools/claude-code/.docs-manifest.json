@@ -1,5 +1,5 @@
 {
-  "last_updated": "2025-08-17T16:59:23.768661Z",
+  "last_updated": "2025-08-20T09:21:53.197122Z",
   "source": "https://docs.anthropic.com/sitemap.xml",
   "documents": {
     "amazon-bedrock": {
@@ -29,8 +29,8 @@
     },
     "costs": {
       "url": "https://docs.anthropic.com/en/docs/claude-code/costs",
-      "hash": "a1d8637771c0469a48d3aa1a13786610437864c3c0601296a61a4ceec6b5e2eb",
-      "last_fetched": "2025-08-17T16:59:23.461313Z"
+      "hash": "709e1fdc58e92f401e9e7223d5b60e51e20e71f171069b47f3a0f6e83ef1125f",
+      "last_fetched": "2025-08-19T09:52:26.407720Z"
     },
     "data-usage": {
       "url": "https://docs.anthropic.com/en/docs/claude-code/data-usage",
@@ -89,8 +89,8 @@
     },
     "mcp": {
       "url": "https://docs.anthropic.com/en/docs/claude-code/mcp",
-      "hash": "8a3cbb8b3bb4bd4a3a1d5596c3620cd6ce1e75ae4cb5fad63426890f1723ef0c",
-      "last_fetched": "2025-08-17T16:59:23.625667Z"
+      "hash": "c7ee422e5476da66d568679d061ea68fcaef48a26b459fe6bf5f831b23546620",
+      "last_fetched": "2025-08-20T09:21:48.546782Z"
     },
     "memory": {
       "url": "https://docs.anthropic.com/en/docs/claude-code/memory",
@@ -129,18 +129,18 @@
     },
     "settings": {
       "url": "https://docs.anthropic.com/en/docs/claude-code/settings",
-      "hash": "dad6ca1bd5a0e881886fbd15e3d1cd349c3bbbdcc139b65cd21e9697885cde53",
-      "last_fetched": "2025-08-17T16:59:23.723171Z"
+      "hash": "fff4d53bb9f29aa673ea1a4befffeb4700c6d48fd22c06ed59738b9b3d7c1fac",
+      "last_fetched": "2025-08-19T09:52:27.098410Z"
     },
     "setup": {
       "url": "https://docs.anthropic.com/en/docs/claude-code/setup",
-      "hash": "e1f2e3ff68552ed05704ea4e0ecc69ae5a9f9b9a4e6313e360fce4555931c8a7",
-      "last_fetched": "2025-08-17T16:59:23.724822Z"
+      "hash": "576fcbc79d36ef32b8fc70bd488d1297d714fbf422265692a7ab233b9d869623",
+      "last_fetched": "2025-08-19T09:52:27.090064Z"
     },
     "slash-commands": {
       "url": "https://docs.anthropic.com/en/docs/claude-code/slash-commands",
-      "hash": "24a8924495f52edd47b8eb778bd82b65d3bb41a7e803cc81488e46ea0b3fa93c",
-      "last_fetched": "2025-08-17T16:59:23.701058Z"
+      "hash": "d196c5cf49d7ae86357c2ab23ec90a4f15eafadea28dacf4ade9ff0a09f34234",
+      "last_fetched": "2025-08-19T09:52:27.091829Z"
     },
     "statusline": {
       "url": "https://docs.anthropic.com/en/docs/claude-code/statusline",
@@ -164,8 +164,8 @@
     },
     "troubleshooting": {
       "url": "https://docs.anthropic.com/en/docs/claude-code/troubleshooting",
-      "hash": "6ee1a02bbe287e8e92c9c6352a66411e510e4f28b446c51d1e10305babb35c9c",
-      "last_fetched": "2025-08-17T16:59:23.768323Z"
+      "hash": "37ac345e1928b67a1721e356c43b194c39e3ded2c2dc04785c861f537d92b70e",
+      "last_fetched": "2025-08-19T09:52:27.270777Z"
     }
   }
 }

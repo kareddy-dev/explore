@@ -33,7 +33,7 @@ This is a comprehensive documentation repository for Claude Code and development
     ├── claude-code/                     # Comprehensive Claude Code documentation
     │   ├── .docs-manifest.json          # Tracks document hashes for updates
     │   ├── README.md                    # Claude Code documentation overview
-    │   ├── CLAUDE-CODE-UPDATE-INFO.md   # Update tracking (v1.0.82, commit 4e63568ab)
+    │   ├── CLAUDE-CODE-UPDATE-INFO.md   # Update tracking (v1.0.84, commit da6d2f7)
     │   ├── advanced-techniques.md       # Expert patterns from Ray Fernando and Eric Buess
     │   ├── claude-code-guide.md         # Comprehensive overview with agents, output styles, MCP
     │   ├── cli-reference.md             # Complete CLI commands, flags, advanced config
@@ -159,7 +159,7 @@ This configuration can be used as a reference or template for MCP server setups.
   - Corporate proxy, Amazon Bedrock, Google Vertex AI support
 
 #### Update Tracking
-- `tools/claude-code/CLAUDE-CODE-UPDATE-INFO.md`: Tracks Claude Code v1.0.82 (commit 4e63568ab)
+- `tools/claude-code/CLAUDE-CODE-UPDATE-INFO.md`: Tracks Claude Code v1.0.84 (commit da6d2f7)
 - `tools/claude-code/frameworks/BMAD-UPDATE-INFO.md`: Tracks BMAD v4.39.1 (commit f3cc410fb) - ENHANCED with Brian's masterclass documentation
 
 ### MCP and Tool Documentation
@@ -191,7 +191,7 @@ Since this is a documentation repository:
 ### Version Tracking
 
 This repository tracks external documentation sources:
-- **Claude Code**: v1.0.82 (repository commit: 4e63568ab)
+- **Claude Code**: v1.0.84 (repository commit: da6d2f7)
 - **BMAD-METHOD**: v4.39.1 (repository commit: f3cc410fb) + Brian's masterclass enhancements
 
 ### Fetching Latest Documentation

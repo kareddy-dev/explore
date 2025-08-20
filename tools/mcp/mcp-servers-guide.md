@@ -3,8 +3,10 @@
 ## Overview
 Model Context Protocol (MCP) servers extend AI capabilities by providing specialized tools and data sources. Here are documented MCP servers and their configurations.
 
-### Recent Updates (Claude Code v1.0.82)
-- **Improved Tool Name Consistency**: MCP tool names are now more consistent across integrations, reducing confusion and improving reliability when working with multiple MCP servers.
+### Recent Updates (Claude Code v1.0.84)
+- **13 New Official MCP Servers**: Major expansion of available integrations including Box, Canva, Daloopa, Fireflies, HubSpot, Hugging Face, Jam, Monday, Netlify, Stytch, and Vercel
+- **Enhanced Figma Integration**: Updated Figma Dev Mode MCP Server with new endpoint (`http://127.0.0.1:3845/mcp`)
+- **Improved Tool Name Consistency**: MCP tool names are now more consistent across integrations, reducing confusion and improving reliability when working with multiple MCP servers
 
 ## Server Configurations
 
@@ -148,6 +150,84 @@ Model Context Protocol (MCP) servers extend AI capabilities by providing special
 - Installs from GitHub repository
 - Requires project path configuration
 - Context set to "ide-assistant"
+
+---
+
+### 4. Official MCP Servers (v1.0.84+)
+
+Claude Code v1.0.84 introduces 13 new officially supported MCP servers with OAuth authentication and hosted endpoints:
+
+#### Project Management & Documentation
+- **Box**: Enterprise content management with AI insights and workflow automation
+  - URL: `https://mcp.box.com/`
+  - Features: Content Q&A, unstructured data insights, automated workflows
+
+- **Fireflies**: Meeting transcript analysis and insights
+  - URL: `https://api.fireflies.ai/mcp`
+  - Features: Extract insights from meeting transcripts and summaries
+
+- **Monday**: Project management and board operations
+  - URL: `https://mcp.monday.com/sse` (SSE transport)
+  - Features: Create items, update columns, assign owners, set timelines, CRM activities
+
+#### Design & Media  
+- **Canva**: Design browsing, summarization, and generation
+  - URL: `https://mcp.canva.com/mcp`
+  - Features: Browse designs, autofill content, generate new designs
+
+- **Figma Dev Mode** (Updated): Design system access and asset export
+  - URL: `http://127.0.0.1:3845/mcp` (requires Figma Desktop)
+  - Features: Access designs, export assets from Dev Mode
+
+#### Development & Testing
+- **Hugging Face**: AI model hub and Gradio applications
+  - URL: `https://huggingface.co/mcp`
+  - Features: Access Hub information, interact with Gradio AI applications
+
+- **Jam**: Debug assistance with recording analysis
+  - URL: `https://mcp.jam.dev/mcp`
+  - Features: Debug with AI agents accessing video, console logs, network requests, errors
+
+#### Infrastructure & DevOps
+- **Netlify**: Website creation, deployment, and management
+  - URL: `https://netlify-mcp.netlify.app/mcp`
+  - Features: Site creation, secrets management, access controls, form submissions
+
+- **Stytch**: Authentication service configuration
+  - URL: `http://mcp.stytch.dev/mcp`
+  - Features: Configure auth services, redirect URLs, email templates, workspace settings
+
+- **Vercel**: Project and deployment management
+  - URL: `https://mcp.vercel.com/`
+  - Features: Documentation search, project management, deployment analysis, log analysis
+
+#### Databases & Data Management
+- **Daloopa**: Financial data from SEC filings and investor presentations
+  - URL: `https://mcp.daloopa.com/server/mcp`
+  - Features: High-quality fundamental financial data sourcing
+
+- **HubSpot**: CRM data access and management
+  - URL: `https://mcp.hubspot.com/anthropic`
+  - Features: Fetch contacts, companies, deals; create and update CRM records
+
+#### Setup for Official Servers
+
+All official servers use OAuth authentication and can be added via Claude Code:
+
+```bash
+# Add any official server (example with Vercel)
+claude mcp add --transport http vercel https://mcp.vercel.com/
+
+# Claude Code will handle OAuth flow
+# Follow prompts in your browser to authenticate
+```
+
+**Key Benefits of Official Servers:**
+- OAuth authentication (no manual token management)
+- Hosted endpoints (no local installation required)
+- Enterprise-grade reliability and security
+- Consistent tool naming and behavior
+- Automatic updates and maintenance
 
 ---
 
