@@ -68,11 +68,12 @@ mindmap
 4. [Subagents](gen/sub-agents.md) - Create specialized assistants
 
 #### 🌳 Advanced Users
-1. [Hooks Cookbook](hooks-cookbook.md) - Automation patterns
-2. [Custom Commands](custom-commands.md) - Build your command library
-3. [BMAD-METHOD Framework](frameworks/bmad-method.md) - Structured AI agent workflows
-4. [SDK Guide](gen/sdk.md) - Build custom agents
-5. [Performance Optimization](performance-optimization.md) - Handle large codebases
+1. [Anthropic Best Practices](anthropic-best-practices.md) - Internal usage patterns from Anthropic's Applied AI team
+2. [Hooks Cookbook](hooks-cookbook.md) - Automation patterns
+3. [Custom Commands](custom-commands.md) - Build your command library
+4. [BMAD-METHOD Framework](frameworks/bmad-method.md) - Structured AI agent workflows
+5. [SDK Guide](gen/sdk.md) - Build custom agents
+6. [Performance Optimization](performance-optimization.md) - Handle large codebases
 
 ## 📂 Complete File Index
 
@@ -80,6 +81,7 @@ mindmap
 
 #### Curated Guides (Experience-Based)
 - [`claude-code-guide.md`](claude-code-guide.md) - Comprehensive overview with architecture, MCP, best practices
+- [`anthropic-best-practices.md`](anthropic-best-practices.md) - Internal usage patterns and tips from Anthropic's Applied AI team
 - [`cli-reference.md`](cli-reference.md) - Complete CLI commands, flags, and configurations
 - [`workflow-examples.md`](workflow-examples.md) - Practical examples for real development scenarios
 

@@ -294,11 +294,17 @@ claude --mcp-config mcp1.json mcp2.json
 
 ### Available MCP Servers
 
-- **Development**: Sentry, Socket, GitHub
+Popular servers at Anthropic:
+- **Puppeteer/Playwright**: Frontend testing automation, screenshot-based iteration
+- **GitHub**: PR reviews, GitHub Actions integration
+- **SQL-based**: PostgreSQL, BigQuery for data analysis
+- **Figma**: Design file integration (uses API, not Dev Mode)
+
+Additional ecosystem:
+- **Development**: Sentry, Socket
 - **Project Management**: Linear, Asana, Atlassian
-- **Databases**: PostgreSQL, MongoDB, Redis
+- **Databases**: MongoDB, Redis
 - **Cloud Services**: AWS, GCP, Azure
-- **Design**: Figma, invideo
 - **Payments**: Stripe, PayPal
 
 See [MCP Servers Guide](../mcp/mcp-servers-guide.md) for detailed configurations.
@@ -392,7 +398,33 @@ Create a `CLAUDE.md` file in your project root:
 
 ## Development Workflow
 [How to build, test, deploy]
+
+## Dynamic Imports
+# Files to always load
+@README.md
+@docs/architecture.md
+@config/environment.ts
 ```
+
+#### Hierarchical Claude.md for Monorepos
+
+Based on Anthropic's internal usage:
+
+```bash
+monorepo/
+├── claude.md                    # Org-wide tools, conventions
+├── frontend/
+│   └── claude.md               # Frontend-specific context
+├── backend/
+│   └── claude.md               # Backend-specific context
+└── services/
+    ├── auth/
+    │   └── claude.md           # Auth service context
+    └── payments/
+        └── claude.md           # Payments context
+```
+
+Claude loads these **recursively from current directory up**, building layered context.
 
 ### 2. Effective Prompting
 
@@ -597,6 +629,47 @@ export USE_BUILTIN_RIPGREP=0
 ```
 
 ## Advanced Features
+
+### Multi-Agent Workflows (Anthropic Best Practice)
+
+Engineers at Anthropic typically run **2-4 Claude Code sessions simultaneously** for maximum productivity:
+
+```mermaid
+flowchart TD
+    A[Developer] --> B[Terminal 1: Feature Development]
+    A --> C[Terminal 2: Bug Fixes]
+    A --> D[Terminal 3: Refactoring]
+    A --> E[Terminal 4: Documentation]
+    
+    B --> F[Git Worktree 1]
+    C --> G[Git Worktree 2]
+    D --> H[Same Branch - Isolated Module]
+    E --> I[Same Branch - Docs]
+```
+
+#### Setting Up Parallel Sessions
+
+```bash
+# Create worktrees for parallel development
+git worktree add ../feature-auth feature/auth
+git worktree add ../bugfix-login bugfix/login
+
+# Terminal 1
+cd ../feature-auth
+claude "You are session 1 working on authentication feature"
+
+# Terminal 2
+cd ../bugfix-login
+claude "You are session 2 fixing login bug #123"
+```
+
+#### Managing Multiple Sessions
+
+Tips from Anthropic engineers:
+- Use **sticky notes** or task manager to track each session's purpose
+- Label sessions explicitly: "You are session 1 working on X"
+- Use **Plan Mode** for 10-15 minute autonomous tasks while managing other sessions
+- Query sessions when context switching: "Which session was this?"
 
 ### Background Processes
 
@@ -1155,6 +1228,48 @@ claude
 
 # Check trace output for raw API calls
 # Look for "system" field to see full prompt
+```
+
+## Claude Code SDK
+
+The SDK is increasingly used as a **general-purpose agent framework** beyond just coding tasks.
+
+### SDK Capabilities
+
+```python
+from claude_code import ClaudeCode
+
+# Configure agent behavior
+options = {
+    "tools": ["bash", "read", "write", "grep"],
+    "system_prompt": "You are a DevOps automation agent",
+    "max_turns": 20  # How many autonomous actions
+}
+
+# Use for any automation task
+claude = ClaudeCode(options)
+result = claude.run("Analyze production logs and create report")
+```
+
+### Use Cases at Anthropic
+
+Beyond traditional coding:
+- **CICD Automation**: GitHub Actions, build pipelines
+- **Observability**: Production monitoring and alerting
+- **Data Analysis**: BigQuery operations, report generation
+- **General Automation**: Any task requiring tool use and reasoning
+
+### Scripting Examples
+
+```bash
+# Quick command-line usage
+claude -p "Generate TypeScript interfaces" < data.json
+
+# Pipe git status for analysis
+git status | claude -p "What are my changes?"
+
+# Use with custom system prompt
+claude --append-system-prompt "Focus on security" -p "Review this code"
 ```
 
 ## Integration with Development Tools
