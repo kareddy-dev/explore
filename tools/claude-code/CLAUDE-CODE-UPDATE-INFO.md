@@ -1,15 +1,15 @@
 # Claude Code Documentation Update Information
 
 ## Last Documentation Update
-- **Date**: 2025-08-20
-- **Documentation Last Fetched**: 2025-08-20T09:21:53.197122Z (1 document updated)
+- **Date**: 2025-08-23
+- **Documentation Last Fetched**: 2025-08-23T17:32:00Z (7 documents updated)
 
 ## Repository Information
 - **Repository**: https://github.com/anthropics/claude-code
-- **Commit ID**: `da6d2f715e5081bf304e23aff6f282a73f0f9dc7`
+- **Commit ID**: `eb0e4345dd1e37b4cc087f4e6b60cc8f0dc0beaf`
 - **Commit Message**: "chore: Update CHANGELOG.md"
-- **Commit Date**: 2025-08-18
-- **Latest Version**: 1.0.84 (from CHANGELOG.md)
+- **Commit Date**: 2025-08-23
+- **Latest Version**: 1.0.88 (from CHANGELOG.md)
 - **NPM Package**: [@anthropic-ai/claude-code](https://www.npmjs.com/package/@anthropic-ai/claude-code)
 
 ## Source Locations
@@ -99,6 +99,9 @@ git diff tools/claude-code/gen/
 - `tools/scripts/docs-config.json` - Sources configuration
 
 ## Version History
+- **1.0.88** - Fixed "OAuth authentication is currently not supported" issue, status line input now includes `exceeds_200k_tokens`, fixed incorrect usage tracking in /cost, introduced `ANTHROPIC_DEFAULT_SONNET_MODEL` and `ANTHROPIC_DEFAULT_OPUS_MODEL` environment variables, Bedrock updated default Sonnet model to Sonnet 4
+- **1.0.86** - Added `/context` command for debugging context issues, SDK: Added UUID support for all messages, SDK: Added `--replay-user-messages` to replay user messages back to stdout
+- **1.0.85** - Status line input now includes session cost info, Hooks: Introduced SessionEnd hook
 - **1.0.84** - Built-in ripgrep by default (major performance improvement), 13 new MCP servers (Box, Canva, Daloopa, Fireflies, HubSpot, Hugging Face, Jam, Monday, Netlify, Stytch, Vercel, plus Figma updates), enhanced `/cost` command with detailed session statistics, search troubleshooting guide, tool ID mismatch fixes, real-time steering improvements, @-mention enhancements (~/.claude/ files)
 - **1.0.83** - @-mention files with spaces support, new shimmering spinner
 - **1.0.82** - SDK request cancellation, settings validation, MCP improvements

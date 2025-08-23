@@ -46,6 +46,8 @@ flowchart LR
 | **Notification** | Claude sends notification | Custom alerts, sounds | ❌ No |
 | **Stop** | Claude finishes response | Cleanup, summaries | ❌ No |
 | **SessionStart** | Session begins/resumes | Setup, environment check | ❌ No |
+| **SessionEnd** | Session ends | Cleanup, logging, state saving | ❌ No |
+| **SubagentStop** | Subagent finishes | Subagent cleanup | ✅ Yes |
 | **PreCompact** | Before compacting | Save state, backup | ❌ No |
 
 ## Auto-Formatting Recipes
@@ -156,6 +158,46 @@ Run flake8 and mypy:
             "command": "#!/bin/bash\nif [[ \"$CLAUDE_TOOL_PARAMS_FILE_PATH\" =~ \\.py$ ]]; then\n  flake8 \"$CLAUDE_TOOL_PARAMS_FILE_PATH\" 2>&1 | head -10\n  mypy \"$CLAUDE_TOOL_PARAMS_FILE_PATH\" 2>&1 | head -10\nfi"
           }
         ]
+      }
+    ]
+  }
+}
+```
+
+### Bash Command Validator
+
+Enforce best practices for bash commands (based on `examples/hooks/bash_command_validator_example.py`):
+
+```python
+#!/usr/bin/env python3
+"""Force use of ripgrep over grep for better performance"""
+import json, re, sys
+
+VALIDATION_RULES = [
+    (r"^grep\b(?!.*\|)", "Use 'rg' (ripgrep) instead of 'grep' for better performance"),
+    (r"^find\s+\S+\s+-name\b", "Use 'rg --files -g pattern' instead of 'find -name'"),
+]
+
+input_data = json.loads(sys.stdin.read())
+if input_data.get("tool_name") == "Bash":
+    command = input_data.get("tool_input", {}).get("command", "")
+    for pattern, message in VALIDATION_RULES:
+        if re.search(pattern, command):
+            print(f"• {message}", file=sys.stderr)
+            sys.exit(2)  # Block and show to Claude
+```
+
+Configuration:
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [{
+          "type": "command",
+          "command": "python3 /path/to/validator.py"
+        }]
       }
     ]
   }
@@ -513,6 +555,96 @@ Check for missing environment variables:
 }
 ```
 
+## Session Management
+
+### Session Analytics
+
+Track session statistics and duration:
+
+```json
+{
+  "hooks": {
+    "SessionEnd": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "#!/bin/bash\nSESSION_FILE=\"~/.claude/sessions/${CLAUDE_SESSION_ID}.log\"\nmkdir -p \"$(dirname \"$SESSION_FILE\")\"\necho \"Session ended: $(date)\" >> \"$SESSION_FILE\"\necho \"Reason: $CLAUDE_SESSION_END_REASON\" >> \"$SESSION_FILE\"\necho \"Working directory: $CLAUDE_CWD\" >> \"$SESSION_FILE\"\necho \"Duration: $(($(date +%s) - ${CLAUDE_SESSION_START:-$(date +%s)})) seconds\" >> \"$SESSION_FILE\"\necho \"---\" >> \"$SESSION_FILE\""
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### Auto-Save Work
+
+Save uncommitted changes when session ends:
+
+```json
+{
+  "hooks": {
+    "SessionEnd": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "#!/bin/bash\nif [ -d \".git\" ]; then\n  CHANGES=$(git status --porcelain 2>/dev/null)\n  if [ -n \"$CHANGES\" ]; then\n    echo \"💾 Saving uncommitted changes...\"\n    git stash push -m \"Auto-save: Session ended at $(date)\" 2>&1\n    echo \"✅ Changes saved to git stash\"\n  fi\nfi"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### Cleanup Temporary Files
+
+Remove temporary files and cache when session ends:
+
+```json
+{
+  "hooks": {
+    "SessionEnd": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "#!/bin/bash\n# Clean up temp files\nif [ -d \"./tmp\" ]; then\n  echo \"🧹 Cleaning up temporary files...\"\n  rm -rf ./tmp/* 2>/dev/null\nfi\n# Clear node_modules cache if needed\nif [ -f \".clear-cache-on-exit\" ]; then\n  npm cache clean --force 2>/dev/null\n  rm .clear-cache-on-exit\nfi"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### Session Summary Report
+
+Generate a summary of work done in the session:
+
+```json
+{
+  "hooks": {
+    "SessionEnd": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "#!/bin/bash\nif [ -f \"$CLAUDE_TRANSCRIPT_PATH\" ]; then\n  echo \"📊 Session Summary:\"\n  echo \"-------------------\"\n  # Count tool uses\n  EDITS=$(grep -c '\"tool_name\":\"Edit\"' \"$CLAUDE_TRANSCRIPT_PATH\" 2>/dev/null || echo 0)\n  READS=$(grep -c '\"tool_name\":\"Read\"' \"$CLAUDE_TRANSCRIPT_PATH\" 2>/dev/null || echo 0)\n  BASH=$(grep -c '\"tool_name\":\"Bash\"' \"$CLAUDE_TRANSCRIPT_PATH\" 2>/dev/null || echo 0)\n  echo \"📝 Files edited: $EDITS\"\n  echo \"📖 Files read: $READS\"\n  echo \"⚡ Commands run: $BASH\"\n  echo \"⏱️ Session ended: $CLAUDE_SESSION_END_REASON\"\nfi"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
 ## Advanced Patterns
 
 ### Contextual Hooks
@@ -591,6 +723,98 @@ Provide contextual suggestions:
   }
 }
 ```
+
+### Advanced Hook Output Control
+
+Control hook behavior with JSON output:
+
+```python
+#!/usr/bin/env python3
+import json
+import sys
+
+# Read hook input
+input_data = json.loads(sys.stdin.read())
+
+# Example: PreToolUse permission control
+if input_data.get('hook_event_name') == 'PreToolUse':
+    tool_name = input_data.get('tool_name', '')
+    
+    # Modern approach (recommended)
+    output = {
+        "hookSpecificOutput": {
+            "hookEventName": "PreToolUse",
+            "permissionDecision": "allow",  # or "deny", "ask"
+            "permissionDecisionReason": "Tool approved by security policy"
+        }
+    }
+    
+    # Add system message if needed
+    if tool_name == 'Bash':
+        output["systemMessage"] = "⚠️ Remember: Bash commands are being monitored"
+    
+    print(json.dumps(output))
+    sys.exit(0)
+
+# Example: PostToolUse with additional context
+if input_data.get('hook_event_name') == 'PostToolUse':
+    output = {
+        "hookSpecificOutput": {
+            "hookEventName": "PostToolUse",
+            "additionalContext": "File was automatically formatted"
+        }
+    }
+    print(json.dumps(output))
+    sys.exit(0)
+
+# Example: Stop execution with reason
+if input_data.get('hook_event_name') == 'UserPromptSubmit':
+    prompt_text = input_data.get('prompt_text', '')
+    
+    if 'production' in prompt_text.lower():
+        output = {
+            "continue": False,
+            "stopReason": "Production operations require manual approval",
+            "systemMessage": "⚠️ Production keyword detected - manual review required"
+        }
+        print(json.dumps(output))
+        sys.exit(1)  # Non-zero exit also blocks
+```
+
+**Note**: The `decision` and `reason` fields are deprecated for PreToolUse hooks. Use `hookSpecificOutput.permissionDecision` and `hookSpecificOutput.permissionDecisionReason` instead.
+
+### Hook Deduplication
+
+Claude Code automatically deduplicates identical hook commands for better performance:
+
+```json
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "prettier --write $CLAUDE_TOOL_PARAMS_FILE_PATH"
+          }
+        ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "prettier --write $CLAUDE_TOOL_PARAMS_FILE_PATH"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+In this example, if both matchers trigger, the prettier command only runs once.
 
 ## Troubleshooting
 

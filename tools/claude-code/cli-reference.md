@@ -149,6 +149,8 @@ flowchart LR
 | `/resume` | List resumable conversations |
 | `/reset` | Reset current conversation |
 | `/cost` | Show detailed token usage and session statistics (v1.0.84+) |
+| `/context` | Debug context issues and check what's being included (v1.0.86+) |
+| `/doctor` | Run diagnostic checks for Claude Code |
 
 ### Model Control
 
@@ -279,6 +281,12 @@ claude "Search GitHub issues for authentication bugs"
 | `/add <path>` | Add file to context | `/add src/main.js` |
 | `/remove <path>` | Remove file from context | `/remove src/test.js` |
 | `/files` | List files in context | `/files` |
+
+**@-Mentions in Commands** (v1.0.70+):
+- Use @-mentions in slash command arguments for file references
+- Supports files with spaces in paths (v1.0.83+)
+- Works with `~/.claude/*` files for agents, output styles, and commands (v1.0.84+)
+- Example: `/add @main.js` or `/custom-command @config.json`
 
 ### Task Management
 
@@ -420,6 +428,10 @@ export ANTHROPIC_BASE_URL="https://custom-api.example.com"
 
 # API version
 export ANTHROPIC_API_VERSION="2024-01-01"
+
+# Default model aliases (v1.0.88+)
+export ANTHROPIC_DEFAULT_SONNET_MODEL="claude-3-5-sonnet-20241022"
+export ANTHROPIC_DEFAULT_OPUS_MODEL="claude-3-opus-20240229"
 ```
 
 ### Behavior Settings
@@ -436,6 +448,9 @@ export CLAUDE_TELEMETRY_DISABLED="1"
 
 # Custom config directory
 export CLAUDE_CONFIG_DIR="~/.config/claude-code"
+
+# Use built-in ripgrep (v1.0.84+, enabled by default)
+export USE_BUILTIN_RIPGREP="0"  # Set to 0 to use system ripgrep
 ```
 
 ### Debug & Logging
@@ -590,11 +605,20 @@ claude
 # Look for "system" field in the JSON
 ```
 
-### SDK Enhancements (v1.0.82)
+### SDK Enhancements
 
 Claude Code's programmatic interface has been enhanced with several new capabilities:
 
-#### Request Cancellation
+#### UUID Support (v1.0.86)
+All SDK messages now include UUID support for better message tracking and correlation.
+
+#### User Message Replay (v1.0.86)
+```bash
+# Replay user messages back to stdout
+claude --replay-user-messages
+```
+
+#### Request Cancellation (v1.0.82)
 The SDK now supports canceling long-running operations:
 ```bash
 # Operations can be cancelled mid-execution

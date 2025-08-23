@@ -1,11 +1,11 @@
 # BMAD-METHOD Update Information
 
 ## Last Documentation Update
-- **Date**: 2025-08-17
+- **Date**: 2025-08-23
 - **Repository**: https://github.com/bmad-code-org/BMAD-METHOD
-- **Commit ID**: `f3cc410fb052eb0cb1162ffdb721c0c50e8b4867`
-- **Commit Message**: "patch: move script to tools folder"
-- **Version**: 4.39.1
+- **Commit ID**: `ab70bacef959a69c7a0c28e33ba43b1e96fb5e48`
+- **Commit Message**: "fix: remove incorrect else branch causing flatten command regression (#452)"
+- **Version**: 4.39.1 (no version change, bug fixes only)
 - **NPM Package**: [bmad-method](https://www.npmjs.com/package/bmad-method)
 - **Video Reference**: "The Official BMad-Method Masterclass (The Complete IDE Workflow)" - YouTube
 
@@ -18,6 +18,11 @@
 2. Updated `/tools/claude-code/README.md` - Added BMAD references
 3. Updated `/tools/claude-code/workflow-examples.md` - Added BMAD workflow section
 4. Updated `/tools/claude-code/claude-code-guide.md` - Added BMAD framework section
+
+### Recent Changes (2025-08-23)
+- Fixed flatten command regression issue
+- Updated documentation to use BMAD-METHOD™ trademark
+- Minor bug fixes and documentation improvements
 
 ### Major Enhancements Added (2025-08-17)
 Based on Brian's masterclass video, added comprehensive documentation for:

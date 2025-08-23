@@ -576,6 +576,7 @@ For more expert techniques including hooks vs slash commands, subagent orchestra
 | Permission denied | Check file permissions and tool access |
 | Context too large | Use `.claudeignore` to exclude files |
 | MCP connection failed | Verify server configuration and tokens |
+| OAuth authentication error | Update to v1.0.88+ (fixes "OAuth authentication is currently not supported") |
 | Search/discovery not working | Install system `ripgrep` and set `USE_BUILTIN_RIPGREP=0` |
 | @file mentions failing | Install `ripgrep` (see search troubleshooting below) |
 
@@ -694,10 +695,39 @@ cat data.json | claude -p "Generate TypeScript interfaces"
 
 ### Custom Status Line
 
-Personalize your Claude Code prompt:
+Personalize your Claude Code prompt with dynamic information:
 
 ```bash
 /statusline
+```
+
+The status line receives real-time data including:
+- Current model and version information
+- Workspace and project directories
+- Output style configuration
+- **Cost tracking data** (v1.0.85+)
+  - Total cost in USD
+  - Total duration and API time
+  - Lines added/removed statistics
+- **Context size indicator** (v1.0.88+)
+  - `exceeds_200k_tokens` flag when context is large
+
+Example status line script with cost tracking:
+
+```bash
+#!/bin/bash
+input=$(cat)
+get_cost() { echo "$input" | jq -r '.cost.total_cost_usd // 0'; }
+get_duration() { echo "$input" | jq -r '.cost.total_duration_ms // 0'; }
+get_lines_added() { echo "$input" | jq -r '.cost.total_lines_added // 0'; }
+get_lines_removed() { echo "$input" | jq -r '.cost.total_lines_removed // 0'; }
+
+COST=$(get_cost)
+DURATION=$(($(get_duration) / 1000))
+LINES_ADDED=$(get_lines_added)
+LINES_REMOVED=$(get_lines_removed)
+
+echo "💰 \$${COST} | ⏱️ ${DURATION}s | +${LINES_ADDED}/-${LINES_REMOVED} lines"
 ```
 
 ### Output Styles
@@ -1300,12 +1330,39 @@ WORKDIR /app
 CMD ["claude"]
 ```
 
+## Platform-Specific Improvements
+
+### Windows Support (v1.0.70-v1.0.88)
+- Native file search and ripgrep functionality
+- Improved permissions checks for allow/deny tools
+- Better sub-process spawning (eliminates "No such file or directory" errors)
+- Shell environment setup for users without .bashrc files
+- Fixed connection stability issues
+
+### Amazon Bedrock (v1.0.88)
+- Updated default Sonnet model to Sonnet 4
+- Environment variables for model aliases:
+  - `ANTHROPIC_DEFAULT_SONNET_MODEL`
+  - `ANTHROPIC_DEFAULT_OPUS_MODEL`
+
+## Security
+
+### Reporting Security Issues
+Security vulnerabilities should be reported through Anthropic's [HackerOne program](https://hackerone.com/anthropic-vdp).
+
+### Security Best Practices
+- Never commit API keys or secrets
+- Use environment variables for sensitive configuration
+- Review hook scripts before enabling them
+- Be cautious with `allow` permission mode
+
 ## Resources
 
 - [Official Documentation](https://docs.anthropic.com/en/docs/claude-code/overview)
 - [GitHub Repository](https://github.com/anthropics/claude-code)
 - [MCP Protocol Spec](https://modelcontextprotocol.io)
-- [Community Discord](https://discord.gg/anthropic)
+- [Claude Developers Discord](https://anthropic.com/discord)
+- [Security Reporting](https://hackerone.com/anthropic-vdp)
 
 ## Next Steps
 
