@@ -10,6 +10,7 @@
 - [Project Indexing System](#project-indexing-system)
 - [Validation and Testing Patterns](#validation-and-testing-patterns)
 - [Subagent Orchestration](#subagent-orchestration)
+- [CLI Tool Integration (Bash Apps)](#cli-tool-integration-bash-apps)
 - [Workflow Optimization Tips](#workflow-optimization-tips)
 - [BMAD-METHOD Advanced Features](#bmad-method-advanced-features)
 
@@ -400,6 +401,148 @@ For structured agent-driven development with advanced creative techniques, see t
 
 See the complete [BMAD workflow example](frameworks/bmad-method.md#example-2-complete-workflow-from-video-tutorial) for a step-by-step walkthrough.
 
+## CLI Tool Integration (Bash Apps)
+
+The "Bash Apps" pattern represents one of the most powerful advanced techniques: transforming any command-line tool into an intelligent Claude Code agent.
+
+### Core Concept
+
+Instead of manually running CLI commands, create specialized agents that:
+- Wrap existing tools with intelligence layers
+- Add validation, smart defaults, and error handling
+- Integrate seamlessly with Claude Code workflows
+- Preserve context within the coding session
+
+### Architecture Pattern
+
+```mermaid
+flowchart LR
+    A[User Intent] --> B[Claude Agent]
+    B --> C[CLAUDE.md Rules]
+    C --> D[Python/Click Wrapper]
+    D --> E[Original CLI Tool]
+    E --> F[Smart Processing]
+    F --> G[Structured Storage]
+    G --> H[Intelligent Response]
+```
+
+### Implementation Strategy
+
+**1. Tool Selection**
+```bash
+# Choose tools you use regularly
+# Examples: git-ingest, youtube-dl, pandoc, ffmpeg, aria2
+claude "Create an intelligent wrapper for [CLI_TOOL]"
+```
+
+**2. Intelligent Wrapper (Click Framework)**
+```python
+import click
+
+@click.group()
+def smart_tool():
+    """Intelligent CLI tool wrapper"""
+    pass
+
+@click.command()
+@click.argument('input_data')
+def process(input_data):
+    # Add validation logic
+    # Call original tool with smart defaults
+    # Process and store results intelligently
+    pass
+```
+
+**3. Agent Instructions (CLAUDE.md)**
+```markdown
+# Smart Tool Agent
+
+You are a specialized agent for [TOOL]. 
+
+## Workflow
+1. Validate inputs automatically
+2. Use smart-tool command with appropriate flags
+3. Process outputs and provide analysis
+4. Store results in organized structure
+
+## Commands
+- `python smart_tool.py process <input>`: Main processing command
+```
+
+### Advanced Patterns
+
+**Multi-Tool Orchestration**
+```python
+# Combine multiple CLI tools in one agent
+@click.command()
+def full_pipeline(input_file):
+    # Step 1: Convert format
+    converted = run_converter(input_file)
+    # Step 2: Analyze content  
+    analysis = run_analyzer(converted)
+    # Step 3: Generate report
+    report = create_report(analysis)
+    return report
+```
+
+**Context-Aware Processing**
+```python
+def detect_project_context():
+    """Adapt tool behavior based on project type"""
+    if Path('package.json').exists():
+        return 'nodejs'
+    elif Path('requirements.txt').exists():
+        return 'python'
+    return 'generic'
+```
+
+**Adaptive Learning**
+```python
+class UsageTracker:
+    def track_usage(self, command, params):
+        # Learn from usage patterns
+        # Suggest optimal settings
+        pass
+```
+
+### Success Metrics
+
+- **Development Time**: 2-3 hours for complete bash app
+- **Token Efficiency**: 50-80% reduction in context usage
+- **Workflow Integration**: Eliminates tool switching
+- **Intelligence Amplification**: Adds smart defaults and validation
+
+### Real-World Example: Git Agent
+
+A practical bash app that processes GitHub repositories:
+
+```bash
+# Traditional workflow (manual, error-prone)
+git-ingest https://github.com/user/repo
+wc -w output.txt  # Check size manually
+# Copy to Claude Desktop, lose context
+
+# Bash app workflow (intelligent, integrated)
+claude "Analyze this repository: https://github.com/user/repo"
+# Agent automatically:
+# - Checks repo size
+# - Extracts appropriate content
+# - Analyzes with full context
+# - Stores structured results
+```
+
+**Key Insight**: "Every CLI tool you use regularly is a candidate for becoming a specialized Claude Code agent."
+
+### Getting Started
+
+1. **Choose Your Tool**: Pick one CLI utility you use frequently
+2. **Create Basic Wrapper**: Use Click framework for command structure
+3. **Add Intelligence**: Validation, smart defaults, error handling
+4. **Integrate with Claude**: Create CLAUDE.md instructions
+5. **Iterate**: Add features based on real usage patterns
+
+For complete implementation details, see [Bash Apps CLI Agents Guide](bash-apps-cli-agents.md).
+
 ## Conclusion
 
 Advanced Claude Code usage is about:
@@ -407,7 +550,8 @@ Advanced Claude Code usage is about:
 2. **Appropriate thinking modes** - Match complexity to token usage
 3. **Systematic validation** - Never trust, always verify
 4. **Smart orchestration** - Use subagents for isolation and parallelism
-5. **Continuous optimization** - Every failure is a learning opportunity
-6. **Structured workflows** - Consider BMAD-METHOD for complex projects
+5. **CLI tool integration** - Transform utilities into intelligent agents
+6. **Continuous optimization** - Every failure is a learning opportunity
+7. **Structured workflows** - Consider BMAD-METHOD for complex projects
 
 Remember: "The capability is literally almost infinite... in many directions." - Ray Fernando

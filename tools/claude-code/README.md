@@ -27,6 +27,7 @@ mindmap
     Curated Guides
       Practical Examples
       Workflow Patterns
+      CLI Tool Agents
       Advanced Techniques
     Cookbooks
       Hooks Recipes
@@ -49,6 +50,7 @@ mindmap
 | **Use Subagents** | [Subagents Guide](gen/sub-agents.md) → [Subagent Templates](subagent-templates.md) |
 | **Connect Tools** | [MCP Integration](gen/mcp.md) → [MCP Servers Guide](../mcp/mcp-servers-guide.md) |
 | **Use AI Frameworks** | [BMAD-METHOD](frameworks/bmad-method.md) → [Structured Development Workflow](frameworks/bmad-method.md#workflow-phases) |
+| **Build CLI Agents** | [Bash Apps Guide](bash-apps-cli-agents.md) → [CLI Tool Integration Patterns](bash-apps-cli-agents.md#templates) |
 | **Customize Behavior** | [Output Styles](gen/output-styles.md) → [Hooks Guide](gen/hooks-guide.md) |
 | **Debug Issues** | [Troubleshooting](gen/troubleshooting.md) → [Performance Guide](performance-optimization.md) |
 | **Enterprise Setup** | [Security](gen/security.md) → [Amazon Bedrock](gen/amazon-bedrock.md) → [Google Vertex](gen/google-vertex-ai.md) |
@@ -86,6 +88,7 @@ mindmap
 - [`workflow-examples.md`](workflow-examples.md) - Practical examples for real development scenarios
 
 #### Cookbooks & Templates (New)
+- [`bash-apps-cli-agents.md`](bash-apps-cli-agents.md) - Build intelligent CLI tool agents with Click framework
 - [`hooks-cookbook.md`](hooks-cookbook.md) - Advanced hook patterns and recipes
 - [`custom-commands.md`](custom-commands.md) - Library of useful custom slash commands
 - [`subagent-templates.md`](subagent-templates.md) - Pre-built subagent configurations

@@ -19,6 +19,7 @@ Practical examples and patterns for using Claude Code in real-world development 
 - [Performance Optimization](#performance-optimization)
 - [Security Auditing](#security-auditing)
 - [DevOps Tasks](#devops-tasks)
+- [CLI Tool Integration](#cli-tool-integration)
 
 ## Expert Setup & Configuration
 
@@ -2031,8 +2032,140 @@ claude --add-dir src/components "Work only with React components"
 claude "First, just analyze the structure without making changes"
 ```
 
+## CLI Tool Integration
+
+Build intelligent agents that wrap command-line tools using the "Bash Apps" pattern. This allows you to transform any CLI utility into a specialized Claude Code agent.
+
+### Building a Simple CLI Agent
+
+```mermaid
+flowchart TD
+    A[User Request] --> B[Claude Code Agent]
+    B --> C[CLAUDE.md Instructions]
+    C --> D[Python CLI Wrapper]
+    D --> E[Original CLI Tool]
+    E --> F[Structured Output]
+    F --> G[Analysis & Response]
+    
+    style B fill:#e1f5fe
+    style D fill:#f3e5f5
+    style F fill:#e8f5e8
+```
+
+**Step 1: Choose Your Tool**
+```bash
+# Example: youtube-dl for video downloads
+claude "I want to create an intelligent video downloader agent using youtube-dl"
+```
+
+**Step 2: Create the Wrapper**
+```python
+# video_agent.py
+import click
+import subprocess
+
+@click.group()
+def video_agent():
+    """Intelligent video download agent"""
+    pass
+
+@click.command()
+@click.argument('url')
+@click.option('--format', default='best')
+def download(url, format):
+    """Download video with smart format selection"""
+    
+    # Validate URL
+    if not url.startswith(('http://', 'https://')):
+        click.echo("Error: Invalid URL")
+        return
+    
+    # Auto-detect best format for mobile videos
+    if 'youtube.com' in url and format == 'best':
+        format = 'best[height<=720]'
+    
+    # Execute youtube-dl with enhanced options
+    cmd = ['youtube-dl', '--format', format, url]
+    subprocess.run(cmd)
+    
+    click.echo(f"Downloaded: {url}")
+
+video_agent.add_command(download)
+```
+
+**Step 3: Configure Claude Code**
+```markdown
+# CLAUDE.md
+
+## Video Agent Instructions
+
+You are a specialized agent for downloading videos using the video-agent CLI tool.
+
+### Commands
+- `python video_agent.py download <url>`: Download video with smart format detection
+- `python video_agent.py download <url> --format <format>`: Download with specific format
+
+### Workflow
+1. Always validate URLs before processing
+2. Suggest optimal formats based on content type
+3. Provide download progress and completion status
+4. Organize downloads in structured folders
+```
+
+### Advanced CLI Agent Example
+
+```bash
+# Create a repository analyzer agent
+claude "Help me build a git-agent that intelligently analyzes GitHub repositories"
+
+# Claude will create:
+# 1. CLI wrapper with Click framework
+# 2. Size checking and intelligent content extraction
+# 3. Structured storage system
+# 4. Analysis templates and workflows
+```
+
+**Key Components:**
+- **CLI Wrapper**: Python script using Click framework
+- **Intelligence Layer**: Smart defaults, validation, and error handling
+- **Storage System**: Organized data and analysis folders
+- **Agent Instructions**: CLAUDE.md file defining behavior
+
+### Common CLI Tool Patterns
+
+**File Converters (pandoc, ffmpeg)**
+```bash
+claude "Create an intelligent document converter using pandoc"
+# Automatically detects formats, optimizes settings, batch processing
+```
+
+**Download Tools (aria2, gallery-dl)**
+```bash
+claude "Build a smart downloader agent with aria2"
+# URL validation, resume capability, progress tracking
+```
+
+**Analysis Tools (cloc, tree, grep)**
+```bash
+claude "Create a codebase analyzer using multiple CLI tools"
+# Combines tools, generates reports, tracks changes over time
+```
+
+### Benefits of CLI Tool Integration
+
+1. **Workflow Integration**: Tools become part of your development process
+2. **Intelligence Layer**: Add validation, smart defaults, and error handling
+3. **Context Preservation**: All processing within Claude Code's context
+4. **Automation**: Eliminate repetitive manual steps
+5. **Structured Storage**: Organize results for future reference
+
+> 💡 **Pro Tip**: Start with a CLI tool you use regularly. Create a basic wrapper, then gradually add intelligence and automation features. Most bash apps can be built in 1-2 hours.
+
+For detailed implementation guides, see [Bash Apps CLI Agents](bash-apps-cli-agents.md).
+
 ## See Also
 
+- [Bash Apps CLI Agents](bash-apps-cli-agents.md) - Complete guide to building CLI tool agents
 - [Claude Code Guide](./claude-code-guide.md) - Complete overview
 - [CLI Reference](./cli-reference.md) - All commands and options
 - [MCP Integration](../mcp/mcp-servers-guide.md) - External service connections
