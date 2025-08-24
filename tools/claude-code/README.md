@@ -33,6 +33,7 @@ mindmap
       Hooks Recipes
       Custom Commands
       Subagent Templates
+      Subagent Workflows
     Frameworks
       BMAD-METHOD
       Development Methodologies
@@ -47,7 +48,7 @@ mindmap
 | **Get Started** | [Quickstart](gen/quickstart.md) → [Setup](gen/setup.md) |
 | **Learn Commands** | [CLI Reference](cli-reference.md) → [Slash Commands](gen/slash-commands.md) |
 | **Build Features** | [Workflow Examples](workflow-examples.md) → [Common Workflows](gen/common-workflows.md) |
-| **Use Subagents** | [Subagents Guide](gen/sub-agents.md) → [Subagent Templates](subagent-templates.md) |
+| **Use Subagents** | [Subagent Workflows Guide](subagent-workflows-guide.md) → [Subagent Templates](subagent-templates.md) |
 | **Connect Tools** | [MCP Integration](gen/mcp.md) → [MCP Servers Guide](../mcp/mcp-servers-guide.md) |
 | **Use AI Frameworks** | [BMAD-METHOD](frameworks/bmad-method.md) → [Structured Development Workflow](frameworks/bmad-method.md#workflow-phases) |
 | **Build CLI Agents** | [Bash Apps Guide](bash-apps-cli-agents.md) → [CLI Tool Integration Patterns](bash-apps-cli-agents.md#templates) |
@@ -88,6 +89,7 @@ mindmap
 - [`workflow-examples.md`](workflow-examples.md) - Practical examples for real development scenarios
 
 #### Cookbooks & Templates (New)
+- [`subagent-workflows-guide.md`](subagent-workflows-guide.md) - Complete guide to practical subagent development workflows
 - [`bash-apps-cli-agents.md`](bash-apps-cli-agents.md) - Build intelligent CLI tool agents with Click framework
 - [`hooks-cookbook.md`](hooks-cookbook.md) - Advanced hook patterns and recipes
 - [`custom-commands.md`](custom-commands.md) - Library of useful custom slash commands

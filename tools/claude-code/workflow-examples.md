@@ -19,6 +19,7 @@ Practical examples and patterns for using Claude Code in real-world development 
 - [Performance Optimization](#performance-optimization)
 - [Security Auditing](#security-auditing)
 - [DevOps Tasks](#devops-tasks)
+- [Subagent Development Workflows](#subagent-development-workflows)
 - [CLI Tool Integration](#cli-tool-integration)
 
 ## Expert Setup & Configuration
@@ -2031,6 +2032,227 @@ claude --add-dir src/components "Work only with React components"
 # Break down large tasks
 claude "First, just analyze the structure without making changes"
 ```
+
+## Subagent Development Workflows
+
+Create specialized AI agents with their own context windows and expertise areas. Transform from a solo developer into a complete development team.
+
+### Understanding Subagent Benefits
+
+**Traditional Single-Agent Problems:**
+- Context window degradation after 50% usage
+- Mixed concerns and unfocused responses
+- Generic solutions for specialized problems
+
+**Subagent Solution:**
+```mermaid
+flowchart LR
+    A[Complex Task] --> B[Main Agent]
+    B -->|UI Issues| C[Design System Enforcer<br/>Fresh 200K Context]
+    B -->|Code Quality| D[Code Reviewer<br/>Fresh 200K Context]
+    B -->|Testing| E[Test Generator<br/>Fresh 200K Context]
+    
+    C --> F[Specialized Results]
+    D --> F
+    E --> F
+    
+    style C fill:#e1f5fe
+    style D fill:#e8f5e8
+    style E fill:#f3e5f5
+```
+
+### Creating Your First Subagent
+
+**Step 1: Access Agent Interface**
+```bash
+/agents
+```
+
+**Step 2: Describe in Plain English**
+```bash
+# Claude automatically generates comprehensive instructions
+"Create an expert designer that enforces our Tailwind v4 design system, 
+8-point grid, typography hierarchy, and mobile responsiveness"
+```
+
+**Key Discovery**: Claude Code automatically scans your codebase and incorporates existing patterns into the agent's instructions.
+
+### Real-World Example: Design System Enforcer
+
+**The Problem**: Inconsistent UI with mixed spacing, poor mobile experience, truncated text
+
+**The Solution**: Specialized design agent that automatically fixes UI issues
+
+```bash
+# Simple request with screenshot
+claude "Fix this UI layout for mobile and desktop"
+
+# Agent automatically:
+# 1. Analyzes existing design patterns
+# 2. Applies 8-point grid system
+# 3. Fixes responsive breakpoints
+# 4. Improves text handling
+# 5. Iterates for mobile optimization
+```
+
+**Before Agent**:
+```jsx
+// Inconsistent spacing, truncated text
+<div className="py-4 px-3">
+  <span className="truncate">{fileName}</span>
+  <Icon size={16} />
+</div>
+```
+
+**After Agent**:
+```jsx
+// 8-point grid, responsive, proper text handling
+<div className="py-4 px-6 sm:px-4">
+  <span className="break-words text-sm font-medium">
+    {fileName}
+  </span>
+  <Icon size={20} className="flex-shrink-0" />
+</div>
+```
+
+### Solo Developer Team Strategy
+
+**Essential Agents for Solo Developers:**
+
+```mermaid
+mindmap
+  root((Solo Developer Team))
+    Code Quality
+      Code Reviewer
+      Refactoring Expert
+      Clean Code Enforcer
+    Design & UX
+      Design System Enforcer
+      UI/UX Reviewer
+      Accessibility Auditor
+    Testing & QA
+      Test Generator
+      Bug Hunter
+      QA Specialist
+    DevOps
+      CI/CD Expert
+      Security Scanner
+      Performance Monitor
+```
+
+**Daily Workflow Integration:**
+```bash
+# Morning: Review overnight changes
+claude "Use code-reviewer agent to analyze yesterday's commits"
+
+# Feature development: Design-first approach
+claude "Use design-system-enforcer to review this mockup"
+
+# Pre-deployment: Quality gates
+claude "Use test-generator to create comprehensive tests"
+claude "Use security-auditor to scan for vulnerabilities"
+
+# Post-deployment: Documentation
+claude "Use documentation-writer to update API docs"
+```
+
+### Advanced Workflow Patterns
+
+**Sequential Agent Pipeline:**
+```bash
+# Multi-stage development process
+claude "Chain agents for feature development:
+1. product-manager: Analyze requirements
+2. design-system-enforcer: Create UI specs
+3. senior-developer: Implement feature
+4. code-reviewer: Quality review
+5. test-generator: Create tests
+6. documentation-writer: Update docs"
+```
+
+**Parallel Agent Research:**
+```bash
+# Multiple agents researching simultaneously
+claude "Create parallel research streams:
+1. security-auditor: Authentication vulnerabilities
+2. performance-optimizer: Bottleneck analysis
+3. code-reviewer: Technical debt assessment"
+```
+
+### Future Automation Potential
+
+**GitHub Issues Integration:**
+```yaml
+# .github/workflows/agent-dispatch.yml
+name: Claude Agent Dispatcher
+on:
+  issues:
+    types: [opened, labeled]
+
+jobs:
+  dispatch-agent:
+    if: contains(github.event.issue.labels.*.name, 'ui-fix')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: anthropic/claude-code-action@v1
+        with:
+          agent: design-system-enforcer
+          task: ${{ github.event.issue.body }}
+```
+
+**CI/CD Quality Gates:**
+```yaml
+steps:
+  - name: Code Review Agent
+    run: claude "Use code-reviewer agent to analyze changed files"
+    
+  - name: Security Audit
+    run: claude "Use security-auditor to scan for vulnerabilities"
+```
+
+### Best Practices
+
+**1. Agent Naming Conventions**
+```bash
+# Role-based naming
+code-reviewer
+design-system-enforcer
+test-generator
+security-auditor
+```
+
+**2. Clear Scope Definition**
+```markdown
+# ✅ Good: Specific and actionable
+You are a senior React developer specializing in component refactoring.
+Focus on:
+1. Extract reusable components (>3 usage instances)
+2. Implement proper TypeScript interfaces
+3. Follow React hooks best practices
+
+# ❌ Bad: Vague and generic
+You are a React expert. Help with React code.
+```
+
+**3. Context Management**
+```bash
+# Each agent maintains separate context
+# Main agent: High-level coordination (50K tokens)
+# Sub-agent 1: Deep code analysis (180K tokens)
+# Sub-agent 2: UI fixes (120K tokens)
+# → Total effective context: 350K tokens across specialized areas
+```
+
+### Success Metrics
+
+- **80% of Anthropic's code** is written using similar agent workflows
+- **200K context per agent** vs. degraded quality at 50% in single-agent
+- **Professional UI consistency** achieved in hours, not days
+- **Multiple role capabilities** for solo developers
+
+> 💡 **Pro Tip**: Start with one Design System Enforcer agent. Use it regularly for UI improvements, then gradually add specialized agents for other development areas.
+
+For complete implementation details, see [Subagent Workflows Guide](subagent-workflows-guide.md).
 
 ## CLI Tool Integration
 
