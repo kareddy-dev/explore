@@ -53,6 +53,14 @@ mindmap
 ### Updated Documentation
 41 documents updated with latest features and improvements (44 total official docs)
 
+### New Community Guides
+- 🌍 **Plugin Ecosystem Guide** - Complete guide to creating and using Claude Code plugins
+- 🛠️ **Community Resources** - Comprehensive catalog of frameworks, tools, and IDE integrations
+  - SuperClaude Framework (14 agents, 21 commands)
+  - Spec Workflow for structured development
+  - IDE integrations (Neovim, VS Code, Theia)
+  - Web UIs, notification systems, and automation tools
+
 ## 🎯 Quick Navigation
 
 ### By Task
@@ -64,8 +72,9 @@ mindmap
 | **Build Features** | [Workflow Examples](workflow-examples.md) → [Common Workflows](gen/common-workflows.md) |
 | **Use Subagents** | [Subagent Workflows Guide](subagent-workflows-guide.md) → [Subagent Templates](subagent-templates.md) |
 | **Connect Tools** | [MCP Integration](gen/mcp.md) → [MCP Servers Guide](../mcp/mcp-servers-guide.md) |
-| **Extend with Plugins** | [Plugin System](gen/plugins.md) → [Plugin Reference](gen/plugins-reference.md) → [Marketplaces](gen/plugin-marketplaces.md) |
+| **Extend with Plugins** | [Plugin System](gen/plugins.md) → [Plugin Ecosystem Guide](plugin-ecosystem-guide.md) → [Community Resources](community-resources.md) |
 | **IDE Integration** | [JetBrains](gen/jetbrains.md) → [VS Code](gen/vs-code.md) → [Dev Containers](gen/devcontainer.md) |
+| **Community Tools** | [Community Resources](community-resources.md) → [SuperClaude Framework](community-resources.md#superclaude-framework) → [Spec Workflow](community-resources.md#claude-code-spec-workflow) |
 | **Use AI Frameworks** | [BMAD-METHOD](frameworks/bmad-method.md) → [Structured Development Workflow](frameworks/bmad-method.md#workflow-phases) |
 | **Build CLI Agents** | [Bash Apps Guide](bash-apps-cli-agents.md) → [CLI Tool Integration Patterns](bash-apps-cli-agents.md#templates) |
 | **Customize Behavior** | [Output Styles](gen/output-styles.md) → [Hooks Guide](gen/hooks-guide.md) |
@@ -112,6 +121,10 @@ mindmap
 - [`custom-commands.md`](custom-commands.md) - Library of useful custom slash commands
 - [`subagent-templates.md`](subagent-templates.md) - Pre-built subagent configurations
 - [`performance-optimization.md`](performance-optimization.md) - Best practices for large codebases
+
+#### Ecosystem & Community
+- [`plugin-ecosystem-guide.md`](plugin-ecosystem-guide.md) - Complete guide to Claude Code plugin system
+- [`community-resources.md`](community-resources.md) - Catalog of frameworks, tools, and IDE integrations
 
 #### Development Frameworks
 - [`frameworks/bmad-method.md`](frameworks/bmad-method.md) - BMAD-METHOD integration for structured AI development workflows
@@ -227,10 +240,18 @@ flowchart LR
 
 ## 🤝 Related Resources
 
+### Official & Curated Guides
+- [Plugin Ecosystem Guide](plugin-ecosystem-guide.md) - Claude Code plugin system
+- [Community Resources](community-resources.md) - Frameworks, tools, and integrations
 - [MCP Servers Guide](../mcp/mcp-servers-guide.md) - Connect external tools
 - [Sequential Thinking Guide](../mcp/sequential-thinking-guide.md) - Advanced problem-solving
 - [BMAD-METHOD Framework](frameworks/bmad-method.md) - Structured AI agent development workflows
 - [Chrome Extensions](../chrome-extensions/) - Browser productivity tools
+
+### Community Frameworks
+- [SuperClaude Framework](community-resources.md#superclaude-framework) - 14 agents, 21 commands, 6 modes
+- [Claude Code Spec Workflow](community-resources.md#claude-code-spec-workflow) - Spec-driven development
+- [Subagents Collection](community-resources.md#claude-code-subagents-collection) - Specialized AI agents
 
 ## 📊 Documentation Coverage
 

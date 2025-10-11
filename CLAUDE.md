@@ -43,6 +43,8 @@ This is a comprehensive documentation repository for Claude Code and development
     │   ├── performance-optimization.md  # Performance tuning and best practices
     │   ├── subagent-templates.md        # Subagent creation templates
     │   ├── workflow-examples.md         # Practical workflows, BMAD integration, non-coding uses
+    │   ├── plugin-ecosystem-guide.md    # Complete guide to Claude Code plugin system
+    │   ├── community-resources.md       # Catalog of frameworks, tools, and IDE integrations
     │   ├── frameworks/                  # Development framework documentation
     │   │   ├── bmad-method.md          # BMAD-METHOD complete guide (ENHANCED with Brian's masterclass)
     │   │   └── BMAD-UPDATE-INFO.md     # BMAD update tracking (v4.39.1, commit ab70bac)
@@ -139,6 +141,8 @@ This configuration can be used as a reference or template for MCP server setups.
 - `tools/claude-code/claude-code-guide.md`: Comprehensive overview with agents, output styles, system prompt customization
 - `tools/claude-code/cli-reference.md`: Complete reference with advanced configuration, permissions, 1M context
 - `tools/claude-code/workflow-examples.md`: Practical workflows, BMAD integration examples, non-coding applications
+- `tools/claude-code/plugin-ecosystem-guide.md`: Complete guide to Claude Code plugin system with examples
+- `tools/claude-code/community-resources.md`: Comprehensive catalog of community frameworks, tools, and IDE integrations
 
 #### Framework Documentation
 - `tools/claude-code/frameworks/bmad-method.md`: Complete BMAD-METHOD integration guide for structured AI development workflows (ENHANCED with Brian's masterclass insights)
@@ -315,6 +319,14 @@ When documenting tools that require authentication:
 - **New documentation**: Plugins system, JetBrains/VS Code IDE integrations, headless mode, checkpointing, GitLab CI/CD, model/network configuration
 - **Updated total**: 44 official documents (was 33)
 - **Removed**: corporate-proxy, ide-integrations, sdk (consolidated)
+- **New community guides**:
+  - `plugin-ecosystem-guide.md` - Complete guide to Claude Code plugin system with manifest structure, development best practices
+  - `community-resources.md` - Comprehensive catalog of community tools:
+    - SuperClaude Framework (14 agents, 21 commands, 6 modes)
+    - Claude Code Spec Workflow (spec-driven development)
+    - Subagent collections, IDE integrations (Neovim, VS Code, Theia)
+    - Web UIs, notification systems, automation tools
+    - 20+ community projects documented
 
 ### Previous Updates (2025-08-17)
 - Added comprehensive BMAD-METHOD framework documentation
