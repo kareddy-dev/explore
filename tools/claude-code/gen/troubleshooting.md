@@ -28,7 +28,7 @@ To resolve this issue, fix your Linux PATH to ensure the Linux node/npm versions
 
 The most common cause is that nvm isn't loaded in non-interactive shells. Add the following to your shell configuration file (`~/.bashrc`, `~/.zshrc`, etc.):
 
-```bash
+```bash  theme={null}
 # Load nvm if it exists
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
@@ -37,7 +37,7 @@ export NVM_DIR="$HOME/.nvm"
 
 Or run directly in your current session:
 
-```bash
+```bash  theme={null}
 source ~/.nvm/nvm.sh
 ```
 
@@ -45,7 +45,7 @@ source ~/.nvm/nvm.sh
 
 If nvm is properly loaded but Windows paths still take priority, you can explicitly prepend your Linux paths to PATH in your shell configuration:
 
-```bash
+```bash  theme={null}
 export PATH="$HOME/.nvm/versions/node/$(node -v)/bin:$PATH"
 ```
 
@@ -70,7 +70,7 @@ Use the following command to run the native installer.
 
 **macOS, Linux, WSL:**
 
-```bash
+```bash  theme={null}
 # Install stable version (default)
 curl -fsSL https://claude.ai/install.sh | bash
 
@@ -83,7 +83,7 @@ curl -fsSL https://claude.ai/install.sh | bash -s 1.0.58
 
 **Windows PowerShell:**
 
-```powershell
+```powershell  theme={null}
 # Install stable version (default)
 irm https://claude.ai/install.ps1 | iex
 
@@ -105,7 +105,7 @@ This command installs the appropriate build of Claude Code for your operating sy
 
 Alternatively, if Claude Code will run, you can migrate to a local installation:
 
-```bash
+```bash  theme={null}
 claude migrate-installer
 ```
 
@@ -115,19 +115,19 @@ After migration, restart your shell, and then verify your installation:
 
 On macOS/Linux/WSL:
 
-```bash
+```bash  theme={null}
 which claude  # Should show an alias to ~/.claude/local/claude
 ```
 
 On Windows:
 
-```powershell
+```powershell  theme={null}
 where claude  # Should show path to claude executable
 ```
 
 Verify installation:
 
-```bash
+```bash  theme={null}
 claude doctor # Check installation health
 ```
 
@@ -148,7 +148,7 @@ If you're experiencing authentication problems:
 
 If problems persist, try:
 
-```bash
+```bash  theme={null}
 rm -rf ~/.config/claude-code/auth.json
 claude
 ```
@@ -172,23 +172,11 @@ If Claude Code seems unresponsive:
 1. Press Ctrl+C to attempt to cancel the current operation
 2. If unresponsive, you may need to close the terminal and restart
 
-### ESC key not working in JetBrains (IntelliJ, PyCharm, etc.) terminals
-
-If you're using Claude Code in JetBrains terminals and the ESC key doesn't interrupt the agent as expected, this is likely due to a keybinding clash with JetBrains' default shortcuts.
-
-To fix this issue:
-
-1. Go to Settings → Tools → Terminal
-2. Click the "Configure terminal keybindings" hyperlink next to "Override IDE Shortcuts"
-3. Within the terminal keybindings, scroll down to "Switch focus to Editor" and delete that shortcut
-
-This will allow the ESC key to properly function for canceling Claude Code operations instead of being captured by PyCharm's "Switch focus to Editor" action.
-
 ### Search and discovery issues
 
 If Search tool, `@file` mentions, custom agents, and custom slash commands aren't working, install system `ripgrep`:
 
-```bash
+```bash  theme={null}
 # macOS (Homebrew)  
 brew install ripgrep
 
@@ -223,6 +211,67 @@ Disk read performance penalties when [working across file systems on WSL](https:
 
 3. **Use native Windows instead**: Consider running Claude Code natively on Windows instead of through WSL, for better file system performance.
 
+## IDE integration issues
+
+### JetBrains IDE not detected on WSL2
+
+If you're using Claude Code on WSL2 with JetBrains IDEs and getting "No available IDEs detected" errors, this is likely due to WSL2's networking configuration or Windows Firewall blocking the connection.
+
+#### WSL2 networking modes
+
+WSL2 uses NAT networking by default, which can prevent IDE detection. You have two options:
+
+**Option 1: Configure Windows Firewall** (recommended)
+
+1. Find your WSL2 IP address:
+   ```bash  theme={null}
+   wsl hostname -I
+   # Example output: 172.21.123.456
+   ```
+
+2. Open PowerShell as Administrator and create a firewall rule:
+   ```powershell  theme={null}
+   New-NetFirewallRule -DisplayName "Allow WSL2 Internal Traffic" -Direction Inbound -Protocol TCP -Action Allow -RemoteAddress 172.21.0.0/16 -LocalAddress 172.21.0.0/16
+   ```
+   (Adjust the IP range based on your WSL2 subnet from step 1)
+
+3. Restart both your IDE and Claude Code
+
+**Option 2: Switch to mirrored networking**
+
+Add to `.wslconfig` in your Windows user directory:
+
+```ini  theme={null}
+[wsl2]
+networkingMode=mirrored
+```
+
+Then restart WSL with `wsl --shutdown` from PowerShell.
+
+<Note>
+  These networking issues only affect WSL2. WSL1 uses the host's network directly and doesn't require these configurations.
+</Note>
+
+For additional JetBrains configuration tips, see our [IDE integration guide](/en/docs/claude-code/ide-integrations#jetbrains-plugin-settings).
+
+### Reporting Windows IDE integration issues (both native and WSL)
+
+If you're experiencing IDE integration problems on Windows, please [create an issue](https://github.com/anthropics/claude-code/issues) with the following information: whether you are native (git bash), or WSL1/WSL2, WSL networking mode (NAT or mirrored), IDE name/version, Claude Code extension/plugin version, and shell type (bash/zsh/etc)
+
+### ESC key not working in JetBrains (IntelliJ, PyCharm, etc.) terminals
+
+If you're using Claude Code in JetBrains terminals and the ESC key doesn't interrupt the agent as expected, this is likely due to a keybinding clash with JetBrains' default shortcuts.
+
+To fix this issue:
+
+1. Go to Settings → Tools → Terminal
+2. Either:
+   * Uncheck "Move focus to the editor with Escape", or
+   * Click "Configure terminal keybindings" and delete the "Switch focus to Editor" shortcut
+3. Apply the changes
+
+This allows the ESC key to properly interrupt Claude Code operations.
+
 ## Markdown formatting issues
 
 Claude Code sometimes generates markdown files with missing language tags on code fences, which can affect syntax highlighting and readability in GitHub, editors, and documentation tools.
@@ -231,7 +280,7 @@ Claude Code sometimes generates markdown files with missing language tags on cod
 
 If you notice code blocks like this in generated markdown:
 
-````markdown
+````markdown  theme={null}
 ```
 function example() {
   return "hello";
@@ -241,7 +290,7 @@ function example() {
 
 Instead of properly tagged blocks like:
 
-````markdown
+````markdown  theme={null}
 ```javascript
 function example() {
   return "hello";

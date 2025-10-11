@@ -39,6 +39,20 @@ mindmap
       Development Methodologies
 ```
 
+## ✨ What's New (October 2025)
+
+### New Documentation
+- 🔌 **Plugin System** - Extend Claude Code with custom commands, agents, and MCP servers
+- 💻 **IDE Integrations** - Native JetBrains and VS Code extensions with quick launch
+- 🤖 **Headless Mode** - Run Claude Code programmatically without terminal UI
+- 💾 **Session Checkpointing** - Save and restore conversation sessions
+- 🔄 **Migration Guide** - Smooth upgrades between versions
+- ⚙️ **Advanced Config** - Model and network configuration options
+- 🚀 **GitLab CI/CD** - GitLab integration (complementing GitHub Actions)
+
+### Updated Documentation
+41 documents updated with latest features and improvements (44 total official docs)
+
 ## 🎯 Quick Navigation
 
 ### By Task
@@ -50,6 +64,8 @@ mindmap
 | **Build Features** | [Workflow Examples](workflow-examples.md) → [Common Workflows](gen/common-workflows.md) |
 | **Use Subagents** | [Subagent Workflows Guide](subagent-workflows-guide.md) → [Subagent Templates](subagent-templates.md) |
 | **Connect Tools** | [MCP Integration](gen/mcp.md) → [MCP Servers Guide](../mcp/mcp-servers-guide.md) |
+| **Extend with Plugins** | [Plugin System](gen/plugins.md) → [Plugin Reference](gen/plugins-reference.md) → [Marketplaces](gen/plugin-marketplaces.md) |
+| **IDE Integration** | [JetBrains](gen/jetbrains.md) → [VS Code](gen/vs-code.md) → [Dev Containers](gen/devcontainer.md) |
 | **Use AI Frameworks** | [BMAD-METHOD](frameworks/bmad-method.md) → [Structured Development Workflow](frameworks/bmad-method.md#workflow-phases) |
 | **Build CLI Agents** | [Bash Apps Guide](bash-apps-cli-agents.md) → [CLI Tool Integration Patterns](bash-apps-cli-agents.md#templates) |
 | **Customize Behavior** | [Output Styles](gen/output-styles.md) → [Hooks Guide](gen/hooks-guide.md) |
@@ -72,11 +88,12 @@ mindmap
 
 #### 🌳 Advanced Users
 1. [Anthropic Best Practices](anthropic-best-practices.md) - Internal usage patterns from Anthropic's Applied AI team
-2. [Hooks Cookbook](hooks-cookbook.md) - Automation patterns
-3. [Custom Commands](custom-commands.md) - Build your command library
-4. [BMAD-METHOD Framework](frameworks/bmad-method.md) - Structured AI agent workflows
-5. [SDK Guide](gen/sdk.md) - Build custom agents
-6. [Performance Optimization](performance-optimization.md) - Handle large codebases
+2. [Plugin System](gen/plugins.md) - Extend Claude Code with custom plugins
+3. [Hooks Cookbook](hooks-cookbook.md) - Automation patterns
+4. [Custom Commands](custom-commands.md) - Build your command library
+5. [BMAD-METHOD Framework](frameworks/bmad-method.md) - Structured AI agent workflows
+6. [Headless Mode](gen/headless.md) - Run Claude Code without terminal UI
+7. [Performance Optimization](performance-optimization.md) - Handle large codebases
 
 ## 📂 Complete File Index
 
@@ -120,19 +137,29 @@ mindmap
 - [`hooks-guide.md`](gen/hooks-guide.md) - Hooks tutorial
 - [`terminal-config.md`](gen/terminal-config.md) - Terminal setup
 - [`statusline.md`](gen/statusline.md) - Status line configuration
+- [`model-config.md`](gen/model-config.md) - Model configuration
+- [`network-config.md`](gen/network-config.md) - Network configuration
+- [`migration-guide.md`](gen/migration-guide.md) - Version migration guide
 
 #### Advanced Features
 - [`mcp.md`](gen/mcp.md) - Model Context Protocol
-- [`sdk.md`](gen/sdk.md) - SDK documentation
-- [`github-actions.md`](gen/github-actions.md) - CI/CD integration
-- [`ide-integrations.md`](gen/ide-integrations.md) - IDE integration
+- [`plugins.md`](gen/plugins.md) - Plugin system
+- [`plugins-reference.md`](gen/plugins-reference.md) - Plugin technical specs
+- [`plugin-marketplaces.md`](gen/plugin-marketplaces.md) - Plugin marketplaces
+- [`headless.md`](gen/headless.md) - Headless mode
+- [`checkpointing.md`](gen/checkpointing.md) - Session checkpointing
+- [`github-actions.md`](gen/github-actions.md) - GitHub Actions integration
+- [`gitlab-ci-cd.md`](gen/gitlab-ci-cd.md) - GitLab CI/CD integration
+
+#### IDE Integrations
+- [`jetbrains.md`](gen/jetbrains.md) - JetBrains IDEs (IntelliJ, PyCharm, WebStorm)
+- [`vs-code.md`](gen/vs-code.md) - Visual Studio Code integration
+- [`devcontainer.md`](gen/devcontainer.md) - Dev container support
 
 #### Enterprise & Cloud
 - [`amazon-bedrock.md`](gen/amazon-bedrock.md) - AWS Bedrock setup
 - [`google-vertex-ai.md`](gen/google-vertex-ai.md) - Google Vertex setup
-- [`corporate-proxy.md`](gen/corporate-proxy.md) - Proxy configuration
 - [`llm-gateway.md`](gen/llm-gateway.md) - LLM gateway setup
-- [`devcontainer.md`](gen/devcontainer.md) - Dev container support
 
 #### Security & Compliance
 - [`security.md`](gen/security.md) - Security best practices
@@ -187,8 +214,10 @@ flowchart LR
 1. **Background Processes** (Ctrl+B): Run long commands without blocking
 2. **Task Management** (`/todo`): Claude tracks complex multi-step tasks
 3. **Memory Files** (CLAUDE.md): Persistent project instructions
-4. **Custom Commands**: Create reusable prompts as slash commands
-5. **MCP Servers**: Connect to 70+ external tools and services
+4. **Plugin System**: Extend Claude Code with custom commands, agents, and hooks
+5. **Custom Commands**: Create reusable prompts as slash commands
+6. **MCP Servers**: Connect to 70+ external tools and services
+7. **IDE Integration**: Native JetBrains and VS Code extensions
 
 ### Common Patterns
 - Start broad with codebase questions, then narrow down
@@ -222,4 +251,4 @@ flowchart LR
 
 ---
 
-*Last Updated: January 2025 | Documentation Version: 1.0*
+*Last Updated: October 2025 | Documentation Version: 1.1 | 44 Official Docs*

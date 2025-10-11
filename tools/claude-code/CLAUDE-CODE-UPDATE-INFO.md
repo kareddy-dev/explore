@@ -1,8 +1,8 @@
 # Claude Code Documentation Update Information
 
 ## Last Documentation Update
-- **Date**: 2025-08-23
-- **Documentation Last Fetched**: 2025-08-23T17:32:00Z (7 documents updated)
+- **Date**: 2025-10-11
+- **Documentation Last Fetched**: 2025-10-11 (41 documents updated: 30 modified, 11 new)
 
 ## Repository Information
 - **Repository**: https://github.com/anthropics/claude-code
@@ -31,8 +31,21 @@
 ### Official Documentation (Auto-Fetched)
 - **Source**: https://docs.anthropic.com/sitemap.xml
 - **Location**: `gen/` directory
-- **Total Documents**: 33 official docs
+- **Total Documents**: 44 official docs
 - **Manifest File**: `.docs-manifest.json` (tracks hashes and fetch times)
+- **Recent Additions** (2025-10-11):
+  - `plugins.md` - Plugin system for extending Claude Code
+  - `plugins-reference.md` - Technical specifications for plugins
+  - `plugin-marketplaces.md` - Marketplace management
+  - `jetbrains.md` - JetBrains IDE integration
+  - `vs-code.md` - VS Code integration
+  - `headless.md` - Headless mode documentation
+  - `checkpointing.md` - Session checkpointing feature
+  - `migration-guide.md` - Migration guide for updates
+  - `model-config.md` - Model configuration options
+  - `network-config.md` - Network configuration
+  - `gitlab-ci-cd.md` - GitLab CI/CD integration
+- **Removed Documents**: `corporate-proxy.md`, `ide-integrations.md`, `sdk.md` (consolidated into other docs)
 
 ### Framework Documentation (New)
 - `frameworks/bmad-method.md` - BMAD-METHOD integration guide

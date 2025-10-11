@@ -8,7 +8,7 @@ This is a comprehensive documentation repository for Claude Code and development
 
 - **Claude Code Documentation**: Complete documentation suite including:
   - Custom guides on agents, output styles, workflows, and advanced features
-  - 33 official documents fetched from Anthropic's documentation
+  - 44 official documents fetched from Anthropic's documentation
   - Practical examples for coding and non-coding applications
   - **BMAD-METHOD framework** with comprehensive features from Brian's masterclass:
     - 20+ brainstorming techniques for creative problem-solving
@@ -46,7 +46,7 @@ This is a comprehensive documentation repository for Claude Code and development
     │   ├── frameworks/                  # Development framework documentation
     │   │   ├── bmad-method.md          # BMAD-METHOD complete guide (ENHANCED with Brian's masterclass)
     │   │   └── BMAD-UPDATE-INFO.md     # BMAD update tracking (v4.39.1, commit ab70bac)
-    │   └── gen/                         # Official documentation fetched from Anthropic (33 docs)
+    │   └── gen/                         # Official documentation fetched from Anthropic (44 docs)
     │       ├── overview.md              # Claude Code overview
     │       ├── quickstart.md            # Quick start guide
     │       ├── setup.md                 # Installation and setup
@@ -60,7 +60,9 @@ This is a comprehensive documentation repository for Claude Code and development
     │       ├── hooks.md                 # Event hooks
     │       ├── memory.md                # Memory management
     │       ├── costs.md                 # Pricing and costs
-    │       └── ... (33 total docs)      # Plus security, troubleshooting, integrations, etc.
+    │       ├── plugins.md               # Plugin system (NEW)
+    │       ├── jetbrains.md             # JetBrains IDE integration (NEW)
+    │       └── ... (44 total docs)      # Plus security, troubleshooting, integrations, etc.
     ├── mcp/
     │   ├── mcp-servers-guide.md         # ggrep, GitHub Copilot, Serena, Claude Code integration
     │   └── sequential-thinking-guide.md # Complete usage guide for sequential thinking tool
@@ -150,7 +152,7 @@ This configuration can be used as a reference or template for MCP server setups.
   - Installation (5-second process!), configuration, and uninstallation
 
 #### Official Documentation (Auto-Fetched)
-- `tools/claude-code/gen/`: Contains 33 official docs from Anthropic
+- `tools/claude-code/gen/`: Contains 44 official docs from Anthropic
   - Setup, installation, and quickstart guides
   - Complete slash commands and CLI reference
   - Agents/subagents, output styles, hooks
@@ -308,7 +310,13 @@ When documenting tools that require authentication:
 
 ## Documentation Status
 
-### Latest Updates (2025-08-17)
+### Latest Updates (2025-10-11)
+- **Documentation refresh**: Fetched 41 updated documents (30 modified, 11 new)
+- **New documentation**: Plugins system, JetBrains/VS Code IDE integrations, headless mode, checkpointing, GitLab CI/CD, model/network configuration
+- **Updated total**: 44 official documents (was 33)
+- **Removed**: corporate-proxy, ide-integrations, sdk (consolidated)
+
+### Previous Updates (2025-08-17)
 - Added comprehensive BMAD-METHOD framework documentation
 - **ENHANCED BMAD documentation with Brian's masterclass insights**:
   - 20+ brainstorming techniques with detailed descriptions
