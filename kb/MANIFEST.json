@@ -1,0 +1,237 @@
+{
+  "knowledge_base": {
+    "name": "Personal Knowledge Base",
+    "version": "1.0.0",
+    "created": "2025-10-18",
+    "last_updated": "2025-10-18",
+    "root_path": "/Users/kareddy/Desktop/explore/kb/",
+    "description": "Universal knowledge management system optimized for Claude Code integration",
+
+    "domains": {
+      "finance": {
+        "path": "domains/finance/",
+        "index": "domains/finance/INDEX.md",
+        "description": "Financial analysis, stock research, trading strategies",
+        "topics": [
+          "openbb",
+          "stocks",
+          "strategies",
+          "tools"
+        ],
+        "key_documents": [
+          "domains/finance/openbb/capabilities.md",
+          "domains/finance/openbb/quick-reference.md",
+          "domains/finance/openbb/test-results.md"
+        ],
+        "subtopics": {
+          "openbb": {
+            "path": "domains/finance/openbb/",
+            "description": "OpenBB Platform documentation and capabilities",
+            "documents": [
+              "capabilities.md",
+              "quick-reference.md",
+              "test-results.md",
+              "mcp-setup.md",
+              "test_openbb.py",
+              "test_openbb_advanced.py"
+            ]
+          },
+          "stocks": {
+            "path": "domains/finance/stocks/",
+            "description": "Individual stock analysis and research",
+            "naming_convention": "[SYMBOL].md or [SYMBOL]/",
+            "documents": []
+          },
+          "strategies": {
+            "path": "domains/finance/strategies/",
+            "description": "Trading and investing strategies",
+            "documents": []
+          },
+          "tools": {
+            "path": "domains/finance/tools/",
+            "description": "Financial calculation scripts and utilities",
+            "documents": []
+          }
+        }
+      },
+
+      "dev": {
+        "path": "domains/dev/",
+        "index": "domains/dev/INDEX.md",
+        "description": "Development knowledge, APIs, code references",
+        "topics": [
+          "python",
+          "apis",
+          "snippets"
+        ],
+        "key_documents": [],
+        "subtopics": {
+          "python": {
+            "path": "domains/dev/python/",
+            "description": "Python libraries and references",
+            "documents": []
+          },
+          "apis": {
+            "path": "domains/dev/apis/",
+            "description": "API documentation and integration guides",
+            "documents": []
+          },
+          "snippets": {
+            "path": "domains/dev/snippets/",
+            "description": "Reusable code examples",
+            "naming_convention": "[language]-[purpose].md",
+            "documents": []
+          }
+        }
+      },
+
+      "data": {
+        "path": "domains/data/",
+        "index": "domains/data/INDEX.md",
+        "description": "Data science techniques and tools",
+        "topics": [
+          "techniques",
+          "tools"
+        ],
+        "key_documents": [],
+        "subtopics": {
+          "techniques": {
+            "path": "domains/data/techniques/",
+            "description": "Analysis methods and statistical techniques",
+            "documents": []
+          },
+          "tools": {
+            "path": "domains/data/tools/",
+            "description": "Data analysis tools and libraries",
+            "documents": []
+          }
+        }
+      }
+    },
+
+    "projects": {
+      "path": "projects/",
+      "description": "Active project workspaces",
+      "naming_convention": "[project-name]/",
+      "required_files": ["README.md", "spec.md"],
+      "active_projects": []
+    },
+
+    "templates": {
+      "path": "templates/",
+      "available_templates": [
+        {
+          "name": "stock-analysis.md",
+          "purpose": "Analyzing individual stocks",
+          "sections": ["Overview", "Fundamentals", "Technical", "Conclusion"]
+        },
+        {
+          "name": "api-reference.md",
+          "purpose": "Documenting APIs and libraries",
+          "sections": ["Overview", "Installation", "Usage", "Examples", "Reference"]
+        },
+        {
+          "name": "code-snippet.md",
+          "purpose": "Saving reusable code",
+          "sections": ["Purpose", "Code", "Usage", "Notes"]
+        },
+        {
+          "name": "learning-note.md",
+          "purpose": "Educational content and concepts",
+          "sections": ["Concept", "Explanation", "Examples", "References"]
+        },
+        {
+          "name": "project-spec.md",
+          "purpose": "Project specifications and planning",
+          "sections": ["Overview", "Goals", "Requirements", "Implementation", "Timeline"]
+        }
+      ]
+    },
+
+    "meta": {
+      "path": "meta/",
+      "description": "System documentation and maintenance",
+      "documents": [
+        "how-to-use.md",
+        "claude-prompts.md",
+        "maintenance.md"
+      ]
+    },
+
+    "archive": {
+      "path": "_archive/",
+      "description": "Archived and completed content",
+      "organization": "YYYY-MM/"
+    }
+  },
+
+  "conventions": {
+    "file_naming": {
+      "general": "lowercase-with-hyphens.md",
+      "stocks": "UPPERCASE-SYMBOL.md",
+      "dates": "YYYY-MM-DD format in filenames if needed"
+    },
+
+    "document_structure": {
+      "required_frontmatter": ["# Title", "Date", "Domain"],
+      "headings": "Use ##, ###, etc. for structure",
+      "cross_references": "Relative paths from kb/ root"
+    },
+
+    "save_patterns": {
+      "analysis": "domains/[domain]/[topic]/[specific].md",
+      "code": "domains/dev/snippets/[language]-[purpose].md",
+      "learning": "domains/[domain]/[concept].md",
+      "project_work": "projects/[project-name]/[file].md"
+    },
+
+    "search_patterns": {
+      "by_topic": "Check domain/[topic]/ directories",
+      "by_type": "Check templates/ for structure patterns",
+      "by_date": "Check recent updates in domain indexes",
+      "full_text": "Search all .md files in domains/"
+    }
+  },
+
+  "claude_instructions": {
+    "when_saving": [
+      "1. Determine appropriate domain from content",
+      "2. Check MANIFEST.json for correct path",
+      "3. Use relevant template if applicable",
+      "4. Follow naming conventions",
+      "5. Update domain INDEX.md with new entry",
+      "6. Update this MANIFEST.json if adding new topics"
+    ],
+
+    "when_searching": [
+      "1. Check INDEX.md for quick reference",
+      "2. Consult MANIFEST.json for document locations",
+      "3. Check domain indexes for topic-specific content",
+      "4. Search specific documents for detailed info",
+      "5. Cross-reference related domains if needed"
+    ],
+
+    "when_creating_new_domain": [
+      "1. Create domains/[new-domain]/ directory",
+      "2. Create domains/[new-domain]/INDEX.md",
+      "3. Add entry to this MANIFEST.json",
+      "4. Update main INDEX.md with new domain section",
+      "5. Consider relevant templates for domain"
+    ]
+  },
+
+  "statistics": {
+    "total_domains": 3,
+    "total_documents": 10,
+    "active_projects": 0,
+    "total_templates": 5,
+    "last_full_index": "2025-10-18"
+  },
+
+  "indexes": {
+    "master": "INDEX.md",
+    "finance": "domains/finance/INDEX.md",
+    "dev": "domains/dev/INDEX.md",
+    "data": "domains/data/INDEX.md"
+  }
+}
