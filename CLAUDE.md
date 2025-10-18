@@ -2,6 +2,33 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Critical Context (Always Loaded)
+
+The following files should be consulted for key information:
+
+@tools/claude-code/README.md
+@tools/claude-code/CLAUDE-CODE-UPDATE-INFO.md
+@tools/scripts/docs-config.json
+
+## Current State Awareness
+
+**Last Documentation Update**: 2025-10-18
+**Claude Code Version**: v1.0.88+
+**Total Official Docs**: 44 files in tools/claude-code/gen/
+**Key Recent Changes**:
+- Skills system added (5th plugin component type)
+- MultiEdit tool deprecated and removed
+- New keyboard shortcuts (Ctrl+O, Ctrl+V, @, ?)
+- Homebrew installation support
+- Prompt caching configuration options
+- Haiku 4.5 default models for Bedrock/Vertex AI
+
+**When updating documentation**, always verify:
+1. Is this feature current with v1.0.88+?
+2. Are there related changes in official docs requiring sync?
+3. Should CLAUDE-CODE-UPDATE-INFO.md be updated with changes?
+4. Do curated guides need updates to match official docs?
+
 ## Repository Overview
 
 This is a comprehensive documentation repository for Claude Code and development workflow tools. It contains:
@@ -192,6 +219,207 @@ Since this is a documentation repository:
 4. **Visual enhancement**: Add Mermaid diagrams to explain complex workflows, decision trees, or system architectures
 5. **Content validation**: Ensure all URLs, configurations, examples, and diagrams are current and functional
 
+## Common Documentation Workflows
+
+### Workflow 1: Updating Official Documentation
+
+When asked to "update claude docs" or "fetch latest documentation":
+
+```bash
+# Step 1: Check for updates without fetching
+python tools/scripts/fetch-docs.py --check
+
+# Step 2: If updates available, fetch with verbose output
+python tools/scripts/fetch-docs.py --source claude-code --verbose
+
+# Step 3: Review what changed
+git diff --stat tools/claude-code/gen/
+git diff tools/claude-code/gen/
+
+# Step 4: Analyze changes and update tracking
+# Update CLAUDE-CODE-UPDATE-INFO.md with:
+# - List of updated files
+# - Summary of major changes (new features, deprecations, updates)
+# - Impact on curated guides
+
+# Step 5: Update affected curated guides
+# Check which curated guides reference changed features:
+# - plugin-ecosystem-guide.md (if plugin system changed)
+# - cli-reference.md (if CLI commands changed)
+# - hooks-cookbook.md (if hooks changed)
+# - claude-code-guide.md (if core features changed)
+
+# Step 6: Update main CLAUDE.md
+# Update "Current State Awareness" section with new version/changes
+# Update "Documentation Status" section with update date and summary
+```
+
+### Workflow 2: Creating New Documentation
+
+When documenting a new tool or feature:
+
+1. **Determine location**:
+   - Curated guide → `tools/[category]/[name].md`
+   - Official doc → Wait for fetch-docs.py to retrieve it
+
+2. **Use standard structure**:
+   ```markdown
+   # Title
+
+   Brief description (1-2 sentences)
+
+   ## Table of Contents
+
+   ## Overview
+   [Include Mermaid diagram if complex]
+
+   ## Installation/Setup
+
+   ## Usage Examples
+
+   ## Advanced Topics
+
+   ## Troubleshooting
+
+   ## Resources
+   ```
+
+3. **Add visual aids**: Include Mermaid diagrams for workflows, architectures, decision trees
+
+4. **Link from navigation**: Add entry to README.md navigation table
+
+5. **Update structure diagram**: If adding new directory, update repository structure
+
+### Workflow 3: Synchronizing Curated Guides with Official Docs
+
+When official docs change features documented in curated guides:
+
+1. **Identify affected curated files**:
+   ```bash
+   # Find files referencing the changed feature
+   grep -r "feature_name" tools/claude-code/*.md --exclude-dir=gen
+   ```
+
+2. **For each affected file**:
+   - Read the official doc change
+   - Update curated guide to match
+   - Preserve curated insights and examples
+   - Remove deprecated feature references
+
+3. **Common sync patterns**:
+   - **Tool removed** (e.g., MultiEdit): Remove from all tool lists and examples
+   - **Feature added** (e.g., Skills): Add to architecture diagrams, examples, guides
+   - **Behavior changed**: Update descriptions, update examples if needed
+
+### Workflow 4: Quality Validation
+
+Before completing documentation tasks, verify:
+
+- [ ] All code blocks have language identifiers (```bash, ```json, etc.)
+- [ ] Mermaid diagrams render correctly (test in markdown preview)
+- [ ] Internal links use relative paths and are valid
+- [ ] Examples are tested and current with latest versions
+- [ ] No actual API keys or secrets (use placeholders like `YOUR_TOKEN`)
+- [ ] Security considerations documented where applicable
+- [ ] File follows existing formatting conventions
+- [ ] TOC is updated if structure changed
+
+## Context Management for Documentation Work
+
+### The 50% Context Rule
+
+Research from Chroma DB shows Claude Code's effectiveness degrades significantly after using 50% of the context window:
+
+- **0-50% usage**: Optimal performance
+- **50-75% usage**: Noticeable quality degradation
+- **75-100% usage**: Poor results, missed requirements
+
+### Monitoring Context Usage
+
+Check context usage regularly:
+```bash
+# In Claude Code session
+/cost
+# Look for context window percentage
+```
+
+### When Context Approaches 50%
+
+**For documentation updates**:
+
+1. **Save current state**:
+   ```bash
+   # Update CLAUDE-CODE-UPDATE-INFO.md with:
+   # - Progress so far
+   # - Remaining tasks
+   # - Key decisions made
+   # - Files modified
+   ```
+
+2. **Clear context**:
+   ```bash
+   /clear
+   ```
+
+3. **Resume with focused context**:
+   ```bash
+   # Claude will read CLAUDE-CODE-UPDATE-INFO.md and continue
+   # with fresh context window
+   ```
+
+### Using Subagents to Preserve Context
+
+For large documentation analysis or updates, delegate to subagents:
+
+```bash
+# Analyze multiple changed files without polluting main context
+claude "Spawn subagent to analyze all changes in tools/claude-code/gen/
+and return a 500-word summary of major changes by category"
+
+# Parallel processing of updates
+claude "Spawn 3 subagents to update:
+1. plugin-ecosystem-guide.md with Skills changes
+2. cli-reference.md with new shortcuts
+3. hooks-cookbook.md removing MultiEdit references
+Each should return a brief completion report"
+```
+
+**Benefits**:
+- Main context stays clean
+- Each subagent gets fresh 200K token context
+- Parallel execution speeds up work
+- Only summaries return to main context
+
+### Documentation Index Pattern
+
+**Optimization**: Create PROJECT_INDEX.json to reduce navigation tokens by ~90%:
+
+```json
+{
+  "curated_guides": {
+    "count": 15,
+    "location": "tools/claude-code/",
+    "key_files": [
+      "README.md - Navigation hub",
+      "plugin-ecosystem-guide.md - Most comprehensive plugin docs",
+      "cli-reference.md - Complete CLI reference",
+      "workflow-examples.md - Practical patterns"
+    ]
+  },
+  "official_docs": {
+    "count": 44,
+    "location": "tools/claude-code/gen/",
+    "note": "Auto-fetched, DO NOT EDIT directly"
+  },
+  "update_tracking": [
+    "CLAUDE-CODE-UPDATE-INFO.md",
+    "BMAD-UPDATE-INFO.md"
+  ]
+}
+```
+
+**Always consult PROJECT_INDEX.json first** before searching for files.
+
 ## Keeping Documentation Updated
 
 ### Version Tracking
@@ -303,6 +531,97 @@ pip install requests tqdm
 
 # tqdm is optional but recommended for progress bars
 ```
+
+## Tool Usage Patterns for Documentation
+
+### When to Use Each Tool
+
+**Grep (Search)**:
+- Finding all references to specific features (e.g., "Skills", "MultiEdit")
+- Locating terminology across documentation
+- Identifying files that need updates
+```bash
+# Find all files mentioning a deprecated feature
+grep -r "MultiEdit" tools/claude-code/*.md --exclude-dir=gen
+```
+
+**Read (File Access)**:
+- Reading specific documentation files
+- Checking update tracking files first
+- Reviewing configuration files
+```bash
+# Always read tracking file first for context
+Read tools/claude-code/CLAUDE-CODE-UPDATE-INFO.md
+```
+
+**Edit (Modifications)**:
+- Updating curated guides (tools/claude-code/*.md)
+- Fixing outdated information
+- Synchronizing with official doc changes
+```bash
+# Edit curated guides only, never gen/ files
+Edit tools/claude-code/plugin-ecosystem-guide.md
+```
+
+**Bash (Automation)**:
+- Running fetch-docs.py for updates
+- Git operations (diff, status, add, commit)
+- Executing validation scripts
+```bash
+python tools/scripts/fetch-docs.py --source claude-code
+```
+
+**Task (Subagents)**:
+- Analyzing large sets of documentation changes
+- Parallel processing of multiple file updates
+- Isolated exploration without polluting main context
+
+### Critical Rules: DO and DON'T
+
+**DO**:
+- ✅ Always read CLAUDE-CODE-UPDATE-INFO.md first for version context
+- ✅ Update curated guides when official docs change
+- ✅ Use Mermaid diagrams for complex concepts
+- ✅ Include practical examples in documentation
+- ✅ Validate all code blocks have language identifiers
+- ✅ Use PROJECT_INDEX.json for navigation (when it exists)
+- ✅ Monitor context usage with `/cost` command
+- ✅ Use subagents for large analysis tasks
+
+**DON'T**:
+- ❌ NEVER edit files in `tools/claude-code/gen/` directory (auto-overwritten by fetch-docs.py)
+- ❌ NEVER edit `.docs-manifest.json` files directly (managed by fetch script)
+- ❌ NEVER create documentation files without explicit request
+- ❌ NEVER include actual API keys or secrets (use placeholders)
+- ❌ NEVER skip quality validation checklist
+- ❌ NEVER document deprecated features (check version first)
+- ❌ DON'T let context exceed 50% without clearing
+
+### File Type Classification
+
+Understanding file types prevents mistakes:
+
+- 🔵 **Curated Guides** (`tools/claude-code/*.md` except gen/):
+  - Manual maintenance required
+  - Include expert insights and practical examples
+  - Update when official docs change
+  - Examples: plugin-ecosystem-guide.md, cli-reference.md
+
+- 🟢 **Official Docs** (`tools/claude-code/gen/*.md`):
+  - Auto-fetched from Anthropic
+  - READ-ONLY - never edit directly
+  - Overwritten on next fetch
+  - Source of truth for features
+
+- 🟡 **Generated Files** (`.docs-manifest.json`, `PROJECT_INDEX.json`):
+  - Created by scripts/automation
+  - Managed programmatically
+  - Don't edit manually
+
+- 🔴 **Configuration** (`mcp.json`, `docs-config.json`):
+  - System configuration
+  - Edit with caution
+  - Validate after changes
 
 ## Security Notes
 

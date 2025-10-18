@@ -1,0 +1,140 @@
+{
+  "repository_type": "documentation",
+  "primary_focus": "Claude Code and development workflow tools",
+  "last_updated": "2025-10-18",
+
+  "structure": {
+    "root_files": {
+      "CLAUDE.md": "Main instructions for Claude Code - START HERE",
+      "PROJECT_INDEX.json": "This file - navigation index",
+      "mcp.json": "Sequential thinking MCP server configuration",
+      "BMAD-ENHANCEMENTS-SUMMARY.md": "Summary of BMAD documentation enhancements"
+    },
+
+    "directories": {
+      "tools/claude-code/": {
+        "description": "Comprehensive Claude Code documentation",
+        "total_files": 59,
+        "subdirectories": ["frameworks/", "gen/"],
+
+        "curated_guides": {
+          "count": 15,
+          "type": "manually_maintained",
+          "key_files": {
+            "README.md": "Navigation hub for all 44 official docs",
+            "CLAUDE-CODE-UPDATE-INFO.md": "Version tracking v1.0.88+, update summaries",
+            "claude-code-guide.md": "Comprehensive overview (installation, features, agents)",
+            "cli-reference.md": "Complete CLI reference (commands, flags, shortcuts)",
+            "plugin-ecosystem-guide.md": "Complete plugin system guide (5 components including Skills)",
+            "workflow-examples.md": "Practical workflows and patterns",
+            "hooks-cookbook.md": "Hook patterns and automation recipes",
+            "context-management.md": "Context optimization strategies",
+            "advanced-techniques.md": "Expert patterns from power users",
+            "performance-optimization.md": "Performance tuning best practices",
+            "subagent-templates.md": "Pre-built subagent configurations",
+            "subagent-workflows-guide.md": "Practical subagent development workflows",
+            "bash-apps-cli-agents.md": "CLI tool integration patterns",
+            "custom-commands.md": "Custom slash command library",
+            "community-resources.md": "Frameworks, tools, IDE integrations catalog"
+          }
+        },
+
+        "official_docs": {
+          "location": "gen/",
+          "count": 44,
+          "type": "auto_fetched",
+          "warning": "READ-ONLY - Never edit directly, overwritten by fetch-docs.py",
+          "categories": {
+            "getting_started": ["overview.md", "quickstart.md", "setup.md"],
+            "core_features": ["interactive-mode.md", "slash-commands.md", "sub-agents.md", "skills.md", "output-styles.md", "memory.md"],
+            "configuration": ["settings.md", "hooks.md", "hooks-guide.md", "terminal-config.md", "statusline.md", "model-config.md", "network-config.md"],
+            "advanced": ["mcp.md", "plugins.md", "plugins-reference.md", "plugin-marketplaces.md", "headless.md", "checkpointing.md"],
+            "integrations": ["jetbrains.md", "vs-code.md", "devcontainer.md", "github-actions.md", "gitlab-ci-cd.md", "third-party-integrations.md"],
+            "enterprise": ["amazon-bedrock.md", "google-vertex-ai.md", "llm-gateway.md", "security.md", "iam.md", "legal-and-compliance.md"],
+            "operations": ["monitoring-usage.md", "analytics.md", "costs.md", "data-usage.md"],
+            "reference": ["cli-reference.md", "troubleshooting.md", "migration-guide.md", "common-workflows.md"]
+          }
+        },
+
+        "frameworks": {
+          "bmad-method.md": "BMAD-METHOD integration guide with Brian's masterclass",
+          "BMAD-UPDATE-INFO.md": "BMAD version tracking v4.39.1"
+        }
+      },
+
+      "tools/mcp/": {
+        "description": "MCP server documentation",
+        "files": {
+          "mcp-servers-guide.md": "ggrep, GitHub Copilot, Serena guides",
+          "sequential-thinking-guide.md": "Advanced problem-solving methodology"
+        }
+      },
+
+      "tools/saas-stacks/": {
+        "description": "Rapid SaaS development stacks",
+        "files": {
+          "README.md": "Overview of available stacks",
+          "clerk-convex-stripe-speedrun.md": "10-minute SaaS setup guide"
+        }
+      },
+
+      "tools/chrome-extensions/": {
+        "description": "Browser productivity tools",
+        "files": {
+          "glasp-youtube-summary.md": "YouTube transcript extraction",
+          "markdown-diagrams.md": "Markdown diagram rendering"
+        }
+      },
+
+      "tools/scripts/": {
+        "description": "Automation scripts",
+        "files": {
+          "fetch-docs.py": "Documentation fetcher (parallel, retry logic)",
+          "docs-config.json": "Documentation source configuration"
+        }
+      }
+    }
+  },
+
+  "version_tracking": {
+    "claude_code": {
+      "version": "v1.0.88+",
+      "tracking_file": "tools/claude-code/CLAUDE-CODE-UPDATE-INFO.md",
+      "last_update": "2025-10-18",
+      "repository": "https://github.com/anthropics/claude-code"
+    },
+    "bmad": {
+      "version": "v4.39.1",
+      "tracking_file": "tools/claude-code/frameworks/BMAD-UPDATE-INFO.md",
+      "enhancements": "Brian's masterclass insights",
+      "repository": "https://github.com/bmad-code-org/BMAD-METHOD"
+    }
+  },
+
+  "common_tasks": {
+    "update_official_docs": "python tools/scripts/fetch-docs.py --source claude-code",
+    "check_for_updates": "python tools/scripts/fetch-docs.py --check",
+    "view_changes": "git diff --stat tools/claude-code/gen/",
+    "find_references": "grep -r 'search_term' tools/claude-code/*.md --exclude-dir=gen"
+  },
+
+  "navigation_tips": {
+    "start_here": "Always read CLAUDE.md first",
+    "version_context": "Check CLAUDE-CODE-UPDATE-INFO.md for current version",
+    "find_guides": "See tools/claude-code/README.md navigation table",
+    "official_docs": "All in tools/claude-code/gen/ - 44 files",
+    "curated_insights": "15 files in tools/claude-code/ root",
+    "never_edit": "Never edit files in gen/ directories or .docs-manifest.json"
+  },
+
+  "recent_changes": {
+    "2025-10-18": [
+      "Skills added as 5th plugin component",
+      "MultiEdit tool deprecated and removed",
+      "New keyboard shortcuts (Ctrl+O, Ctrl+V, @, ?)",
+      "Homebrew installation support",
+      "Prompt caching configuration",
+      "Haiku 4.5 default models"
+    ]
+  }
+}
