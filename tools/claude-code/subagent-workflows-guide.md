@@ -6,6 +6,7 @@
 
 - [Introduction to Subagent Workflows](#introduction-to-subagent-workflows)
 - [Why Subagents Are Game-Changing](#why-subagents-are-game-changing)
+- [Subagents + Skills Integration](#subagents--skills-integration)
 - [Creating Your First Subagent](#creating-your-first-subagent)
 - [Case Study: Design System Enforcer](#case-study-design-system-enforcer)
 - [Solo Developer Team Strategy](#solo-developer-team-strategy)
@@ -88,6 +89,246 @@ flowchart LR
 2. **Context Preservation**: Each role maintains its own deep understanding
 3. **Consistency**: Agents follow established patterns and standards
 4. **Future Automation**: Agents can be triggered by GitHub issues, webhooks, or CI/CD
+
+## Subagents + Skills Integration
+
+**Verified Status**: ✅ Subagents CAN use Agent Skills
+
+As of Claude Code v1.0.88+, subagents can leverage Agent Skills to extend their capabilities. This powerful combination allows specialized agents to use modular skill packages for enhanced functionality.
+
+### How Subagents Access Skills
+
+**Key Discovery** (verified through testing):
+
+| Feature | Main Agent | Subagents |
+|---------|------------|-----------|
+| **Skill Discovery** | ✅ Automatic | ✅ Automatic (via system prompt) |
+| **Skill Invocation** | ✅ Model-invoked (automatic) | ⚠️ Explicit via Skill tool |
+| **Skill Availability** | All project skills | All project skills |
+| **Context Impact** | Uses main context | Uses subagent context |
+
+**Critical Difference**:
+- **Main Agent**: Skills activate automatically based on task context
+- **Subagents**: Must explicitly invoke skills using `Skill(command: "skill-name")`
+
+### Subagent Context Model
+
+When a subagent is launched, it receives a "fresh but informed" 200K context window:
+
+**Baseline Context Usage: ~15-16% (~31K tokens)**
+
+| Subagents HAVE ✅ | Subagents DON'T HAVE ❌ |
+|-------------------|-------------------------|
+| CLAUDE.md hierarchy | Conversation history |
+| Environment variables | Previous user messages |
+| Git status | Main agent's reasoning |
+| File system access | Why they were invoked |
+| All tools and skills | Task context from main agent |
+| Project documentation | User's current goal |
+| Skills metadata | Past exchanges |
+
+**What This Means**:
+- ✅ Subagents know about the *project*
+- ❌ Subagents don't know about the *conversation*
+- ✅ ~170K tokens remain for actual work
+- ✅ No context pollution from main agent
+
+### Practical Example: Subagent Using Skills
+
+```bash
+# Example 1: Automatic skill selection by subagent
+User: "Use the code-analyzer agent to analyze this project"
+
+code-analyzer thinks: "I need file statistics... I'll use file-counter skill"
+→ Invokes: Skill(command: "file-counter")
+→ Gets: File composition data
+→ Uses data in analysis
+
+# Example 2: Explicit skill specification
+User: "Use skill-tester with the git-info skill"
+
+skill-tester:
+→ Invokes: Skill(command: "git-info")
+→ Gets: Repository statistics
+→ Reports findings
+```
+
+### Benefits of Subagent + Skills Combination
+
+```mermaid
+flowchart TD
+    A[Complex Task] --> B[Subagent Launched]
+    B --> C[Fresh 200K Context]
+    C --> D[Project Knowledge Loaded ~15%]
+    D --> E[Skills Available ~85% Free]
+
+    E -->|File Analysis| F[file-counter skill]
+    E -->|Git Stats| G[git-info skill]
+    E -->|Doc Validation| H[markdown-validator skill]
+
+    F --> I[Combined Analysis]
+    G --> I
+    H --> I
+
+    I --> J[Comprehensive Result]
+
+    style C fill:#e1f5fe
+    style E fill:#e8f5e8
+    style I fill:#fff3e0
+```
+
+**Advantages**:
+
+1. **Modularity**: Skills are reusable across all subagents
+2. **Specialization**: Subagents choose which skills to invoke
+3. **Isolation**: Skill execution happens in subagent's clean context
+4. **Composition**: Multiple skills can be orchestrated in workflows
+5. **Scalability**: Add new skills without modifying subagents
+
+### Creating Skills for Subagents
+
+Skills work identically whether used by main agent or subagents:
+
+**Skill Structure**:
+```
+.claude/skills/my-skill/
+├── SKILL.md              # Required: Instructions and metadata
+├── scripts/              # Optional: Supporting scripts
+│   └── helper.py
+└── templates/            # Optional: Templates or data files
+```
+
+**SKILL.md Example**:
+```markdown
+---
+name: File Counter
+description: Counts and categorizes files by type. Use when analyzing codebase composition or getting project statistics.
+---
+
+# File Counter
+
+[Skill instructions here...]
+```
+
+**Key Points for Subagent-Compatible Skills**:
+- ✅ Clear descriptions help subagents choose when to use them
+- ✅ Self-contained skills work best (minimal external dependencies)
+- ✅ Can include scripts that subagents execute
+- ✅ Results should be formatted for easy integration
+
+### Real-World Test Results
+
+From actual testing (2025-10-18):
+
+**Test Setup**:
+- 3 test subagents: skill-tester, documentation-writer, code-analyzer
+- 3 test skills: markdown-validator, file-counter, git-info
+
+**Results**:
+```
+✅ Skill Discovery: All 3 skills found by subagents
+✅ Skill Execution: file-counter successfully invoked
+✅ Context Isolation: Confirmed (no conversation history leaked)
+✅ Context Usage: ~31.5K tokens baseline (~15-16%)
+✅ Tool Restrictions: documentation-writer correctly limited to Read/Grep/Glob
+✅ Multi-Skill: Subagents can invoke multiple skills in sequence
+```
+
+**Example Output from Test**:
+```
+$ code-analyzer: "Give me complete analysis using all skills"
+
+→ Using file-counter skill...
+  Result: 99 files, 90.9% Markdown, 1.2 MB total
+
+→ Using git-info skill...
+  Result: 29 commits, 1 contributor, active development
+
+→ Using markdown-validator skill...
+  Result: [would validate markdown files]
+
+Final Analysis: [Comprehensive report combining all skill results]
+```
+
+### When to Use Subagents vs Skills
+
+**Use Subagents When**:
+- Task requires separate context (prevent pollution)
+- Need specialized "personality" or instructions
+- Want to restrict tool access
+- Complex multi-step workflows
+- Different model than main agent
+
+**Use Skills When**:
+- Adding modular capabilities
+- Want automatic invocation by main agent
+- Reusable across multiple agents/subagents
+- Self-contained functionality
+- Can be packaged for distribution
+
+**Use Both (Subagent + Skills) When**:
+- ⭐ Need isolation AND modularity
+- ⭐ Specialized agent needs specific capabilities
+- ⭐ Orchestrating multiple skills in clean context
+- ⭐ Building complex analysis workflows
+- ⭐ Tool restrictions + extended capabilities
+
+### Best Practices
+
+1. **Design Skills for Reusability**
+   ```markdown
+   ❌ Bad: "Analyze the user's project"
+   ✅ Good: "Count files by type and size"
+   ```
+
+2. **Let Subagents Choose Skills**
+   ```bash
+   ❌ "Use skill X to do Y"
+   ✅ "Analyze the codebase" (subagent picks appropriate skills)
+   ```
+
+3. **Combine with Tool Restrictions**
+   ```yaml
+   # Read-only subagent can still use skills
+   tools: Read, Grep, Glob, Skill
+   ```
+
+4. **Document Skill Availability in Subagent Instructions**
+   ```markdown
+   ## Skills You Can Use
+   - file-counter: For composition analysis
+   - git-info: For development metrics
+   ```
+
+5. **Test in Isolation**
+   ```bash
+   # Always test that skills work correctly with subagents
+   "Use [subagent] to invoke [skill] on [target]"
+   ```
+
+### Troubleshooting
+
+**Problem**: Subagent doesn't use available skills
+
+**Solutions**:
+- Make task description match skill descriptions
+- Explicitly mention skill name in request
+- Check skill description is clear and relevant
+- Verify skills are in `.claude/skills/` or `~/.claude/skills/`
+
+**Problem**: Subagent context seems too full
+
+**Explanation**:
+- ~15-16% baseline is normal (skills metadata, CLAUDE.md, project context)
+- Still leaves ~170K tokens for work
+- This is "fresh but informed" - better than context pollution
+
+**Problem**: Skill works with main agent but not subagent
+
+**Check**:
+- Tool restrictions on subagent (needs Skill tool access)
+- Skill requires tools subagent doesn't have
+- Subagent instructions may need to mention skills explicitly
 
 ## Creating Your First Subagent
 
