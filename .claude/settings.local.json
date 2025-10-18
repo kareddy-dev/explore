@@ -1,0 +1,26 @@
+{
+  "env": {
+    "MAX_THINKING_TOKENS": "32000"
+  },
+  "permissions": {
+    "allow": [
+      "mcp__sequential-thinking__sequentialthinking",
+      "WebFetch(domain:glasp.co)",
+      "Bash(mkdir:*)",
+      "Bash(mv:*)",
+      "WebFetch(domain:chromewebstore.google.com)",
+      "WebFetch(domain:docs.anthropic.com)",
+      "Bash(python:*)",
+      "WebFetch(domain:github.com)",
+      "mcp__ggrep__searchGitHub",
+      "Bash(npx -p @mermaid-js/mermaid-cli mmdc:*)",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_snapshot",
+      "mcp__playwright__browser_click",
+      "Bash(chmod:*)",
+      "Bash(git pull:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
