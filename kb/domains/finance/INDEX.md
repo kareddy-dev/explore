@@ -1,7 +1,7 @@
 # Finance Domain Index
 
 **Domain:** Finance
-**Last Updated:** 2025-10-18
+**Last Updated:** 2025-01-18
 **Topics:** OpenBB, Stocks, Strategies, Tools
 
 ---
@@ -21,7 +21,7 @@ This domain contains all financial analysis knowledge including:
 ### OpenBB Platform
 **Path:** `openbb/`
 **Status:** Active
-**Documents:** 6
+**Documents:** 7
 
 | Document | Description | Last Updated |
 |----------|-------------|--------------|
@@ -31,11 +31,13 @@ This domain contains all financial analysis knowledge including:
 | [mcp-setup.md](openbb/mcp-setup.md) | Claude Code integration | 2025-10-18 |
 | [test_openbb.py](openbb/test_openbb.py) | Basic functionality tests | 2025-10-18 |
 | [test_openbb_advanced.py](openbb/test_openbb_advanced.py) | Advanced features tests | 2025-10-18 |
+| [test_nsepython.py](openbb/test_nsepython.py) | ✅ **VERIFIED** - nsepython NIFTY options test | 2025-01-18 |
 
 **Quick Answers:**
 - Can I get NSE stock prices? → ✅ YES, see capabilities.md
 - Real-time data available? → ❌ NO, 15-min delay
 - Indian stocks supported? → ✅ YES, NSE/BSE
+- **NIFTY options with OI/Volume?** → ✅ YES, nsepython VERIFIED WORKING (see test_nsepython.py)
 
 ### Stock Analysis
 **Path:** `stocks/`
@@ -49,16 +51,34 @@ This domain contains all financial analysis knowledge including:
 ### Strategies
 **Path:** `strategies/`
 **Status:** Active
-**Documents:** 0
+**Documents:** 1
 
-*No strategies documented yet.*
+| Document | Description | Last Updated |
+|----------|-------------|--------------|
+| [llm-analysis-prompts.md](strategies/llm-analysis-prompts.md) | Production-ready financial analysis prompts from 17+ GitHub projects (30+ patterns) | 2025-01-18 |
+
+**Quick Answers:**
+- How to prompt LLMs for stock analysis? → See llm-analysis-prompts.md Pattern 1.2
+- Multi-agent financial analysis? → See Pattern 12.1 (Collaborative Swarm)
+- Investment thesis format? → See Pattern 5.1 (Bull/Bear framework)
+- Portfolio management prompts? → See Pattern 6.1
 
 ### Tools
 **Path:** `tools/`
 **Status:** Active
-**Documents:** 0
+**Documents:** 2
 
-*No tools created yet.*
+| Document | Description | Last Updated |
+|----------|-------------|--------------|
+| [free-tools-ecosystem.md](tools/free-tools-ecosystem.md) | Free tools that complement OpenBB (yfinance, TA-Lib, Streamlit, Backtrader, etc.) | 2025-01-18 |
+| [nifty-options-data-libraries.md](tools/nifty-options-data-libraries.md) | 5+ Python libraries for NIFTY options data with liquidity metrics (OI, Volume, Bid/Ask) | 2025-01-18 |
+
+**Quick Answers:**
+- What free tools work with OpenBB? → See free-tools-ecosystem.md
+- Which technical analysis library? → TA-Lib (professional) or pandas_ta (easy)
+- How to build dashboards? → Streamlit + Plotly
+- Backtesting framework? → Backtrader
+- **NIFTY options data with liquidity?** → See nifty-options-data-libraries.md (nsepython recommended)
 
 ---
 
@@ -79,6 +99,9 @@ A: Yes, 50+ indicators available. See [openbb/capabilities.md#technical](openbb/
 
 ## 📈 Recently Updated
 
+- 2025-01-18: **NIFTY options data libraries** - 5 libraries for options with liquidity metrics (OI, Volume, Bid/Ask)
+- 2025-01-18: **LLM analysis prompts collection** - 30+ production-tested patterns from 17 GitHub projects
+- 2025-01-18: Free tools ecosystem guide added (yfinance, TA-Lib, Streamlit, Backtrader, pandas_ta, Plotly, mplfinance)
 - 2025-10-18: OpenBB documentation added (capabilities, quick-reference, test-results, mcp-setup)
 
 ---
@@ -94,7 +117,12 @@ A: Yes, 50+ indicators available. See [openbb/capabilities.md#technical](openbb/
    - See [openbb/mcp-setup.md](openbb/mcp-setup.md) for Claude Code integration
    - Check [openbb/quick-reference.md](openbb/quick-reference.md) for quick answers
 
-3. **For creating tools:**
+3. **For using free tools:**
+   - See [tools/free-tools-ecosystem.md](tools/free-tools-ecosystem.md) for comprehensive tool guide
+   - Recommended: yfinance (data), TA-Lib (analysis), Streamlit (dashboards)
+   - All tools are free and work with Indian stocks
+
+4. **For creating custom tools:**
    - Save Python scripts to `tools/`
    - Document usage in script header
 

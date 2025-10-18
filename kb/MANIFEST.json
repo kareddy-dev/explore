@@ -33,7 +33,8 @@
               "test-results.md",
               "mcp-setup.md",
               "test_openbb.py",
-              "test_openbb_advanced.py"
+              "test_openbb_advanced.py",
+              "test_nsepython.py"
             ]
           },
           "stocks": {
@@ -45,12 +46,17 @@
           "strategies": {
             "path": "domains/finance/strategies/",
             "description": "Trading and investing strategies",
-            "documents": []
+            "documents": [
+              "llm-analysis-prompts.md"
+            ]
           },
           "tools": {
             "path": "domains/finance/tools/",
             "description": "Financial calculation scripts and utilities",
-            "documents": []
+            "documents": [
+              "free-tools-ecosystem.md",
+              "nifty-options-data-libraries.md"
+            ]
           }
         }
       },
@@ -222,10 +228,10 @@
 
   "statistics": {
     "total_domains": 3,
-    "total_documents": 10,
+    "total_documents": 14,
     "active_projects": 0,
     "total_templates": 5,
-    "last_full_index": "2025-10-18"
+    "last_full_index": "2025-01-18"
   },
 
   "indexes": {
