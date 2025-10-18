@@ -1419,7 +1419,7 @@ Create `.claude/agents/debugger.md`:
 ---
 name: debugger
 description: Debugging specialist for errors, test failures, and unexpected behavior. Use PROACTIVELY when any error or test failure occurs.
-tools: Read, Edit, MultiEdit, Bash, Grep, Glob
+tools: Read, Edit, Bash, Grep, Glob
 ---
 
 You are an expert debugger specializing in root cause analysis and systematic problem-solving.
@@ -1461,7 +1461,7 @@ Create `.claude/agents/test-runner.md`:
 ---
 name: test-runner
 description: Test automation expert. Use PROACTIVELY to run tests after code changes and fix any failures.
-tools: Bash, Read, Edit, MultiEdit, Grep
+tools: Bash, Read, Edit, Grep
 ---
 
 You are a test automation expert ensuring comprehensive test coverage and fixing test failures.

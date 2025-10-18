@@ -401,9 +401,13 @@ sequenceDiagram
 | `Ctrl+C` | Cancel current operation |
 | `Ctrl+D` | Exit Claude Code (on empty line) |
 | `Ctrl+L` | Clear screen |
+| `Ctrl+O` | Toggle verbose output (shows detailed tool usage) |
 | `Ctrl+R` | Search command history |
+| `Ctrl+V` (macOS/Linux) / `Alt+V` (Windows) | Paste image from clipboard |
 | `Tab` | Autocomplete |
 | `↑/↓` | Navigate command history |
+| `@` | Trigger file path autocomplete |
+| `?` | Show available keyboard shortcuts |
 
 ### Special Features
 
@@ -412,6 +416,8 @@ sequenceDiagram
 | `Ctrl+B` | Run command in background |
 | `Ctrl+Z` | Suspend current process |
 | `Esc` | Cancel OAuth flow or dialog |
+
+**Note**: Keyboard shortcuts may vary by platform and terminal. Press `?` to see shortcuts for your specific environment.
 
 ## Environment Variables
 
@@ -451,6 +457,12 @@ export CLAUDE_CONFIG_DIR="~/.config/claude-code"
 
 # Use built-in ripgrep (v1.0.84+, enabled by default)
 export USE_BUILTIN_RIPGREP="0"  # Set to 0 to use system ripgrep
+
+# Prompt caching control (v1.0.88+)
+export DISABLE_PROMPT_CACHING="1"         # Disable for all models (takes precedence)
+export DISABLE_PROMPT_CACHING_HAIKU="1"   # Disable for Haiku models only
+export DISABLE_PROMPT_CACHING_SONNET="1"  # Disable for Sonnet models only
+export DISABLE_PROMPT_CACHING_OPUS="1"    # Disable for Opus models only
 ```
 
 ### Debug & Logging

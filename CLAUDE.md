@@ -314,7 +314,21 @@ When documenting tools that require authentication:
 
 ## Documentation Status
 
-### Latest Updates (2025-10-11)
+### Latest Updates (2025-10-18)
+- **Documentation refresh**: Fetched 17 updated documents
+- **Major changes**:
+  - Skills added to plugin system (5th component type)
+  - Skills vs slash commands comprehensive guide
+  - MultiEdit tool deprecated and removed
+  - New keyboard shortcuts (Ctrl+O, Ctrl+V, @-mentions, ?)
+  - Homebrew installation support
+  - Prompt caching configuration options
+  - Haiku 4.5 default models for Bedrock/Vertex AI
+  - MCP command simplifications
+  - Bug report retention changed to 5 years
+- **Stats**: +232 lines, -43 lines across 16 files
+
+### Previous Update (2025-10-11)
 - **Documentation refresh**: Fetched 41 updated documents (30 modified, 11 new)
 - **New documentation**: Plugins system, JetBrains/VS Code IDE integrations, headless mode, checkpointing, GitLab CI/CD, model/network configuration
 - **Updated total**: 44 official documents (was 33)

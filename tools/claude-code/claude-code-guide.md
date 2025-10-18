@@ -53,7 +53,10 @@ flowchart LR
 ### Quick Setup
 
 ```bash
-# Install globally via npm
+# Install via Homebrew (macOS/Linux)
+brew install --cask claude-code
+
+# Or install globally via npm
 npm install -g @anthropic-ai/claude-code
 
 # Or with yarn
@@ -103,9 +106,20 @@ claude update
 - IDE integrations
 - GitHub Actions compatibility
 
-## Recent Updates (v1.0.84)
+## Recent Updates (v1.0.88+)
 
-Claude Code continues to evolve with significant improvements in the latest release:
+### Latest Changes (2025-10-18)
+- **Skills in Plugins**: Plugins can now provide Agent Skills as a 5th component type for automatic capability extension
+- **New Keyboard Shortcuts**: Ctrl+O (verbose output), Ctrl+V (paste image), @ (file autocomplete), ? (show shortcuts)
+- **Homebrew Installation**: Install via `brew install --cask claude-code`
+- **Prompt Caching Control**: Fine-grained environment variables for caching configuration
+- **Haiku 4.5 Default**: Updated default models for Bedrock/Vertex AI (manual upgrade required)
+- **MultiEdit Removed**: Tool deprecated and removed from the codebase
+- **MCP Simplifications**: `claude mcp serve` command no longer requires `--transport stdio`
+
+### Previous Updates (v1.0.84)
+
+Claude Code continues to evolve with significant improvements:
 
 ### Major Performance Improvements
 - **Built-in Ripgrep by Default**: Significantly faster search operations with built-in `ripgrep` eliminating external dependency overhead and improving reliability across all environments
@@ -1107,7 +1121,7 @@ flowchart LR
 ### Available Tools for Agents
 
 Agents can be granted access to:
-- **File Operations**: Read, Write, Edit, MultiEdit
+- **File Operations**: Read, Write, Edit
 - **Search**: Grep, Glob, LS
 - **Execution**: Bash, BashOutput, KillBash
 - **Development**: Task, NotebookEdit

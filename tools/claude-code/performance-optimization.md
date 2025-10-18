@@ -347,7 +347,7 @@ flowchart TD
 
 3. **Multiple File Changes**
    ```bash
-   # Use MultiEdit for bulk changes
+   # Claude will use Edit for bulk changes across files
    claude "Rename all occurrences of oldFunction to newFunction across multiple files"
    ```
 
@@ -470,7 +470,7 @@ claude --add-dir <path>  # Selective loading
 | Read file | Medium | Fast | Specific files |
 | Task agent | High | Slow | Exploration |
 | Subagent | Isolated | Fast | Specialized tasks |
-| MultiEdit | Medium | Fast | Bulk changes |
+| Edit | Medium | Fast | File modifications |
 
 ## Common Performance Issues
 

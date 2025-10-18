@@ -21,20 +21,23 @@ flowchart TD
     A[Claude Code] --> B[Plugin System]
     B --> C[Commands]
     B --> D[Agents]
-    B --> E[Hooks]
-    B --> F[MCP Servers]
+    B --> E[Skills]
+    B --> F[Hooks]
+    B --> G[MCP Servers]
 
-    C --> G[Custom Slash Commands]
-    D --> H[Specialized AI Agents]
-    E --> I[Event-Driven Extensions]
-    F --> J[External Tool Integration]
+    C --> H[Custom Slash Commands]
+    D --> I[Specialized AI Agents]
+    E --> J[Model-Invoked Capabilities]
+    F --> K[Event-Driven Extensions]
+    G --> L[External Tool Integration]
 
     style A fill:#6366f1
     style B fill:#8b5cf6
     style C fill:#ec4899
     style D fill:#f59e0b
-    style E fill:#10b981
-    style F fill:#06b6d4
+    style E fill:#a855f7
+    style F fill:#10b981
+    style G fill:#06b6d4
 ```
 
 ### Key Features
@@ -45,6 +48,7 @@ flowchart TD
 - 🏷️ **Namespacing**: Plugins are namespaced to avoid conflicts (e.g., `pluginName:commandName`)
 - 🎯 **Per-Project Control**: Enable/disable plugins per repository
 - 🔒 **Safe Integration**: Sandboxed execution with `${CLAUDE_PLUGIN_ROOT}` variable
+- 🤖 **Skills Support**: Plugins can provide Agent Skills for automatic capability extension
 
 ## Plugin System Architecture
 
@@ -62,6 +66,7 @@ Plugins are installed in the user's Claude configuration directory:
             │   ├── plugin.json      # Plugin manifest
             │   ├── commands/        # Custom commands (*.md)
             │   ├── agents/          # Custom agents (*.md)
+            │   ├── skills/          # Agent Skills (SKILL.md files)
             │   └── hooks/
             │       └── hooks.json   # Hook configurations
             └── plugin2/
@@ -174,6 +179,52 @@ For each file reviewed:
 
 **Usage**: Task tool with `security-auditor` agent
 
+### Skills
+
+Plugins can provide Agent Skills that extend Claude's capabilities. Skills are model-invoked—Claude autonomously decides when to use them based on task context.
+
+**Directory Structure**:
+```
+skills/
+├── pdf-processor/
+│   ├── SKILL.md         # Main skill definition
+│   ├── reference.md     # Optional reference docs
+│   └── scripts/         # Optional helper scripts
+└── code-reviewer/
+    └── SKILL.md
+```
+
+**SKILL.md Format**:
+Skills use markdown files with YAML frontmatter, similar to agents but optimized for automatic discovery:
+
+```markdown
+---
+name: pdf-processor
+description: Process and extract data from PDF documents
+---
+
+You are an expert at processing PDF documents. Your capabilities include:
+- Extracting text and metadata from PDFs
+- Filling PDF forms programmatically
+- Converting PDFs to other formats
+- Validating PDF structure and compliance
+
+When invoked for PDF-related tasks:
+1. Analyze the PDF requirements
+2. Use appropriate tools and scripts
+3. Validate the output
+4. Provide clear status reports
+```
+
+**Key Differences from Slash Commands**:
+- **Invocation**: Skills are automatically discovered and used by Claude based on context
+- **Purpose**: Complex workflows with multiple files and scripts
+- **Discovery**: Claude determines when to use them vs explicit `/command` invocation
+
+See the [Skills vs Slash Commands guide](gen/slash-commands.md#skills-vs-slash-commands) for detailed comparison.
+
+**Usage**: Automatic - Claude Code invokes Skills when appropriate for the task
+
 ### Hooks
 
 Event-driven extensions configured in `hooks/hooks.json`:
@@ -214,7 +265,7 @@ cd my-claude-plugin
 git init
 
 # Create plugin structure
-mkdir -p .claude-plugin/{commands,agents,hooks}
+mkdir -p .claude-plugin/{commands,agents,skills,hooks}
 ```
 
 ### Step 2: Create Plugin Manifest
@@ -262,7 +313,31 @@ Your role is to [describe the agent's purpose and capabilities].
 EOF
 ```
 
-### Step 5: Add Hooks (Optional)
+### Step 5: Add Skills (Optional)
+
+```bash
+# Create a skill directory
+mkdir -p .claude-plugin/skills/my-skill
+
+cat > .claude-plugin/skills/my-skill/SKILL.md << 'EOF'
+---
+name: my-skill
+description: Expert capability for [specific domain]
+---
+
+You are an expert at [specific capability]. Your role includes:
+- [Key capability 1]
+- [Key capability 2]
+- [Key capability 3]
+
+When working on tasks in your domain:
+1. [Step 1]
+2. [Step 2]
+3. [Step 3]
+EOF
+```
+
+### Step 6: Add Hooks (Optional)
 
 ```bash
 cat > .claude-plugin/hooks/hooks.json << 'EOF'
@@ -279,7 +354,7 @@ cat > .claude-plugin/hooks/hooks.json << 'EOF'
 EOF
 ```
 
-### Step 6: Publish
+### Step 7: Publish
 
 ```bash
 # Commit and push to GitHub
@@ -510,6 +585,8 @@ The plugin system is actively evolving. Upcoming features may include:
 
 - **Official Documentation**: [docs.anthropic.com/en/docs/claude-code/plugins](https://docs.anthropic.com/en/docs/claude-code/plugins)
 - **Plugin Reference**: [docs.anthropic.com/en/docs/claude-code/plugins-reference](https://docs.anthropic.com/en/docs/claude-code/plugins-reference)
+- **Skills Documentation**: [docs.anthropic.com/en/docs/claude-code/skills](https://docs.anthropic.com/en/docs/claude-code/skills)
+- **Skills vs Slash Commands**: [docs.anthropic.com/en/docs/claude-code/slash-commands#skills-vs-slash-commands](https://docs.anthropic.com/en/docs/claude-code/slash-commands#skills-vs-slash-commands)
 - **Example Plugin**: [github.com/feiskyer/claude-code-settings](https://github.com/feiskyer/claude-code-settings)
 - **Community Resources**: See [community-resources.md](community-resources.md)
 

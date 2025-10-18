@@ -41,8 +41,16 @@ mindmap
 
 ## ✨ What's New (October 2025)
 
+### Latest Updates (2025-10-18)
+- 🎯 **Skills System** - Plugins can now provide Agent Skills (5th component type) for automatic capability extension
+- ⌨️ **New Keyboard Shortcuts** - Ctrl+O (verbose), Ctrl+V (paste image), @ (file autocomplete), ? (help)
+- 🍺 **Homebrew Installation** - Install with `brew install --cask claude-code`
+- 🧠 **Prompt Caching Control** - Fine-grained environment variables for caching configuration
+- 🚀 **Haiku 4.5 Default** - Updated default models for Bedrock/Vertex AI
+- 📝 **Skills vs Slash Commands** - Comprehensive guide on when to use each approach
+
 ### New Documentation
-- 🔌 **Plugin System** - Extend Claude Code with custom commands, agents, and MCP servers
+- 🔌 **Plugin System** - Extend Claude Code with custom commands, agents, skills, and MCP servers
 - 💻 **IDE Integrations** - Native JetBrains and VS Code extensions with quick launch
 - 🤖 **Headless Mode** - Run Claude Code programmatically without terminal UI
 - 💾 **Session Checkpointing** - Save and restore conversation sessions
@@ -50,11 +58,8 @@ mindmap
 - ⚙️ **Advanced Config** - Model and network configuration options
 - 🚀 **GitLab CI/CD** - GitLab integration (complementing GitHub Actions)
 
-### Updated Documentation
-41 documents updated with latest features and improvements (44 total official docs)
-
-### New Community Guides
-- 🌍 **Plugin Ecosystem Guide** - Complete guide to creating and using Claude Code plugins
+### Community Guides
+- 🌍 **Plugin Ecosystem Guide** - Complete guide to creating and using Claude Code plugins with Skills
 - 🛠️ **Community Resources** - Comprehensive catalog of frameworks, tools, and IDE integrations
   - SuperClaude Framework (14 agents, 21 commands)
   - Spec Workflow for structured development
@@ -72,7 +77,7 @@ mindmap
 | **Build Features** | [Workflow Examples](workflow-examples.md) → [Common Workflows](gen/common-workflows.md) |
 | **Use Subagents** | [Subagent Workflows Guide](subagent-workflows-guide.md) → [Subagent Templates](subagent-templates.md) |
 | **Connect Tools** | [MCP Integration](gen/mcp.md) → [MCP Servers Guide](../mcp/mcp-servers-guide.md) |
-| **Extend with Plugins** | [Plugin System](gen/plugins.md) → [Plugin Ecosystem Guide](plugin-ecosystem-guide.md) → [Community Resources](community-resources.md) |
+| **Extend with Plugins** | [Plugin System](gen/plugins.md) → [Plugin Ecosystem Guide](plugin-ecosystem-guide.md) → [Skills](gen/skills.md) → [Community Resources](community-resources.md) |
 | **IDE Integration** | [JetBrains](gen/jetbrains.md) → [VS Code](gen/vs-code.md) → [Dev Containers](gen/devcontainer.md) |
 | **Community Tools** | [Community Resources](community-resources.md) → [SuperClaude Framework](community-resources.md#superclaude-framework) → [Spec Workflow](community-resources.md#claude-code-spec-workflow) |
 | **Use AI Frameworks** | [BMAD-METHOD](frameworks/bmad-method.md) → [Structured Development Workflow](frameworks/bmad-method.md#workflow-phases) |
@@ -227,10 +232,11 @@ flowchart LR
 1. **Background Processes** (Ctrl+B): Run long commands without blocking
 2. **Task Management** (`/todo`): Claude tracks complex multi-step tasks
 3. **Memory Files** (CLAUDE.md): Persistent project instructions
-4. **Plugin System**: Extend Claude Code with custom commands, agents, and hooks
-5. **Custom Commands**: Create reusable prompts as slash commands
-6. **MCP Servers**: Connect to 70+ external tools and services
-7. **IDE Integration**: Native JetBrains and VS Code extensions
+4. **Plugin System**: Extend Claude Code with custom commands, agents, skills, and hooks
+5. **Skills**: Model-invoked capabilities that Claude autonomously uses based on context
+6. **Custom Commands**: Create reusable prompts as slash commands
+7. **MCP Servers**: Connect to 70+ external tools and services
+8. **IDE Integration**: Native JetBrains and VS Code extensions
 
 ### Common Patterns
 - Start broad with codebase questions, then narrow down
