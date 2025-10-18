@@ -14,11 +14,11 @@
     "directories": {
       "tools/claude-code/": {
         "description": "Comprehensive Claude Code documentation",
-        "total_files": 59,
+        "total_files": 60,
         "subdirectories": ["frameworks/", "gen/"],
 
         "curated_guides": {
-          "count": 15,
+          "count": 16,
           "type": "manually_maintained",
           "key_files": {
             "README.md": "Navigation hub for all 44 official docs",
@@ -28,6 +28,7 @@
             "plugin-ecosystem-guide.md": "Complete plugin system guide (5 components including Skills)",
             "workflow-examples.md": "Practical workflows and patterns",
             "hooks-cookbook.md": "Hook patterns and automation recipes",
+            "output-styles-gallery.md": "Collection of 15+ ready-to-use output styles with examples",
             "context-management.md": "Context optimization strategies",
             "advanced-techniques.md": "Expert patterns from power users",
             "performance-optimization.md": "Performance tuning best practices",
@@ -123,12 +124,13 @@
     "version_context": "Check CLAUDE-CODE-UPDATE-INFO.md for current version",
     "find_guides": "See tools/claude-code/README.md navigation table",
     "official_docs": "All in tools/claude-code/gen/ - 44 files",
-    "curated_insights": "15 files in tools/claude-code/ root",
+    "curated_insights": "16 files in tools/claude-code/ root",
     "never_edit": "Never edit files in gen/ directories or .docs-manifest.json"
   },
 
   "recent_changes": {
     "2025-10-18": [
+      "Output Styles Gallery added - 15+ ready-to-use styles with examples",
       "Skills added as 5th plugin component",
       "MultiEdit tool deprecated and removed",
       "New keyboard shortcuts (Ctrl+O, Ctrl+V, @, ?)",

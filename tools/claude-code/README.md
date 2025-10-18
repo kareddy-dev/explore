@@ -82,7 +82,7 @@ mindmap
 | **Community Tools** | [Community Resources](community-resources.md) → [SuperClaude Framework](community-resources.md#superclaude-framework) → [Spec Workflow](community-resources.md#claude-code-spec-workflow) |
 | **Use AI Frameworks** | [BMAD-METHOD](frameworks/bmad-method.md) → [Structured Development Workflow](frameworks/bmad-method.md#workflow-phases) |
 | **Build CLI Agents** | [Bash Apps Guide](bash-apps-cli-agents.md) → [CLI Tool Integration Patterns](bash-apps-cli-agents.md#templates) |
-| **Customize Behavior** | [Output Styles](gen/output-styles.md) → [Hooks Guide](gen/hooks-guide.md) |
+| **Customize Behavior** | [Output Styles Gallery](output-styles-gallery.md) → [Output Styles](gen/output-styles.md) → [Hooks Guide](gen/hooks-guide.md) |
 | **Debug Issues** | [Troubleshooting](gen/troubleshooting.md) → [Performance Guide](performance-optimization.md) |
 | **Enterprise Setup** | [Security](gen/security.md) → [Amazon Bedrock](gen/amazon-bedrock.md) → [Google Vertex](gen/google-vertex-ai.md) |
 
@@ -125,6 +125,7 @@ mindmap
 - [`hooks-cookbook.md`](hooks-cookbook.md) - Advanced hook patterns and recipes
 - [`custom-commands.md`](custom-commands.md) - Library of useful custom slash commands
 - [`subagent-templates.md`](subagent-templates.md) - Pre-built subagent configurations
+- [`output-styles-gallery.md`](output-styles-gallery.md) - Collection of 15+ ready-to-use output styles with examples
 - [`performance-optimization.md`](performance-optimization.md) - Best practices for large codebases
 
 #### Ecosystem & Community
@@ -273,7 +274,6 @@ flowchart LR
 
 - Enterprise Patterns Guide
 - Troubleshooting Companion
-- Output Style Gallery
 - Team Collaboration Workflows
 
 ---
