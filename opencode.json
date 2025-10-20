@@ -1,0 +1,12 @@
+{
+  "provider": {
+    "bedrock": {
+      "name": "AWS Bedrock",
+      "options": {
+        "region": "us-west-2",
+        "profile": "devexp-playground-claude"
+      }
+    }
+  },
+  "$schema": "https://opencode.ai/config.json"
+}
