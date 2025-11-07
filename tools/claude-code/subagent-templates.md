@@ -3,7 +3,9 @@
 Pre-built subagent configurations for common development tasks. These templates provide specialized AI assistants with focused expertise and optimized tool access for specific workflows.
 
 ## Table of Contents
+## Table of Contents
 
+- [Understanding Subagent Types](#understanding-subagent-types)
 - [Template Overview](#template-overview)
 - [Code Quality Agents](#code-quality-agents)
 - [Design & UX Agents](#design--ux-agents)
@@ -13,9 +15,94 @@ Pre-built subagent configurations for common development tasks. These templates 
 - [Performance & Optimization](#performance--optimization)
 - [Documentation Agents](#documentation-agents)
 - [DevOps & Infrastructure](#devops--infrastructure)
+- [Research & Analysis Agents (Resumable)](#research--analysis-agents-resumable)
 - [Framework-Specific Agents](#framework-specific-agents)
 - [Custom Template Creation](#custom-template-creation)
 
+## Understanding Subagent Types
+
+Claude Code provides two distinct types of subagents, each with different capabilities and use cases:
+
+### Built-in vs Custom Subagents
+
+| Type | Description | Configuration | When to Use |
+|------|-------------|---------------|-------------|
+| **Built-in Subagents** | Pre-configured agents provided by Claude Code itself | Automatically available, no setup required | Structured planning, iterative refinement tasks |
+| **Custom Subagents** | User-defined agents with specialized instructions | JSON configuration in `.claude/agents/` | Domain-specific expertise, workflow automation |
+
+### Built-in Subagents
+
+Claude Code currently provides one built-in subagent:
+
+#### Plan Agent
+- **Purpose**: Structured planning and task decomposition
+- **Invoked with**: `/plan` command or when Claude needs structured planning
+- **Key Features**:
+  - Automatic task breakdown into actionable steps
+  - Iterative refinement of complex problems
+  - Strategic approach to multi-step workflows
+- **Example Usage**:
+  ```bash
+  /plan Create a full-stack authentication system with OAuth and JWT
+  ```
+
+### Custom Subagents
+
+Custom subagents are user-defined configurations that extend Claude Code's capabilities:
+
+- **Location**: `.claude/agents/` directory
+- **Format**: JSON configuration files
+- **Components**:
+  - `name`: Unique identifier for the agent
+  - `description`: Brief purpose statement
+  - `instructions`: Detailed behavior guidelines
+  - `tools`: Array of allowed tools
+  - `model`: LLM model selection (sonnet/opus/haiku)
+
+### Key Differences
+
+| Aspect | Built-in Agents | Custom Agents |
+|--------|-----------------|---------------|
+| **Setup** | No configuration needed | Requires JSON configuration |
+| **Customization** | Fixed behavior | Fully customizable |
+| **Tool Access** | Predefined tool set | User-specified tools |
+| **Model Selection** | System default | User-specified |
+| **Availability** | Always available | Must be created first |
+| **Updates** | Updated with Claude Code | User-maintained |
+
+### When to Use Each Type
+
+**Use Built-in Agents When:**
+- Starting a complex project that needs planning
+- Breaking down large tasks into manageable steps
+- Need iterative refinement of approach
+- Want structured thinking without custom setup
+
+**Use Custom Agents When:**
+- Need domain-specific expertise
+- Require specific tool restrictions
+- Want consistent behavior patterns
+- Building reusable workflow automation
+- Need resumable, long-running analysis
+
+### Combining Both Types
+
+Built-in and custom agents can work together effectively:
+
+```mermaid
+flowchart LR
+    A[User Request] --> B[Main Claude]
+    B --> C[/plan Built-in Agent]
+    C --> D[Creates Structured Plan]
+    D --> B
+    B --> E[Custom Code Reviewer]
+    B --> F[Custom Test Generator]
+    E & F --> G[Integrated Results]
+    G --> B
+    B --> H[Final Output]
+```
+
+This hybrid approach leverages the planning capabilities of built-in agents while utilizing specialized custom agents for implementation details.
 ## Template Overview
 
 ```mermaid
@@ -225,6 +312,7 @@ claude "Use design-system-enforcer to review and fix the UI layout issues in thi
 
 **Usage**: Feature planning, architecture decisions, technical specifications
 **Best For**: Complex features, system design, technical leadership
+**Resumable Note**: Consider making this agent resumable for large feature designs that require multiple refinement sessions. Add state persistence for design decisions and architectural diagrams.
 
 ### API Designer
 
@@ -367,6 +455,7 @@ claude "Use design-system-enforcer to review and fix the UI layout issues in thi
 
 **Usage**: Documentation creation, README generation, user guides
 **Best For**: Open source projects, API documentation, user-facing documentation
+**Resumable Note**: For large documentation projects (API docs, user manuals), consider making this agent resumable with progress tracking and section completion state.
 
 ### API Documenter
 
@@ -420,6 +509,129 @@ claude "Use design-system-enforcer to review and fix the UI layout issues in thi
 
 **Usage**: Infrastructure planning, cloud migration, architecture review
 **Best For**: Cloud deployments, enterprise infrastructure, scalability planning
+
+## Research & Analysis Agents (Resumable)
+
+### Understanding Resumable Agents
+
+Resumable agents are designed for long-running analysis tasks that may span multiple sessions. These agents maintain context awareness and can continue work from where they left off, making them ideal for deep code analysis, research projects, and iterative investigations.
+
+### Long-Running Code Analyzer
+
+**Purpose**: Multi-session deep code analysis with incremental findings
+
+```json
+{
+  "name": "long-running-analyzer",
+  "description": "Resumable code analysis agent for comprehensive, multi-session codebase research",
+  "instructions": "You are a specialized code analysis agent designed for long-running, resumable analysis sessions.\n\n## Session Awareness\n- Check for existing analysis state in `analysis_state.json`\n- Maintain a research log in `analysis_log.md`\n- Track examined files, patterns found, and areas to explore\n- Resume from last checkpoint when continuing analysis\n\n## Analysis Methodology\n1. **Initial Session**: Create analysis plan, begin systematic exploration\n2. **Continuation Sessions**: Load previous state, continue from checkpoint\n3. **Incremental Findings**: Build upon previous discoveries\n4. **Pattern Recognition**: Track recurring themes across sessions\n5. **Documentation**: Maintain detailed notes for future resumption\n\n## State Management\nAlways save state before session ends:\n```json\n{\n  \"session_count\": 1,\n  \"files_analyzed\": [],\n  \"patterns_found\": {},\n  \"next_areas\": [],\n  \"key_findings\": [],\n  \"timestamp\": \"ISO-8601\"\n}\n```\n\n## Output Format\n- Session summary at start (what was previously found)\n- New findings for current session\n- Updated state for next session\n- Recommendations for next analysis phase\n\nFocus on building comprehensive understanding over multiple sessions rather than rushing to conclusions.",
+  "tools": ["read", "write", "grep", "glob", "bash"],
+  "model": "opus"
+}
+```
+
+**Usage Examples**:
+
+Initial session:
+```bash
+claude "Use long-running-analyzer to begin comprehensive security audit of our authentication system"
+```
+
+Resume session:
+```bash
+claude "Use long-running-analyzer to continue the security audit from where we left off"
+```
+
+**Best Practices**:
+- Design for interruption - save state frequently
+- Use structured data files for state persistence
+- Include timestamps and session markers
+- Document decision points for future reference
+- Create clear handoff notes between sessions
+
+### Research Specialist
+
+**Purpose**: Iterative investigation and knowledge building across sessions
+
+```json
+{
+  "name": "research-specialist",
+  "description": "Expert researcher for iterative, multi-session investigations",
+  "instructions": "You are a research specialist optimized for iterative, long-term investigations.\n\n## Research Methodology\n\n### Phase 1: Discovery (Sessions 1-2)\n- Map the problem space\n- Identify key components and relationships\n- Create initial hypotheses\n- Document unknowns and questions\n\n### Phase 2: Deep Dive (Sessions 3-5)\n- Investigate specific areas in detail\n- Test hypotheses with evidence\n- Build comprehensive understanding\n- Document patterns and anomalies\n\n### Phase 3: Synthesis (Sessions 6+)\n- Connect findings across areas\n- Identify systemic issues or opportunities\n- Formulate recommendations\n- Create actionable insights\n\n## Session Management\n\n### Start of Session\n1. Load `research_log.md` if exists\n2. Review previous findings and questions\n3. State session goals based on phase\n4. Continue from last checkpoint\n\n### During Session\n- Maintain detailed notes in research log\n- Mark completed investigations\n- Note new questions that arise\n- Track confidence levels in findings\n\n### End of Session\n- Summarize session discoveries\n- Update research log with findings\n- List next steps for continuation\n- Save all working files\n\n## Research Log Format\n```markdown\n# Research Log: [Topic]\n\n## Session [N] - [Date]\n### Goals\n- [ ] Goal 1\n- [ ] Goal 2\n\n### Findings\n- Discovery 1: [Details]\n- Discovery 2: [Details]\n\n### Questions Raised\n- Question 1\n- Question 2\n\n### Next Steps\n- Priority 1: [Action]\n- Priority 2: [Action]\n\n### Confidence Levels\n- Finding A: High (strong evidence)\n- Finding B: Medium (needs validation)\n- Finding C: Low (preliminary)\n```\n\n## Output Expectations\n- Clear session boundaries in documentation\n- Cumulative knowledge building\n- Traceable reasoning paths\n- Actionable insights at each phase\n\nMaintain scientific rigor while building understanding incrementally across sessions.",
+  "tools": ["read", "write", "grep", "glob"],
+  "model": "opus"
+}
+```
+
+**Usage Examples**:
+
+Starting a research project:
+```bash
+claude "Use research-specialist to investigate performance bottlenecks in our data processing pipeline"
+```
+
+Continuing research:
+```bash
+claude "Use research-specialist to continue performance investigation, focusing on the database queries identified last session"
+```
+
+**Best Practices**:
+- Structure research in clear phases
+- Maintain comprehensive research logs
+- Use confidence levels for findings
+- Create traceable documentation
+- Build knowledge incrementally
+
+### Codebase Archaeologist
+
+**Purpose**: Historical code analysis and technical debt investigation
+
+```json
+{
+  "name": "codebase-archaeologist",
+  "description": "Specialist in understanding code evolution and technical history",
+  "instructions": "You are a codebase archaeologist specializing in understanding code evolution, technical debt accumulation, and historical decisions.\n\n## Archaeological Methodology\n\n### Layer Analysis\n1. **Surface Layer**: Current code structure and patterns\n2. **Recent History**: Changes in last 6 months\n3. **Middle History**: 6 months to 2 years\n4. **Deep History**: Original architecture and decisions\n\n### Investigation Areas\n- Git history and commit patterns\n- Code style evolution\n- Architecture decisions and changes\n- Technical debt accumulation points\n- Abandoned features and dead code\n- Migration patterns and halfway transitions\n\n## Session Persistence\n\nMaintain findings in `archaeology_report.md`:\n```markdown\n# Codebase Archaeology Report\n\n## Timeline\n- [Date]: Major event/decision\n\n## Architectural Layers\n### Original Design (Year)\n- Patterns used\n- Key decisions\n\n### Evolution Points\n- [Date]: What changed and why\n\n## Technical Debt Map\n### High Priority\n- Debt item 1: Origin and impact\n\n### Medium Priority\n- Debt item 2: Origin and impact\n\n## Recommendations\n- Priority 1: Address [specific debt]\n- Priority 2: Complete [partial migration]\n```\n\n## Tools and Techniques\n- Git blame analysis for code age\n- Pattern recognition across files\n- Comment archaeology (TODOs, FIXMEs)\n- Dependency evolution tracking\n- Test coverage history\n\n## Resumable State\nTrack in `archaeology_state.json`:\n- Files examined\n- Patterns identified\n- Time periods analyzed\n- Areas requiring deeper investigation\n\nFocus on understanding the 'why' behind code evolution to inform future decisions.",
+  "tools": ["read", "bash", "grep", "glob"],
+  "model": "opus"
+}
+```
+
+**Usage Examples**:
+```bash
+# Initial archaeological dig
+claude "Use codebase-archaeologist to investigate the evolution of our authentication system"
+
+# Continue investigation
+claude "Use codebase-archaeologist to continue analyzing the authentication system, focusing on the OAuth integration history"
+```
+
+### Best Practices for Resumable Agents
+
+1. **State Persistence**
+   - Always save state in structured formats (JSON, YAML)
+   - Include timestamps and session identifiers
+   - Document decision points and reasoning
+
+2. **Session Handoffs**
+   - Clear documentation of what was completed
+   - Explicit next steps for continuation
+   - Questions or blockers identified
+
+3. **Incremental Progress**
+   - Design for partial completion
+   - Value delivered at each session
+   - Building toward comprehensive understanding
+
+4. **Context Preservation**
+   - Maintain working files between sessions
+   - Document assumptions and hypotheses
+   - Track confidence levels in findings
+
+5. **When to Make Agents Resumable**
+   - Analysis spanning multiple hours
+   - Research requiring multiple perspectives
+   - Investigations with natural checkpoints
+   - Work that benefits from reflection time
 
 ## Framework-Specific Agents
 

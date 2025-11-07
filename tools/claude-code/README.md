@@ -4,11 +4,25 @@ Welcome to the comprehensive documentation for Claude Code - Anthropic's agentic
 
 ## 🚀 Quick Start
 
-```bash
-# Install Claude Code
-npm install -g @anthropic-ai/claude-code
+### Installation Options
 
-# Start coding
+```bash
+# macOS/Linux - Native installer (no Node.js required)
+curl -fsSL https://claude.ai/code | sh
+
+# Windows - PowerShell installer
+iwr https://claude.ai/code.ps1 -UseBasicParsing | iex
+
+# Homebrew (macOS/Linux)
+brew install --cask claude-code
+
+# NPM (requires Node.js)
+npm install -g @anthropic-ai/claude-code
+```
+
+### Start Coding
+
+```bash
 cd your-project
 claude
 ```
@@ -39,9 +53,16 @@ mindmap
       Development Methodologies
 ```
 
-## ✨ What's New (October 2025)
+## ✨ What's New (November 2025)
 
-### Latest Updates (2025-10-18)
+### Latest Updates (November 2025)
+- 🧠 **Prompt-Based Hooks** - Intelligent hooks that use LLM evaluation instead of regex patterns for sophisticated decision-making
+- 🔬 **Built-in Plan Subagent** - Automatic codebase research agent that activates in plan mode, analyzing project structure before execution
+- 🔄 **Resumable Subagents** - Continue agent sessions across invocations with persistent context management
+- 📦 **Native Installers** - Platform-specific curl/PowerShell scripts that install without requiring Node.js
+- 🏢 **Enterprise Features** - Company announcements, enhanced sandbox controls, and MCP server allowlists for organizational deployment
+
+### Previous Updates (October 2025)
 - 🎯 **Skills System** - Plugins can now provide Agent Skills (5th component type) for automatic capability extension
 - ⌨️ **New Keyboard Shortcuts** - Ctrl+O (verbose), Ctrl+V (paste image), @ (file autocomplete), ? (help)
 - 🍺 **Homebrew Installation** - Install with `brew install --cask claude-code`
@@ -65,6 +86,7 @@ mindmap
   - Spec Workflow for structured development
   - IDE integrations (Neovim, VS Code, Theia)
   - Web UIs, notification systems, and automation tools
+- 🏭 **Skills Factory Generator** - Template-based system for bulk generation of production-ready skills with customizable complexity levels
 
 ## 🎯 Quick Navigation
 
@@ -75,16 +97,17 @@ mindmap
 | **Get Started** | [Quickstart](gen/quickstart.md) → [Setup](gen/setup.md) |
 | **Learn Commands** | [CLI Reference](cli-reference.md) → [Slash Commands](gen/slash-commands.md) |
 | **Build Features** | [Workflow Examples](workflow-examples.md) → [Common Workflows](gen/common-workflows.md) |
-| **Use Subagents** | [Subagent Workflows Guide](subagent-workflows-guide.md) → [Subagent Templates](subagent-templates.md) |
+| **Use Subagents** | [Subagent Workflows Guide](subagent-workflows-guide.md) → [Subagent Templates](subagent-templates.md) → [Resumable Agents](gen/sub-agents.md#resumable-sessions) |
 | **Connect Tools** | [MCP Integration](gen/mcp.md) → [MCP Servers Guide](../mcp/mcp-servers-guide.md) |
-| **Extend with Plugins** | [Plugin System](gen/plugins.md) → [Plugin Ecosystem Guide](plugin-ecosystem-guide.md) → [Skills](gen/skills.md) → [Community Resources](community-resources.md) |
+| **Extend with Plugins** | [Plugin System](gen/plugins.md) → [Plugin Ecosystem Guide](plugin-ecosystem-guide.md) → [Prompt-Based Hooks](gen/hooks.md#prompt-based) → [Skills](gen/skills.md) |
+| **Generate Skills** | [Skills Factory Generator](skills-factory-generator.md) → [Skills Documentation](gen/skills.md) → [Best Practices](gen/skills.md#best-practices) |
 | **IDE Integration** | [JetBrains](gen/jetbrains.md) → [VS Code](gen/vs-code.md) → [Dev Containers](gen/devcontainer.md) |
 | **Community Tools** | [Community Resources](community-resources.md) → [SuperClaude Framework](community-resources.md#superclaude-framework) → [Spec Workflow](community-resources.md#claude-code-spec-workflow) |
 | **Use AI Frameworks** | [BMAD-METHOD](frameworks/bmad-method.md) → [Structured Development Workflow](frameworks/bmad-method.md#workflow-phases) |
 | **Build CLI Agents** | [Bash Apps Guide](bash-apps-cli-agents.md) → [CLI Tool Integration Patterns](bash-apps-cli-agents.md#templates) |
 | **Customize Behavior** | [Output Styles Gallery](output-styles-gallery.md) → [Output Styles](gen/output-styles.md) → [Hooks Guide](gen/hooks-guide.md) |
 | **Debug Issues** | [Troubleshooting](gen/troubleshooting.md) → [Performance Guide](performance-optimization.md) |
-| **Enterprise Setup** | [Security](gen/security.md) → [Amazon Bedrock](gen/amazon-bedrock.md) → [Google Vertex](gen/google-vertex-ai.md) |
+| **Enterprise Deployment** | [Enterprise Deployment Guide](gen/enterprise-deployment-guide.md) → [Security](gen/security.md) → [Amazon Bedrock](gen/amazon-bedrock.md) → [Google Vertex](gen/google-vertex-ai.md) |
 
 ### By Experience Level
 
@@ -103,11 +126,12 @@ mindmap
 #### 🌳 Advanced Users
 1. [Anthropic Best Practices](anthropic-best-practices.md) - Internal usage patterns from Anthropic's Applied AI team
 2. [Plugin System](gen/plugins.md) - Extend Claude Code with custom plugins
-3. [Hooks Cookbook](hooks-cookbook.md) - Automation patterns
-4. [Custom Commands](custom-commands.md) - Build your command library
-5. [BMAD-METHOD Framework](frameworks/bmad-method.md) - Structured AI agent workflows
-6. [Headless Mode](gen/headless.md) - Run Claude Code without terminal UI
-7. [Performance Optimization](performance-optimization.md) - Handle large codebases
+3. [Skills Factory Generator](skills-factory-generator.md) - Generate production-ready skill libraries
+4. [Hooks Cookbook](hooks-cookbook.md) - Automation patterns
+5. [Custom Commands](custom-commands.md) - Build your command library
+6. [BMAD-METHOD Framework](frameworks/bmad-method.md) - Structured AI agent workflows
+7. [Headless Mode](gen/headless.md) - Run Claude Code without terminal UI
+8. [Performance Optimization](performance-optimization.md) - Handle large codebases
 
 ## 📂 Complete File Index
 
@@ -125,6 +149,7 @@ mindmap
 - [`hooks-cookbook.md`](hooks-cookbook.md) - Advanced hook patterns and recipes
 - [`custom-commands.md`](custom-commands.md) - Library of useful custom slash commands
 - [`subagent-templates.md`](subagent-templates.md) - Pre-built subagent configurations
+- [`skills-factory-generator.md`](skills-factory-generator.md) - Template-based system for generating production-ready skill libraries
 - [`output-styles-gallery.md`](output-styles-gallery.md) - Collection of 15+ ready-to-use output styles with examples
 - [`performance-optimization.md`](performance-optimization.md) - Best practices for large codebases
 
@@ -234,16 +259,21 @@ flowchart LR
 2. **Task Management** (`/todo`): Claude tracks complex multi-step tasks
 3. **Memory Files** (CLAUDE.md): Persistent project instructions
 4. **Plugin System**: Extend Claude Code with custom commands, agents, skills, and hooks
-5. **Skills**: Model-invoked capabilities that Claude autonomously uses based on context
-6. **Custom Commands**: Create reusable prompts as slash commands
-7. **MCP Servers**: Connect to 70+ external tools and services
-8. **IDE Integration**: Native JetBrains and VS Code extensions
+5. **Prompt-Based Hooks**: Create intelligent automation that uses LLM reasoning for complex decision-making
+6. **Resumable Subagents**: Continue long-running research tasks across multiple sessions
+7. **Skills**: Model-invoked capabilities that Claude autonomously uses based on context
+8. **Custom Commands**: Create reusable prompts as slash commands
+9. **MCP Servers**: Connect to 70+ external tools and services
+10. **IDE Integration**: Native JetBrains and VS Code extensions
 
 ### Common Patterns
 - Start broad with codebase questions, then narrow down
 - Use subagents for specialized tasks to preserve context
 - Configure hooks for automatic formatting and validation
+- Use prompt-based hooks for intelligent, context-aware automation
+- Leverage resumable subagents for multi-session research projects
 - Create project-specific CLAUDE.md for team conventions
+- Use the built-in plan subagent for automatic codebase exploration
 
 ## 🤝 Related Resources
 
@@ -266,8 +296,8 @@ flowchart LR
 |----------|--------------|----------------|-----------|
 | Setup & Installation | ✅ Complete | ✅ Enhanced | - |
 | Core Features | ✅ Complete | ✅ Practical Examples | ✅ Patterns |
-| Advanced Features | ✅ Reference | ⚡ In Progress | ✅ Templates |
-| Enterprise | ✅ Complete | ⚡ Planned | - |
+| Advanced Features | ✅ Reference | ✅ Updated | ✅ Templates |
+| Enterprise | ✅ Complete | ✅ In Progress | - |
 | Troubleshooting | ✅ Basic | ⚡ In Progress | - |
 
 ## 🚧 Coming Soon
@@ -278,4 +308,4 @@ flowchart LR
 
 ---
 
-*Last Updated: October 2025 | Documentation Version: 1.1 | 44 Official Docs*
+*Last Updated: November 2025 | Documentation Version: 1.2 | 45+ Official Docs*

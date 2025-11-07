@@ -1,8 +1,148 @@
 # Claude Code Documentation Update Information
 
 ## Last Documentation Update
-- **Date**: 2025-10-18
-- **Documentation Last Fetched**: 2025-10-18 (17 documents updated)
+- **Date**: 2025-11-07
+- **Documentation Last Fetched**: 2025-11-07 (41 documents updated)
+- **Repository Documentation Update**: 2025-11-07 (Skills Factory Generator added)
+- **Documentation Source**: https://code.claude.com/docs/sitemap.xml (migrated from docs.anthropic.com)
+
+### Repository Documentation Addition (2025-11-07)
+
+#### Skills Factory Generator Added
+- **New File**: `skills-factory-generator.md` - Comprehensive template-based system for generating production-ready skill libraries
+- **Purpose**: Automates the creation of multiple Claude Code Skills with consistent structure and quality
+- **Key Features**:
+  - Generates complete skill folders with SKILL.md, Python scripts, test data, and sample prompts
+  - Supports customizable complexity levels (beginner, intermediate, advanced)
+  - Configurable overlap strategies (mutually exclusive or overlapping skill sets)
+  - Business domain customization for tailored skill generation
+  - Production-ready templates with best practices built-in
+- **Location**: Added to `tools/claude-code/` as a curated guide
+- **Navigation Updates**:
+  - Added to README.md "By Task" navigation under "Generate Skills"
+  - Added to "Advanced Users" section
+  - Added to "Cookbooks & Templates" file index
+  - Added to "Community Guides" in What's New section
+
+### Official Documentation Update (2025-11-07)
+
+#### Documentation Migration
+- **New Documentation URL**: Documentation migrated from `docs.anthropic.com` to `code.claude.com`
+- **Sitemap Updated**: `https://code.claude.com/docs/sitemap.xml`
+- **URL Pattern**: Changed from `/en/docs/claude-code/*` to `/docs/en/*`
+- **Documents Updated**: 41 of 44 documents updated (3 unchanged: memory, legal-and-compliance, statusline)
+- **Stats**: +1132 lines, -539 lines across 39 files
+
+#### Major New Features
+
+**1. Prompt-Based Hooks** (hooks.md: +208 lines)
+- **Revolutionary feature**: Hooks can now use LLM evaluation instead of just bash commands
+- Type: `"prompt"` alongside existing `"command"` type
+- Sends hook input and prompt to Haiku LLM for intelligent decision-making
+- Returns structured JSON: `{"decision": "approve"|"block", "reason": "...", "continue": false, "stopReason": "...", "systemMessage": "..."}`
+- Supported for: Stop, SubagentStop, UserPromptSubmit, PreToolUse hooks
+- Enables context-aware permission decisions and intelligent workflow control
+- Example use: "Evaluate if Claude should stop working based on task completion status"
+
+**2. Built-in Plan Subagent** (sub-agents.md: +107 lines)
+- **New built-in agent**: Specialized subagent for plan mode research
+- Model: Uses Sonnet for capable analysis
+- Tools: Read, Glob, Grep, Bash for codebase exploration
+- Purpose: Automatically researches codebase when Claude is in plan mode
+- Prevents infinite nesting while enabling context gathering
+- Automatic invocation when planning requires codebase understanding
+
+**3. Resumable Subagents** (sub-agents.md: +107 lines)
+- **Continuation capability**: Subagents can now be resumed across sessions
+- Each subagent gets unique `agentId`
+- Conversations stored in `agent-{agentId}.jsonl` files
+- Resume via `resume` parameter to continue with full context
+- Useful for long-running research or analysis tasks
+
+**4. New Installation Methods** (overview.md, setup.md: +142 lines)
+- **curl scripts**: `curl -fsSL https://claude.ai/install.sh | bash` (macOS/Linux)
+- **PowerShell script**: `irm https://claude.ai/install.ps1 | iex` (Windows)
+- **Homebrew support**: `brew install --cask claude-code`
+- Multiple installation options now documented with tabs interface
+- NPM installation still supported (requires Node.js 18+)
+
+#### Settings & Configuration Updates
+
+**5. Company Announcements** (settings.md: +166 lines)
+- **New setting**: `companyAnnouncements` array in settings
+- Display custom messages to users at startup
+- Multiple announcements cycled through randomly
+- Example: `["Welcome to Acme Corp! Review our code guidelines at docs.acme.com"]`
+- Useful for enterprise policy communication
+
+**6. Enhanced Sandbox Settings** (settings.md: +166 lines)
+- **New section**: Dedicated sandbox configuration
+- `enabled`: Enable bash sandboxing (macOS/Linux)
+- `autoAllowBashIfSandboxed`: Auto-approve sandboxed commands
+- `excludedCommands`: Commands that run outside sandbox
+- `allowUnsandboxedCommands`: Control escape hatch availability
+- Stricter enterprise sandboxing policies possible
+
+**7. MCP Enterprise Controls** (mcp.md: +69 lines, settings.md: +166 lines)
+- **Allowlist/Denylist**: `allowedMcpServers` and `deniedMcpServers` in managed-settings.json
+- Allowlist: `undefined` = no restrictions, `[]` = complete lockdown, or specific server list
+- Denylist: Explicitly block specific servers
+- Denylist takes precedence over allowlist
+- Plugin MCP servers now documented
+- Enhanced configuration warnings for executable paths
+
+**8. Organization Auto-Selection** (settings.md: +166 lines)
+- **New setting**: `forceLoginOrgUUID`
+- Automatically select organization during login
+- Bypasses organization selection step
+- Requires `forceLoginMethod` to be set
+- Streamlines enterprise login workflows
+
+#### CLI & Reference Updates
+
+**9. CLI Reference Enhancements** (cli-reference.md: +75 lines)
+- Updated agents flag format documentation
+- Enhanced permission configuration examples
+- More detailed examples and explanations
+
+**10. Slash Commands Updates** (slash-commands.md: +48 lines)
+- Updated command references and examples
+- Enhanced documentation for command usage
+- Better integration with other features
+
+#### Documentation Quality Improvements
+
+**11. Link Updates Throughout**
+- All internal links updated from `/en/docs/claude-code/*` to `/en/*`
+- Consistent link format across all documentation
+- Removed broken references
+
+**12. Enhanced Code Examples**
+- More realistic and comprehensive examples
+- Better tabbed interfaces for multi-platform instructions
+- Improved formatting and clarity
+
+**13. Plugin Integration Documentation**
+- Plugin hooks, agents, and MCP servers now documented
+- Integration patterns explained
+- Cross-references added throughout
+
+#### Files With Most Changes
+1. `hooks.md`: +208 lines (prompt-based hooks)
+2. `settings.md`: +166 net lines (new settings, sandbox, enterprise)
+3. `sub-agents.md`: +107 net lines (Plan agent, resumable agents)
+4. `cli-reference.md`: +75 net lines (enhanced documentation)
+5. `mcp.md`: +69 net lines (enterprise controls, plugin MCP)
+6. `setup.md`: +67 net lines (new installation methods)
+7. `overview.md`: +53 net lines (installation tabs, updated intro)
+8. `slash-commands.md`: +48 net lines (enhanced command docs)
+
+#### Security & Enterprise Focus
+- Enhanced sandboxing controls
+- MCP server allowlists/denylists
+- Organization auto-selection
+- Company announcements
+- Stricter permission controls
 
 ### Changes Summary (2025-10-18)
 

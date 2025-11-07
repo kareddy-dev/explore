@@ -16,6 +16,7 @@ Claude Code is Anthropic's agentic coding tool that lives in your terminal, help
 - [Context Management](#context-management)
 - [Advanced Techniques](#advanced-techniques)
 - [Troubleshooting](#troubleshooting)
+- [Enterprise Features](#enterprise-features)
 
 ## Overview
 
@@ -45,28 +46,50 @@ flowchart LR
 
 ## Installation
 
-### Prerequisites
-- Node.js 18 or higher
-- npm or yarn package manager
-- Git (for repository operations)
+### Recommended Installation Methods
 
-### Quick Setup
+The quickest way to install Claude Code is using our automated install scripts:
+
+#### macOS and Linux
 
 ```bash
-# Install via Homebrew (macOS/Linux)
-brew install --cask claude-code
+# Install using curl (inspect script first for security)
+curl -s https://raw.githubusercontent.com/anthropics/claude-code/main/install.sh | bash
 
-# Or install globally via npm
+# Or download and review first:
+curl -O https://raw.githubusercontent.com/anthropics/claude-code/main/install.sh
+cat install.sh  # Review the script
+bash install.sh
+```
+
+#### Windows
+
+```powershell
+# Install using PowerShell (run as Administrator)
+irm https://raw.githubusercontent.com/anthropics/claude-code/main/install.ps1 | iex
+
+# Or download and review first:
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/anthropics/claude-code/main/install.ps1" -OutFile "install.ps1"
+Get-Content install.ps1  # Review the script
+./install.ps1
+```
+
+### Alternative Installation Methods
+
+#### Homebrew (macOS/Linux)
+
+```bash
+brew install --cask claude-code
+```
+
+#### NPM (Requires Node.js 18+)
+
+```bash
+# Install globally via npm
 npm install -g @anthropic-ai/claude-code
 
 # Or with yarn
 yarn global add @anthropic-ai/claude-code
-
-# Navigate to your project
-cd your-project
-
-# Start Claude Code
-claude
 ```
 
 ### Verification
@@ -78,6 +101,8 @@ claude --version
 # Update to latest version
 claude update
 ```
+
+**Security Note**: Always inspect installation scripts before running them. The scripts are open source and can be reviewed at the GitHub repository.
 
 ## Key Features
 
@@ -107,6 +132,16 @@ claude update
 - GitHub Actions compatibility
 
 ## Recent Updates (v1.0.88+)
+
+### November 2025 Update
+
+Claude Code continues to evolve with powerful new capabilities:
+
+- **Prompt-Based Hooks**: New intelligent hooks that use prompts instead of scripts, enabling natural language automation
+- **Plan Subagent**: Built-in agent for structured planning with Sonnet model and focused tool access
+- **Resumable Subagents**: Persist agent sessions across invocations with unique IDs
+- **Enhanced Installation**: New curl/PowerShell scripts for quick setup across all platforms
+- **Enterprise Features**: Company announcements, enhanced sandbox settings, MCP allowlists/denylists, organization auto-selection
 
 ### Latest Changes (2025-10-18)
 - **Skills in Plugins**: Plugins can now provide Agent Skills as a 5th component type for automatic capability extension
@@ -260,6 +295,9 @@ mindmap
         External Services
         APIs
         Databases
+    Automation
+      Script Hooks
+      Intelligent Hooks (Prompt-Based)
     Models
       Opus
       Sonnet
@@ -941,6 +979,30 @@ Agents are pre-configured AI personalities that:
 | **Flexible Permissions** | Limit powerful tools to specific agent types |
 | **Proactive Assistance** | Agents can be triggered automatically based on task context |
 
+### Built-in Agents
+
+Claude Code includes pre-configured agents for common tasks:
+
+#### Plan Subagent
+The Plan subagent is automatically used when Claude Code operates in plan mode. It has specialized capabilities:
+
+- **Model**: Uses Sonnet model for balanced performance and speed
+- **Tools**: Limited to Read, Glob, Grep, and Bash for focused analysis
+- **Purpose**: Creates structured plans and analyzes codebases efficiently
+- **Activation**: Automatically invoked during planning tasks
+
+```bash
+# The Plan agent is used automatically when Claude enters plan mode
+claude "Create a detailed plan for refactoring the authentication system"
+# Claude will automatically delegate to the Plan subagent
+```
+
+The Plan subagent excels at:
+- Breaking down complex requirements into actionable steps
+- Analyzing existing code structure and dependencies
+- Identifying potential issues and edge cases
+- Creating comprehensive implementation roadmaps
+
 ### Creating Agents
 
 #### Quick Start
@@ -1196,6 +1258,77 @@ then use the optimizer agent to fix them"
   - Parallel execution for independent tasks saves time
   - Sequential execution ensures proper context flow between dependent tasks
 
+### Resumable Subagents
+
+Claude Code now supports resumable subagents that maintain state across multiple invocations:
+
+#### How Resumable Subagents Work
+
+```mermaid
+flowchart LR
+    A[Initial Invocation] --> B[Generate agentId]
+    B --> C[Execute Task]
+    C --> D[Save Session]
+    D --> E[Return with agentId]
+    E --> F[Later Invocation]
+    F --> G[Resume with agentId]
+    G --> H[Continue Task]
+    
+    style B fill:#90EE90
+    style D fill:#87CEEB
+    style G fill:#FFE4B5
+```
+
+#### Creating Resumable Sessions
+
+```bash
+# Start a new research session
+claude "Start a research agent to analyze the codebase architecture"
+# Returns: "Agent ID: research-2024-11-07-abc123"
+
+# Continue the session later
+claude "Resume research agent research-2024-11-07-abc123 and focus on the database layer"
+
+# The agent maintains context from previous invocations
+```
+
+#### Session Persistence Features
+
+| Feature | Description |
+|---------|-------------|
+| **Unique IDs** | Each resumable agent gets a unique identifier |
+| **Context Preservation** | Previous findings and analysis are retained |
+| **Task Continuity** | Agents remember their objectives and progress |
+| **Multi-day Workflows** | Support for long-running research and analysis |
+
+#### Example: Multi-Session Research Workflow
+
+```bash
+# Day 1: Start security audit
+claude "Create resumable security-auditor agent to review authentication"
+# Agent ID: security-2024-11-07-xyz789
+
+# Day 2: Continue with specific focus
+claude "Resume security-2024-11-07-xyz789 and check for SQL injection vulnerabilities"
+
+# Day 3: Generate report
+claude "Resume security-2024-11-07-xyz789 and create a comprehensive security report"
+```
+
+#### Best Practices for Resumable Subagents
+
+1. **Use descriptive initial prompts**: Include the full scope so the agent understands the multi-session nature
+2. **Track agent IDs**: Store IDs in your project notes or CLAUDE.md for easy reference
+3. **Provide context on resume**: Remind the agent of new focus areas when resuming
+4. **Clean up old sessions**: Remove outdated agent sessions to avoid confusion
+
+#### Limitations
+
+- **Storage duration**: Sessions are retained for 30 days
+- **Context size**: Each session has standard context limits
+- **Concurrent sessions**: Multiple resumable agents can run in parallel
+- **No cross-agent memory**: Each agent's memory is isolated
+
 ### System Prompt Customization
 
 Claude Code offers multiple ways to customize its behavior through system prompt modification:
@@ -1343,6 +1476,108 @@ RUN npm install -g @anthropic-ai/claude-code
 WORKDIR /app
 CMD ["claude"]
 ```
+
+## Enterprise Features
+
+Claude Code includes powerful features designed for enterprise deployment and team collaboration:
+
+### Company Announcements
+
+Organizations can broadcast important messages to all Claude Code users:
+
+```json
+{
+  "settings": {
+    "companyAnnouncement": {
+      "message": "Security Update: Please update to v1.0.90+ by Friday",
+      "severity": "warning"  // info, warning, error
+    }
+  }
+}
+```
+
+Announcements appear prominently when users start Claude Code sessions, ensuring critical information reaches all team members.
+
+### Enhanced Sandbox Settings
+
+Fine-grained control over Claude Code's execution environment:
+
+```json
+{
+  "sandboxSettings": {
+    "allowNetworkAccess": false,
+    "maxFileSize": "10MB",
+    "allowedDirectories": ["/project", "/shared"],
+    "blockedCommands": ["rm -rf", "sudo"],
+    "timeoutMs": 30000
+  }
+}
+```
+
+These settings help organizations maintain security while enabling productive AI assistance.
+
+### MCP Server Management
+
+Enterprise administrators can control which MCP servers are available:
+
+#### Allowlists
+Only permit specific, approved MCP servers:
+
+```json
+{
+  "mcpServers": {
+    "allowlist": [
+      "@modelcontextprotocol/server-github",
+      "@modelcontextprotocol/server-postgresql",
+      "@internal/company-data-server"
+    ]
+  }
+}
+```
+
+#### Denylists
+Block specific servers while allowing others:
+
+```json
+{
+  "mcpServers": {
+    "denylist": [
+      "*-experimental",
+      "@untrusted/*"
+    ]
+  }
+}
+```
+
+### Organization Auto-Selection
+
+Streamline authentication for enterprise users:
+
+```json
+{
+  "auth": {
+    "autoSelectOrg": "acme-corp",
+    "ssoProvider": "okta",
+    "requireMFA": true
+  }
+}
+```
+
+When configured, Claude Code automatically:
+- Selects the correct organization on login
+- Routes through enterprise SSO
+- Enforces additional security requirements
+
+### Deployment Best Practices
+
+For comprehensive enterprise deployment guidance, including:
+- Centralized configuration management
+- Audit logging and compliance
+- Team onboarding workflows
+- Security policies and controls
+- Integration with corporate infrastructure
+
+See the [Enterprise Deployment Guide](./enterprise-deployment-guide.md) for detailed implementation instructions.
 
 ## Platform-Specific Improvements
 

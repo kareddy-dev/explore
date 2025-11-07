@@ -19,8 +19,10 @@ Practical examples and patterns for using Claude Code in real-world development 
 - [Performance Optimization](#performance-optimization)
 - [Security Auditing](#security-auditing)
 - [DevOps Tasks](#devops-tasks)
+- [Advanced Patterns](#advanced-patterns)
 - [Subagent Development Workflows](#subagent-development-workflows)
 - [CLI Tool Integration](#cli-tool-integration)
+- [Multi-Session Research Workflows](#multi-session-research-workflows)
 
 ## Expert Setup & Configuration
 
@@ -1002,6 +1004,193 @@ claude "Implement security best practices:
 5. Implement secrets management"
 ```
 
+### Intelligent Security with Prompt-Based Hooks
+
+**New in v1.0.88+**: Use prompt-based hooks for context-aware security decisions that adapt to your code changes.
+
+```mermaid
+flowchart TD
+    A[Code Change] --> B[Prompt Hook Triggered]
+    B --> C[LLM Analyzes Context]
+    C --> D{Security Risk?}
+    D -->|High Risk| E[Block & Alert]
+    D -->|Medium Risk| F[Warn & Log]
+    D -->|Low Risk| G[Allow & Monitor]
+    
+    E --> H[Require Review]
+    F --> I[Suggest Improvements]
+    G --> J[Proceed]
+    
+    style B fill:#ffebee
+    style C fill:#e3f2fd
+    style E fill:#ff5252,color:#fff
+```
+
+#### Configuration: Intelligent Vulnerability Detection
+
+Create `.claude/hooks/security-scanner.json`:
+
+```json
+{
+  "hooks": {
+    "postToolUse": [
+      {
+        "type": "prompt",
+        "description": "Intelligent security analysis for code changes",
+        "matcher": {
+          "tool": ["Edit", "Write"]
+        },
+        "prompt": "Analyze the just-modified file for security vulnerabilities:
+
+1. Check for injection risks (SQL, NoSQL, Command, LDAP)
+2. Review authentication/authorization logic
+3. Scan for XSS vulnerabilities
+4. Check for exposed secrets or API keys
+5. Verify input validation
+6. Look for race conditions
+7. Check error handling for information leakage
+
+If HIGH risk found: Output 'SECURITY_BLOCK: [reason]'
+If MEDIUM risk: Output 'SECURITY_WARN: [details]'
+If low/no risk: Output 'SECURITY_PASS'
+
+Provide specific line numbers and suggested fixes.",
+        "action": {
+          "type": "conditional",
+          "conditions": [
+            {
+              "outputContains": "SECURITY_BLOCK",
+              "action": {
+                "type": "abort",
+                "message": "🔴 Security violation detected. Manual review required."
+              }
+            },
+            {
+              "outputContains": "SECURITY_WARN",
+              "action": {
+                "type": "log",
+                "level": "warn",
+                "message": "⚠️ Security concern: Review recommended"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
+```
+
+#### Use Case: Context-Aware Permission Validation
+
+```json
+{
+  "hooks": {
+    "preToolUse": [
+      {
+        "type": "prompt",
+        "description": "Intelligent permission validation based on file context",
+        "matcher": {
+          "tool": "Edit",
+          "params": {
+            "file_path": ".*\.(env|key|pem|cert)$"
+          }
+        },
+        "prompt": "Analyze this file modification request:
+File: {{file_path}}
+Changes: {{content_preview}}
+
+Determine if this is:
+1. Legitimate configuration update
+2. Accidental secret exposure
+3. Malicious activity
+
+Consider:
+- Is this adding real secrets or placeholders?
+- Does the context suggest proper secret management?
+- Are there comments indicating this is example/template code?
+
+Output: ALLOW or BLOCK with reasoning",
+        "action": {
+          "type": "gate",
+          "allowWhen": "ALLOW"
+        }
+      }
+    ]
+  }
+}
+```
+
+#### Real-World Example: Smart SQL Injection Prevention
+
+```json
+{
+  "hooks": {
+    "postToolUse": [
+      {
+        "type": "prompt",
+        "matcher": {
+          "tool": "Edit",
+          "params": {
+            "file_path": ".*\.(js|ts|py|rb|php)$"
+          }
+        },
+        "prompt": "Check for SQL injection vulnerabilities:
+
+{{file_content}}
+
+Look for:
+1. String concatenation in SQL queries
+2. Direct variable interpolation
+3. Missing parameterized queries
+4. Dynamic table/column names
+5. Unescaped user input
+
+If found, provide:
+- Line number
+- Vulnerable code
+- Fixed code using parameterized queries
+- Risk level (1-10)",
+        "onResponse": {
+          "type": "createTask",
+          "condition": "riskLevel > 5",
+          "task": "Fix SQL injection vulnerability at line {{line_number}}"
+        }
+      }
+    ]
+  }
+}
+```
+
+#### Benefits of Prompt-Based Security Hooks
+
+1. **Context Intelligence**: Unlike regex-based hooks, understands code intent
+2. **Adaptive Detection**: Learns from your codebase patterns
+3. **False Positive Reduction**: Distinguishes between examples and real vulnerabilities
+4. **Actionable Feedback**: Provides specific fixes, not just warnings
+5. **Compliance Automation**: Enforces security policies consistently
+
+#### Example Session with Intelligent Security
+
+```bash
+# Developer writes code
+claude "Add user search functionality to the API"
+
+# Hook automatically analyzes the new code
+# [SECURITY_WARN]: Line 45 - SQL injection risk detected
+# Vulnerable: `SELECT * FROM users WHERE name = '${userName}'`
+# Suggested fix: Use parameterized query
+# Fixed: `SELECT * FROM users WHERE name = $1` with [userName] as parameter
+
+# Developer sees the warning immediately
+claude "Apply the security fix suggested by the hook"
+
+# Verification
+claude "Run security scan on the updated code"
+# [SECURITY_PASS]: No vulnerabilities detected
+```
+
+
 ## DevOps Tasks
 
 ### Docker Configuration
@@ -1098,6 +1287,344 @@ claude "Add real-time notifications:
 4. Handle reconnection logic
 5. Scale with Redis pub/sub"
 ```
+
+### Combining Prompt Hooks with Resumable Agents
+
+**Advanced Pattern**: Use intelligent prompt hooks to automatically manage resumable agents based on context, creating self-orchestrating workflows that adapt to your development patterns.
+
+```mermaid
+flowchart TD
+    A[Code Change] --> B[Prompt Hook]
+    B --> C{Needs Research?}
+    C -->|Yes| D[Resume/Spawn Agent]
+    C -->|No| E[Direct Action]
+    
+    D --> F[Agent Work]
+    F --> G[Complete Task]
+    G --> H[Hook Validates]
+    
+    E --> H
+    H --> I{Quality Check}
+    I -->|Pass| J[Continue]
+    I -->|Fail| K[Spawn Fix Agent]
+    K --> F
+    
+    style B fill:#e3f2fd
+    style D fill:#e8f5e9
+    style K fill:#ffebee
+```
+
+#### Pattern 1: Intelligent Workflow Control
+
+**Configuration: Auto-Resume Agents Based on Context**
+
+```json
+{
+  "hooks": {
+    "preToolUse": [
+      {
+        "type": "prompt",
+        "description": "Intelligent agent orchestration",
+        "matcher": {
+          "tool": "Edit",
+          "params": {
+            "file_path": ".*/api/.*\.py$"
+          }
+        },
+        "prompt": "Analyze this API file modification:
+{{file_path}}
+
+Determine if this requires:
+1. Security review (auth/permissions changes)
+2. Performance analysis (database queries)
+3. Documentation update (new endpoints)
+4. Test generation (new functionality)
+
+Output JSON: {\"needs\": [\"security\", \"performance\", \"docs\", \"tests\"]}",
+        "action": {
+          "type": "spawnAgents",
+          "agents": {
+            "security": "security-reviewer-api",
+            "performance": "perf-analyzer-v2",
+            "docs": "api-doc-writer",
+            "tests": "test-generator-api"
+          }
+        }
+      }
+    ]
+  }
+}
+```
+
+#### Pattern 2: Multi-Phase Research with Automatic Continuation
+
+```bash
+# Initial setup
+claude "Create a prompt hook that manages the 'refactoring-assistant' agent:
+- Monitor for code complexity > 10
+- Auto-resume agent when complexity detected
+- Agent performs refactoring
+- Hook validates the refactoring
+- If validation fails, agent continues with different approach"
+```
+
+**Hook Implementation:**
+
+```json
+{
+  "hooks": {
+    "postToolUse": [
+      {
+        "type": "prompt",
+        "description": "Complexity monitor with agent continuation",
+        "matcher": {
+          "tool": "Edit"
+        },
+        "prompt": "Calculate cyclomatic complexity of modified functions:
+{{file_content}}
+
+If complexity > 10, output: TRIGGER_REFACTOR
+Include function names and complexity scores",
+        "action": {
+          "type": "conditional",
+          "condition": "outputContains('TRIGGER_REFACTOR')",
+          "actions": [
+            {
+              "type": "resumeAgent",
+              "agentId": "refactoring-assistant",
+              "instruction": "Refactor high-complexity functions identified: {{complexity_report}}"
+            },
+            {
+              "type": "validateWithPrompt",
+              "prompt": "Verify refactoring maintains functionality and reduces complexity",
+              "onFailure": {
+                "type": "resumeAgent",
+                "agentId": "refactoring-assistant",
+                "instruction": "Previous refactoring failed validation. Try alternative approach."
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
+```
+
+#### Pattern 3: Context-Aware Research Delegation
+
+```mermaid
+sequenceDiagram
+    participant Dev as Developer
+    participant Hook as Prompt Hook
+    participant Main as Main Claude
+    participant Agent1 as Research Agent
+    participant Agent2 as Implementation Agent
+    participant Agent3 as Validation Agent
+    
+    Dev->>Main: "Implement new feature"
+    Main->>Hook: Trigger pre-implementation hook
+    Hook->>Hook: Analyze requirements
+    Hook->>Agent1: Spawn for research
+    Agent1->>Agent1: Research patterns
+    Agent1->>Hook: Return findings
+    Hook->>Agent2: Resume with context
+    Agent2->>Agent2: Implement feature
+    Agent2->>Hook: Implementation complete
+    Hook->>Agent3: Validate implementation
+    Agent3->>Main: Validation results
+    Main->>Dev: Feature complete
+```
+
+**Implementation Example:**
+
+```bash
+# Setup the orchestration
+claude "Create an intelligent feature development system:
+
+1. Pre-implementation hook that:
+   - Analyzes feature requirements
+   - Spawns research agent if needed
+   - Resumes existing researcher if available
+
+2. Post-implementation hook that:
+   - Validates against requirements
+   - Triggers test generation agent
+   - Resumes documentation agent
+
+3. Completion hook that:
+   - Ensures all agents finished
+   - Aggregates results
+   - Creates summary report"
+```
+
+#### Pattern 4: Intelligent Agent Lifecycle Management
+
+```json
+{
+  "hooks": {
+    "sessionStart": [
+      {
+        "type": "prompt",
+        "description": "Resume agents from previous session",
+        "prompt": "Check for incomplete agent tasks from previous session.
+List agent IDs and their last known state.",
+        "action": {
+          "type": "resumeMultiple",
+          "agents": "{{discovered_agents}}"
+        }
+      }
+    ],
+    "sessionEnd": [
+      {
+        "type": "prompt", 
+        "description": "Save agent states",
+        "prompt": "For each active agent, save current state and progress to .claude/agent-states/",
+        "action": {
+          "type": "persistState"
+        }
+      }
+    ]
+  }
+}
+```
+
+#### Real-World Example: Self-Healing Development Pipeline
+
+```bash
+# Configure the self-healing system
+claude "Set up a self-healing development pipeline with:
+
+1. Error detection hook:
+   - Monitors for test failures
+   - Analyzes error patterns
+   - Determines fix strategy
+
+2. Agent orchestration:
+   - Resume 'debugger-v3' for known patterns
+   - Spawn 'investigator-v1' for unknown issues
+   - Chain 'test-fixer' → 'validator' agents
+
+3. Validation loop:
+   - Run tests after each fix attempt
+   - If still failing, try alternative approach
+   - Maximum 3 attempts before escalation"
+```
+
+**Complete Configuration:**
+
+```json
+{
+  "hooks": {
+    "testFailure": [
+      {
+        "type": "prompt",
+        "description": "Intelligent test failure handler",
+        "prompt": "Analyze test failure:
+{{error_output}}
+
+Categorize as:
+1. Syntax error
+2. Logic error
+3. Integration issue
+4. Environment problem
+
+Suggest fix approach",
+        "action": {
+          "type": "switch",
+          "cases": {
+            "syntax": {
+              "resumeAgent": "syntax-fixer-v2",
+              "maxAttempts": 1
+            },
+            "logic": {
+              "spawnAgent": "logic-debugger",
+              "withContext": "{{test_file}}",
+              "maxAttempts": 3
+            },
+            "integration": {
+              "resumeAgent": "integration-specialist",
+              "fallbackAgent": "senior-debugger"
+            },
+            "environment": {
+              "runCommand": "npm ci && npm test",
+              "onFailure": {
+                "resumeAgent": "env-troubleshooter"
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}
+```
+
+#### Benefits of Combined Approach
+
+1. **Autonomous Workflows**: System self-manages based on context
+2. **Efficient Resource Use**: Agents only spawn when needed
+3. **Continuous Learning**: Hooks adapt based on agent outcomes
+4. **Reduced Manual Intervention**: Automatic escalation and retry
+5. **Context Preservation**: Agents maintain state across invocations
+
+#### Advanced Use Cases
+
+**1. Progressive Code Review**
+```bash
+# Incremental review with escalation
+claude "Create progressive review system:
+- Level 1: Lint and format (direct hook action)
+- Level 2: Code smell detection (spawn basic reviewer)
+- Level 3: Security audit (resume security expert)
+- Level 4: Architecture review (spawn senior architect)"
+```
+
+**2. Adaptive Documentation**
+```bash
+# Documentation that evolves with code
+claude "Set up adaptive documentation:
+- Hook monitors code changes
+- Resume 'doc-maintainer-v2' for API changes
+- Spawn 'example-generator' for new features
+- Chain 'reviewer' → 'publisher' for releases"
+```
+
+**3. Intelligent Refactoring Pipeline**
+```bash
+# Multi-stage refactoring with validation
+claude "Build refactoring pipeline:
+- Hook detects code smells
+- Resume 'refactoring-planner' to analyze
+- Spawn specialized refactorers per pattern
+- Validate each change maintains behavior
+- Rollback on test failure"
+```
+
+#### Debugging Combined Workflows
+
+```bash
+# Monitor hook-agent interactions
+claude "Show all active hooks and their agent triggers"
+
+# Debug specific workflow
+claude "Trace execution path for the last hook-triggered agent"
+
+# Validate hook configuration
+claude "Test prompt hook 'complexity-monitor' with sample input"
+
+# Check agent states
+claude "List all resumable agents and their last activity"
+```
+
+#### Best Practices
+
+1. **Clear Trigger Conditions**: Make hook prompts specific about when to trigger agents
+2. **Agent ID Conventions**: Use descriptive, versioned IDs for resumable agents
+3. **Failure Handling**: Always include fallback actions in hooks
+4. **State Management**: Save agent progress frequently
+5. **Resource Limits**: Set maximum attempts to prevent infinite loops
+6. **Logging**: Track all hook-agent interactions for debugging
 
 ## Interactive Development
 
@@ -1355,6 +1882,194 @@ claude "Let's build a real-time chat feature together"
 ## Working with Agents
 
 Agents are specialized AI assistants that handle specific types of tasks with their own context and tool permissions. Here are practical examples of creating and using agents.
+
+
+### Understanding Plan Mode with the Plan Subagent
+
+**Behind the Scenes**: When you use `/plan` or ask Claude to create a plan, a specialized Plan subagent is automatically invoked to conduct thorough research before presenting the final plan.
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Main as Main Claude
+    participant Plan as Plan Subagent
+    participant Code as Codebase
+    participant Tools
+    
+    User->>Main: /plan "Refactor authentication system"
+    Main->>Plan: Spawn Plan subagent
+    
+    Note over Plan: Research Phase (Hidden)
+    Plan->>Code: Analyze current auth implementation
+    Plan->>Code: Check for auth patterns
+    Plan->>Tools: Search for best practices
+    Plan->>Code: Identify dependencies
+    Plan->>Code: Assess impact areas
+    
+    Note over Plan: Planning Phase
+    Plan->>Plan: Synthesize research
+    Plan->>Plan: Create structured plan
+    Plan->>Main: Return comprehensive plan
+    
+    Main->>User: Present final plan
+    
+    style Plan fill:#e3f2fd
+    style Main fill:#e8f5e9
+```
+
+#### How Plan Mode Works Automatically
+
+When you request a plan, Claude Code:
+
+1. **Spawns a dedicated Plan subagent** with fresh context
+2. **Conducts thorough research** without showing intermediate steps
+3. **Analyzes your entire codebase** relevant to the task
+4. **Returns only the refined plan** to the main context
+
+#### Example Interaction Showing Behind-the-Scenes Research
+
+```bash
+# What you type
+claude /plan "Migrate from REST to GraphQL"
+
+# What happens behind the scenes (not shown to you):
+# [Plan Subagent]: Reading current API structure...
+# [Plan Subagent]: Analyzing 47 REST endpoints...
+# [Plan Subagent]: Checking database schemas...
+# [Plan Subagent]: Identifying client dependencies...
+# [Plan Subagent]: Researching GraphQL best practices...
+# [Plan Subagent]: Evaluating migration strategies...
+
+# What you see (clean, researched plan):
+Migration Plan: REST to GraphQL
+
+## Phase 1: Setup (Week 1)
+1. Install GraphQL dependencies
+2. Set up Apollo Server alongside existing Express
+3. Create GraphQL schema for core entities
+
+## Phase 2: Parallel Running (Week 2-3)
+1. Implement resolvers for each REST endpoint
+2. Add DataLoader for N+1 query prevention
+3. Set up GraphQL playground for testing
+
+## Phase 3: Client Migration (Week 4-5)
+1. Update client SDK to support GraphQL
+2. Migrate high-traffic endpoints first
+3. Implement request batching
+
+## Phase 4: Deprecation (Week 6)
+1. Add deprecation notices to REST endpoints
+2. Monitor usage metrics
+3. Full cutover after 30-day notice period
+
+## Risks Identified:
+- 15 endpoints have complex query parameters
+- Authentication middleware needs adaptation
+- Rate limiting requires new implementation
+```
+
+#### Why This Matters
+
+**1. Safe Research Without Context Pollution**
+```bash
+# Traditional approach (pollutes context)
+claude "Check all files for authentication"  # Uses 50K tokens
+claude "Now create a plan"                   # Context already degraded
+
+# Plan mode approach (clean context)
+claude /plan "Refactor authentication"       # Research happens in subagent
+                                            # Main context stays clean
+```
+
+**2. Better Plans Through Deep Analysis**
+```bash
+# Without Plan mode
+claude "Create a plan for adding caching"
+# Result: Generic plan based on surface knowledge
+
+# With Plan mode
+claude /plan "Add caching to improve performance"
+# Result: Specific plan based on actual bottleneck analysis
+```
+
+**3. No Agent Nesting Issues**
+```bash
+# This WOULD cause nesting issues:
+claude "Spawn a subagent to create a plan"
+# Error: Subagents cannot spawn other subagents
+
+# This works perfectly:
+claude /plan "Design microservices architecture"
+# Plan subagent is spawned automatically by the system
+```
+
+#### Best Practices with Plan Mode
+
+```mermaid
+flowchart TD
+    A[Complex Task] --> B{Planning Needed?}
+    B -->|Yes| C[Use /plan command]
+    B -->|No| D[Direct implementation]
+    
+    C --> E[Plan Subagent Research]
+    E --> F[Structured Plan]
+    F --> G[Implementation]
+    
+    D --> G
+    
+    G --> H[Success]
+    
+    style C fill:#e3f2fd
+    style E fill:#ffebee
+    style F fill:#e8f5e9
+```
+
+**When to Use Plan Mode:**
+- Starting new features or major refactors
+- Complex architectural decisions
+- Multi-step workflows with dependencies
+- When you need research but want clean context
+
+**When to Skip Plan Mode:**
+- Simple bug fixes
+- Minor updates
+- Well-defined tasks
+- When you already know the approach
+
+#### Example: Plan Mode vs Manual Planning
+
+```bash
+# Manual Planning (inefficient)
+claude "List all authentication files"
+claude "Check which auth library we use"
+claude "Find all auth endpoints"
+claude "Research OAuth2 best practices"
+claude "Now create an auth upgrade plan"
+# Result: 150K tokens used, context heavily polluted
+
+# Plan Mode (efficient)
+claude /plan "Upgrade authentication to OAuth2"
+# Result: 30K tokens in main context, clean focused plan
+```
+
+#### Advanced Plan Mode Usage
+
+```bash
+# Specific domain planning
+claude /plan "Create data migration strategy for 10M user records"
+
+# Architecture planning
+claude /plan "Design event-driven architecture for order processing"
+
+# Performance planning
+claude /plan "Optimize database queries reducing response time by 50%"
+
+# Security planning
+claude /plan "Implement zero-trust security model"
+```
+
+Each plan benefits from invisible research that would otherwise clutter your context.
 
 ### Creating Custom Agents
 
@@ -1893,6 +2608,346 @@ claude "The release is complete. Use agents to:
 3. Draft a blog post announcement
 4. Update the changelog"
 ```
+
+## Multi-Session Research Workflows
+
+**New Pattern**: Use resumable agents with unique IDs to maintain context across multiple Claude Code sessions, enabling long-term research and iterative development workflows.
+
+### Example: Large Codebase Documentation (5-Day Workflow)
+
+```mermaid
+gantt
+    title 5-Day Documentation Project
+    dateFormat  YYYY-MM-DD
+    section Research
+    Day 1 - Codebase Analysis    :a1, 2024-01-01, 1d
+    Day 2 - Architecture Mapping  :a2, after a1, 1d
+    section Documentation
+    Day 3 - Core API Docs        :a3, after a2, 1d
+    Day 4 - Integration Guides   :a4, after a3, 1d
+    Day 5 - Examples & Review    :a5, after a4, 1d
+```
+
+#### Day 1: Initial Analysis
+```bash
+# Start the documentation project
+claude "Spawn agent with id 'doc-researcher-v1' to analyze this codebase:
+- Map all major components
+- Identify API endpoints
+- Find configuration patterns
+- Document tech stack
+Save findings to analysis/day1-overview.md"
+
+# Check progress before ending session
+claude "Show doc-researcher-v1 agent status"
+# Output: Analysis 40% complete, findings saved
+```
+
+#### Day 2: Architecture Deep Dive
+```bash
+# Resume with the same agent ID
+claude "Resume agent 'doc-researcher-v1' to continue:
+- Complete component analysis
+- Create architecture diagrams
+- Map data flows
+- Document service dependencies
+Update analysis/day2-architecture.md"
+
+# Agent continues from previous state
+# Has access to Day 1 findings
+```
+
+#### Day 3: API Documentation
+```bash
+# Continue building on previous work
+claude "Resume agent 'doc-researcher-v1' to:
+- Generate OpenAPI specs from findings
+- Document authentication flows  
+- Create endpoint examples
+- Add error code references
+Output to docs/api-reference.md"
+```
+
+#### Day 4: Integration Documentation
+```bash
+# Leverage accumulated knowledge
+claude "Resume agent 'doc-researcher-v1' to create:
+- Integration quickstart guide
+- SDK usage examples
+- Webhook documentation
+- Migration guides
+Save to docs/integration-guide.md"
+```
+
+#### Day 5: Final Review and Examples
+```bash
+# Complete the documentation
+claude "Resume agent 'doc-researcher-v1' to:
+- Review all documentation for completeness
+- Add practical code examples
+- Create troubleshooting section
+- Generate final README.md
+
+Provide summary of 5-day documentation effort"
+
+# Output: Complete documentation suite with 
+# 200+ pages of contextual, accurate docs
+```
+
+### Example: Iterative Architecture Review
+
+```mermaid
+flowchart LR
+    subgraph Session 1
+        A[Initial Review] --> B[Findings v1]
+    end
+    
+    subgraph Session 2
+        C[Resume Agent] --> D[Deeper Analysis]
+        D --> E[Findings v2]
+    end
+    
+    subgraph Session 3  
+        F[Resume Agent] --> G[Recommendations]
+        G --> H[Final Report]
+    end
+    
+    B --> C
+    E --> F
+    
+    style A fill:#e3f2fd
+    style C fill:#e8f5e9
+    style F fill:#fff3e0
+```
+
+```bash
+# Session 1: Monday Morning
+claude "Spawn agent 'arch-reviewer-2024Q1' to:
+- Review microservices architecture
+- Identify coupling issues
+- Check for SOLID violations
+Save initial findings to review/session1.md"
+
+# Session 2: Wednesday Afternoon
+claude "Resume agent 'arch-reviewer-2024Q1' to:
+- Deep dive into identified issues
+- Analyze service boundaries
+- Review data consistency patterns
+Update review/session2-detailed.md"
+
+# Session 3: Friday Review Meeting
+claude "Resume agent 'arch-reviewer-2024Q1' to:
+- Synthesize all findings
+- Priority recommendations
+- Create implementation roadmap
+Generate review/final-recommendations.md"
+```
+
+### Example: Security Audit Workflow
+
+**Week-Long Security Assessment**
+
+```bash
+# Monday: Reconnaissance
+claude "Spawn agent 'security-auditor-prod' to:
+- Map attack surface
+- Identify entry points
+- Catalog authentication mechanisms
+- List all external dependencies
+Output: security/day1-recon.md"
+
+# Tuesday: Vulnerability Scanning  
+claude "Resume agent 'security-auditor-prod' to:
+- Check OWASP Top 10 vulnerabilities
+- Scan for hardcoded secrets
+- Review authentication logic
+- Test input validation
+Output: security/day2-vulnerabilities.md"
+
+# Wednesday: Deep Dive Critical Issues
+claude "Resume agent 'security-auditor-prod' to:
+- Investigate high-risk findings
+- Create proof-of-concept exploits
+- Verify false positives
+- Document attack vectors
+Output: security/day3-critical.md"
+
+# Thursday: Remediation Planning
+claude "Resume agent 'security-auditor-prod' to:
+- Design fixes for each vulnerability
+- Prioritize by risk score
+- Create patching timeline
+- Write security test cases
+Output: security/day4-remediation.md"
+
+# Friday: Executive Report
+claude "Resume agent 'security-auditor-prod' to:
+- Create executive summary
+- Generate risk matrix
+- Provide compliance checklist
+- Recommend security investments
+Output: security/executive-report.pdf"
+```
+
+### Managing Multi-Session State
+
+#### Best Practices for Long-Running Agents
+
+```bash
+# 1. Use descriptive, versioned agent IDs
+"data-migration-v2-prod"  # ✅ Clear purpose and version
+"agent-1"                 # ❌ Too generic
+
+# 2. Save incremental progress
+claude "Resume agent 'researcher-v1' to:
+- Complete current analysis
+- Save checkpoint to research/checkpoint-3.json
+- Update progress tracker"
+
+# 3. Document agent state between sessions
+claude "Get status of agent 'ml-optimizer-v1'"
+# Output: Analyzed 60% of models, next: hyperparameter tuning
+
+# 4. Version your agent instructions
+claude "Spawn agent 'api-tester-v2' with updated instructions:
+[Include lessons learned from v1]"
+```
+
+#### Handling Agent Context Overflow
+
+```mermaid
+flowchart TD
+    A[Agent Context] --> B{>150K tokens?}
+    B -->|No| C[Continue Work]
+    B -->|Yes| D[Save State]
+    D --> E[Spawn New Version]
+    E --> F[Load Previous State]
+    F --> C
+    
+    style B fill:#ffebee
+    style D fill:#fff3e0
+    style E fill:#e8f5e9
+```
+
+```bash
+# When agent context gets large
+claude "Check context usage for agent 'analyzer-v1'"
+# Output: 180K tokens used
+
+# Transition to new version
+claude "Agent 'analyzer-v1': 
+- Save all findings to state/analyzer-v1-final.json
+- Create summary document
+
+Then spawn 'analyzer-v2' with:
+- Load state from analyzer-v1-final.json
+- Continue from checkpoint"
+```
+
+### Practical Multi-Session Commands
+
+#### Research Workflow Commands
+```bash
+# Start multi-day research
+claude "Begin research project 'competitor-analysis-2024':
+- Spawn agent 'competitor-researcher-v1'
+- Create project structure in research/competitors/
+- Set up daily checkpoint system"
+
+# Daily check-in pattern
+claude "Resume 'competitor-researcher-v1' for today's goals:
+- Analyze 3 more competitors
+- Update comparison matrix
+- Save checkpoint-day-{{date}}.json"
+
+# Weekly synthesis
+claude "Resume 'competitor-researcher-v1' to:
+- Synthesize week's findings
+- Generate insights report
+- Identify market gaps"
+```
+
+#### Development Workflow Commands
+```bash
+# Multi-sprint feature development
+claude "Start feature 'advanced-search':
+- Spawn agent 'search-developer-sprint-1'
+- Create feature branch
+- Set up incremental development plan"
+
+# Sprint transitions
+claude "Complete sprint 1 with 'search-developer-sprint-1':
+- Finalize current components
+- Document API changes
+- Create handoff notes
+
+Spawn 'search-developer-sprint-2' to continue"
+```
+
+### Expected Outputs
+
+#### Progress Tracking
+```markdown
+## Agent: doc-researcher-v1
+### Session Summary
+
+**Total Sessions**: 5
+**Total Context Used**: 450K tokens across sessions
+**Documents Created**: 12
+**Coverage**: 95% of codebase documented
+
+**Session Breakdown**:
+- Session 1: 35% - Initial analysis
+- Session 2: 25% - Architecture mapping  
+- Session 3: 20% - API documentation
+- Session 4: 15% - Integration guides
+- Session 5: 5% - Review and polish
+
+**Key Achievements**:
+- Complete API reference with 200+ endpoints
+- Architecture diagrams for all services
+- 50+ integration examples
+- Comprehensive troubleshooting guide
+```
+
+#### State Preservation Example
+```json
+{
+  "agent_id": "security-auditor-prod",
+  "session_count": 5,
+  "accumulated_findings": {
+    "critical": 3,
+    "high": 7,
+    "medium": 15,
+    "low": 32
+  },
+  "scanned_components": [
+    "authentication", 
+    "api_gateway",
+    "database_layer",
+    "frontend"
+  ],
+  "remaining_work": [
+    "third_party_integrations",
+    "deployment_configs"
+  ],
+  "checkpoints": [
+    "security/checkpoint-day1.json",
+    "security/checkpoint-day2.json",
+    "security/checkpoint-day3.json"
+  ]
+}
+```
+
+### Benefits of Multi-Session Workflows
+
+1. **Sustained Deep Context**: Build expertise over time without token limits
+2. **Natural Work Breaks**: Align with human work patterns (daily, weekly)
+3. **Incremental Progress**: Complete large projects systematically
+4. **Knowledge Accumulation**: Each session builds on previous insights
+5. **Team Handoffs**: Multiple developers can resume the same agent
+6. **Audit Trail**: Complete history of analysis and decisions
+
 
 ### Non-Coding Agent Applications
 

@@ -2,8 +2,8 @@
   "sources": [
     {
       "name": "claude-code",
-      "sitemap": "https://docs.anthropic.com/sitemap.xml",
-      "url_pattern": "/en/docs/claude-code/",
+      "sitemap": "https://code.claude.com/docs/sitemap.xml",
+      "url_pattern": "/docs/en/",
       "output_dir": "tools/claude-code/gen",
       "manifest_file": "tools/claude-code/.docs-manifest.json",
       "fetch_markdown": true
